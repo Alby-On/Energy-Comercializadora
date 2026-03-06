@@ -1,31 +1,43 @@
-/* --- Navbar Centralizada --- */
+/* --- Estructura Global del Encabezado --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--blanco);
+    display: flex;
+    flex-direction: column; /* Apila Navbar arriba y Carrusel abajo sin pisarse */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* --- Navbar --- */
 .navbar {
     display: flex;
-    justify-content: space-between; /* Mantiene espacio entre logo, links y botón */
+    justify-content: space-between;
     align-items: center;
-    padding: 1rem 5%;
+    padding: 0.8rem 5%;
     background-color: var(--blanco);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
+    height: 80px; /* Altura fija para consistencia */
 }
 
 .logo {
-    flex: 1; /* Ocupa espacio a la izquierda */
+    flex: 1; /* Empuja el contenido al centro */
+    display: flex;
+    align-items: center;
 }
 
 .logo img {
     height: 50px;
+    display: block;
 }
 
-/* Contenedor de links centrado */
+/* Contenedor de links centrado perfecto */
 .nav-links {
     display: flex;
     list-style: none;
-    flex: 2; /* Ocupa más espacio central */
-    justify-content: center; /* ESTA LÍNEA CENTRA LOS ENLACES */
+    flex: 2; /* Ocupa el espacio central */
+    justify-content: center; /* CENTRADO ABSOLUTO DE LOS LINKS */
     margin: 0;
     padding: 0;
 }
@@ -39,41 +51,53 @@
     color: var(--gris-oscuro);
     font-weight: 600;
     transition: color 0.3s;
-    white-space: nowrap; /* Evita que los nombres se partan en dos líneas */
+    white-space: nowrap;
 }
 
-/* Espacio para el botón de contacto a la derecha */
-.nav-contact-wrapper {
-    flex: 1;
+.nav-links a:hover {
+    color: var(--azul-main);
+}
+
+/* Espacio para el botón a la derecha */
+.nav-actions {
+    flex: 1; /* Empuja el contenido al centro */
     display: flex;
     justify-content: flex-end;
+    align-items: center;
 }
 
 .btn-contacto {
     background-color: var(--naranja-accent);
     color: white !important;
-    padding: 8px 20px;
+    padding: 10px 22px;
     border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
 }
 
-/* --- Carrusel Marcas (A COLOR) --- */
+.btn-contacto:hover {
+    background-color: #d35400; /* Naranja más oscuro al pasar el mouse */
+}
+
+/* --- Carrusel de Marcas (A COLOR) --- */
 .galeria-infinita {
     background: #ffffff;
-    border-bottom: 2px solid #e67e22;
-    height: 80px;
+    border-top: 1px solid #eee; /* Separación sutil de la nav */
+    border-bottom: 3px solid #e67e22; /* El naranja de Energy */
+    height: 85px;
     width: 100%;
     overflow: hidden;
     position: relative;
     display: flex;
     align-items: center;
-    clear: both; 
-    margin-top: 70px; /* Ajusta esto según el alto de tu navbar */
 }
 
 .slider-track {
     display: flex;
+    /* 11 marcas x 2 = 22 slides. 22 * 200px = 4400px */
     width: 4400px; 
-    animation: scroll-marcas 30s linear infinite;
+    animation: scroll-marcas 35s linear infinite;
 }
 
 .slide {
@@ -89,21 +113,33 @@
     max-width: 150px;
     max-height: 50px;
     object-fit: contain;
-    /* ELIMINADO: filter grayscale para que se vean a color */
-    filter: none; 
-    opacity: 1; /* Opacidad total */
+    filter: none; /* Iconos a color */
+    opacity: 1;
     transition: transform 0.3s ease;
 }
 
 .slide img:hover {
-    transform: scale(1.1); /* Un pequeño zoom en lugar de cambio de color */
+    transform: scale(1.15); /* Efecto zoom elegante */
 }
 
+/* --- Animación --- */
 @keyframes scroll-marcas {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-2200px); }
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* Se mueve la mitad exacta del track (11 logos * 200px = 2200px) */
+        transform: translateX(-2200px);
+    }
 }
 
+/* Pausar cuando el usuario pone el mouse encima */
 .slider-track:hover {
     animation-play-state: paused;
+}
+
+/* Ajuste para el burger en móviles */
+.burger {
+    display: none; /* Se activa en media queries */
+    margin-left: 20px;
 }
