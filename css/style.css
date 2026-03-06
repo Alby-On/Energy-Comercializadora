@@ -46,11 +46,11 @@
 .cta-button:hover {
     background-color: #d35400;
 }
-/* PRODUCTOS CSS - ENERGY COMERCIALIZADORA */
+/* PRODUCTOS CSS - ESTRUCTURA DE DISEÑO Y SERVICIOS */
 
 /* --- Ajuste del Contenedor para Layout Amplio --- */
 .container-full {
-    max-width: 1500px; /* Ancho mayor para dar espacio al sidebar + 4 columnas */
+    max-width: 1500px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -58,7 +58,6 @@
 /* --- Layout de Columnas (Sidebar + Grid) --- */
 .productos-layout {
     display: grid;
-    /* Sidebar de 260px y el resto para productos */
     grid-template-columns: 260px 1fr; 
     gap: 35px;
     align-items: flex-start;
@@ -72,7 +71,7 @@
     border-radius: 8px;
     border: 1px solid #eee;
     position: sticky;
-    top: 190px; /* Ajustado a tu navbar/carrusel fijo */
+    top: 190px;
     box-shadow: var(--sombra-suave);
     z-index: 10;
 }
@@ -151,59 +150,15 @@
     padding-left: 20px;
 }
 
-/* --- Grid de Productos (Configurado para 4x) --- */
+/* --- Grid de Productos (Contenedor Estructural) --- */
 .productos-grid {
     display: grid;
-    /* Mantenemos las 4 columnas que solicitaste */
     grid-template-columns: repeat(4, 1fr); 
     gap: 20px;
     padding-bottom: 80px;
 }
 
-/* --- Ajustes de Responsividad --- */
-
-/* Laptops estándar: bajamos a 3 columnas para evitar que se amontonen */
-@media (max-width: 1400px) {
-    .productos-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* Tablets y Laptops pequeñas: El sidebar se mantiene pero bajamos a 2 columnas */
-@media (max-width: 1100px) {
-    .productos-layout {
-        grid-template-columns: 240px 1fr;
-    }
-    .productos-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Móviles: El sidebar pasa a estar arriba del grid */
-@media (max-width: 850px) {
-    .productos-layout {
-        grid-template-columns: 1fr;
-    }
-    
-    .productos-sidebar {
-        position: relative;
-        top: 0;
-        margin-bottom: 30px;
-    }
-
-    .productos-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-    .productos-grid {
-        grid-template-columns: 1fr;
-    }
-}
-/* Servicios CSS */
-/* --- Estilos de la Página de Servicios --- */
-
+/* --- Servicios CSS --- */
 .servicios-grid-main {
     display: flex;
     flex-direction: column;
@@ -219,11 +174,11 @@
 }
 
 .servicio-item.reverse {
-    direction: rtl; /* Invierte el orden visual */
+    direction: rtl;
 }
 
 .servicio-item.reverse .servicio-text {
-    direction: ltr; /* Mantiene el texto de izquierda a derecha */
+    direction: ltr;
 }
 
 .servicio-img-box {
@@ -289,8 +244,38 @@
     font-size: 1.1rem;
 }
 
-/* Responsivo para móviles */
-@media (max-width: 768px) {
+/* --- Responsividad --- */
+
+@media (max-width: 1400px) {
+    .productos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1100px) {
+    .productos-layout {
+        grid-template-columns: 240px 1fr;
+    }
+    .productos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 850px) {
+    .productos-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .productos-sidebar {
+        position: relative;
+        top: 0;
+        margin-bottom: 30px;
+    }
+
+    .productos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .servicio-item, .servicio-item.reverse {
         grid-template-columns: 1fr;
         direction: ltr;
@@ -307,6 +292,11 @@
     }
 }
 
+@media (max-width: 480px) {
+    .productos-grid {
+        grid-template-columns: 1fr;
+    }
+}
 /* Contacto CSS */
 
 .contacto-wrapper {
