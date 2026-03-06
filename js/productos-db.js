@@ -30,7 +30,12 @@ async function renderProductos() {
         return;
     }
 
-    productos.forEach(prod => {
+    const container = document.getElementById('productos-dinamicos');
+
+// 1. Limpiamos el contenedor (quita el mensaje de "Cargando...")
+container.innerHTML = ''; 
+
+productos.forEach(prod => {
     const precioFormateado = new Intl.NumberFormat('es-CL', {
         style: 'currency',
         currency: 'CLP'
@@ -46,11 +51,13 @@ async function renderProductos() {
             </div>
             <div class="product-info-simple">
                 <span class="cat-tag-simple">${prod.categoria || 'Insumo'}</span>
-                <h3 class="product-name-simple">${prod.nombre}</h3>
-                <span class="price-simple">${precioFormateado}</span>
-                <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">
-                    Detalles
-                </button>
+                <h3 class="product-name-simple" title="${prod.nombre}">${prod.nombre}</h3>
+                <div class="footer-card">
+                    <span class="price-simple">${precioFormateado}</span>
+                    <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">
+                        Detalles
+                    </button>
+                </div>
             </div>
         </div>
     `;
