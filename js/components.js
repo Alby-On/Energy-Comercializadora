@@ -1,39 +1,30 @@
 /**
- * Carga un componente HTML en un contenedor específico
- * @param {string} componentName - Nombre del archivo (sin .html)
- * @param {string} containerId - ID del elemento donde se cargará
+ * Carga los componentes compartidos (Header y Footer)
  */
-async function loadComponent(componentName, containerId) {
-    try {
-        // Buscamos el archivo HTML en la carpeta 'components'
-        const response = await fetch(`./components/${componentName}.html`);
-        
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: No se encontró el componente "${componentName}"`);
-        }
-        
-        const html = await response.text();
-        const container = document.getElementById(containerId);
+async function loadSharedComponents() {
+    // Detectamos si estamos en la carpeta /pages/ para ajustar la ruta
+    const isInPages = window.location.pathname.includes('/pages/');
+    const pathPrefix = isInPages ? '../' : './';
 
-        if (container) {
-            container.innerHTML = html;
-            console.log(`✅ Componente [${componentName}] cargado en #${containerId}`);
-        } else {
-            console.warn(`⚠️ No se encontró el contenedor con ID: "${containerId}"`);
+    const components = [
+        { name: 'header', id: 'header-placeholder' },
+        { name: 'footer', id: 'footer-placeholder' }
+    ];
+
+    for (const comp of components) {
+        const container = document.getElementById(comp.id);
+        if (!container) continue;
+
+        try {
+            const response = await fetch(`${pathPrefix}components/${comp.name}.html`);
+            if (response.ok) {
+                container.innerHTML = await response.text();
+                console.log(`✅ ${comp.name} cargado.`);
+            }
+        } catch (error) {
+            console.error(`❌ Error cargando ${comp.name}:`, error);
         }
-    } catch (error) {
-        console.error("❌ Error al cargar el componente:", error);
     }
 }
 
-// Ejecución automática al cargar el DOM
-document.addEventListener("DOMContentLoaded", async () => {
-    // Cargamos Header y Footer simultáneamente
-    await Promise.all([
-        loadComponent('header', 'header-placeholder'),
-        loadComponent('footer', 'footer-placeholder')
-    ]);
-
-    // Aquí podrías inicializar funciones de la navbar si las tienes, 
-    // como el script del menú hamburguesa.
-});
+document.addEventListener("DOMContentLoaded", loadSharedComponents);
