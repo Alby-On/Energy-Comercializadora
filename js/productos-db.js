@@ -69,98 +69,104 @@ window.verDetalle = (id) => {
 document.addEventListener('DOMContentLoaded', renderProductos);
 let todosLosProductos = []; 
 
-async function inicializarCatalogo() {
-    const { data, error } = await _supabase
-        .from('productos')
-        .select('*');
-
-    if (error) return console.error("Error Supabase:", error);
-    
-    // Guardamos en la variable global (asegúrate que esté declarada fuera)
-    todosLosProductos = data; 
-    
-    generarMenuJerarquico(data);
-    renderizarGrid(data);
-}
-
 function generarMenuJerarquico(productos) {
     const menu = document.getElementById('menu-categorias');
     if (!menu) return;
 
-    // 0. Limpiar el menú antes de empezar (importante)
+    // Limpiamos y añadimos el botón "Ver Todo"
     menu.innerHTML = `
         <li class="category-item active" onclick="renderizarGrid(todosLosProductos)">
             <span><i class="fas fa-layer-group"></i> Ver Todo</span>
         </li>
     `;
-    
-    // 1. Crear el mapa de Categoría -> Subcategorías
-    const mapaCategorias = {};
+
+    // 1. Agrupar categorías y subcategorías únicas
+    // Estructura: { "Electricidad Domiciliaria": Set(["Cajas", "Conductores"]), ... }
+    const esquema = {};
+
     productos.forEach(p => {
-        if (!p.categoria) return;
-        if (!mapaCategorias[p.categoria]) {
-            mapaCategorias[p.categoria] = new Set();
+        const cat = p.categoria || 'Sin Categoría';
+        const sub = p.subcategoria;
+
+        if (!esquema[cat]) {
+            esquema[cat] = new Set();
         }
-        if (p.subcategoria) {
-            mapaCategorias[p.categoria].add(p.subcategoria);
+        if (sub) {
+            esquema[cat].add(sub);
         }
     });
 
-    // 2. Construir el HTML del menú
-    Object.keys(mapaCategorias).sort().forEach(cat => {
-        const contenedorPadre = document.createElement('div');
-        contenedorPadre.className = 'category-wrapper';
+    // 2. Construir el HTML basado en el esquema
+    Object.keys(esquema).sort().forEach(catNombre => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'category-group';
 
+        // Botón de Categoría Padre
         const liPadre = document.createElement('li');
         liPadre.className = 'category-item has-sub';
         liPadre.innerHTML = `
-            <span><i class="fas fa-bolt"></i> ${cat}</span> 
+            <span><i class="fas fa-plug"></i> ${catNombre}</span>
             <i class="fas fa-chevron-down arrow-icon"></i>
         `;
-        
-        const ulSub = document.createElement('ul');
-        ulSub.className = 'sub-list'; // Por defecto oculto en CSS
 
-        // Evento para filtrar por Categoría Padre y mostrar submenú
+        // Contenedor de Subcategorías (Ul)
+        const ulSub = document.createElement('ul');
+        ulSub.className = 'sub-list';
+
+        // Evento Click Padre: Filtra por categoría y despliega menú
         liPadre.onclick = (e) => {
             e.stopPropagation();
             toggleMenu(liPadre, ulSub);
-            const filtrados = todosLosProductos.filter(p => p.categoria === cat);
+            
+            // Filtramos todos los productos que pertenezcan a esta categoría
+            const filtrados = todosLosProductos.filter(p => p.categoria === catNombre);
             renderizarGrid(filtrados);
             
-            // Quitar 'active' de otros y poner en este
-            document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
-            liPadre.classList.add('active');
+            // Feedback visual: marcar activo
+            actualizarEstadoActivo(liPadre);
         };
 
-        // Agregar Subcategorías
-        mapaCategorias[cat].forEach(sub => {
+        // Crear los hijos (Subcategorías)
+        esquema[catNombre].forEach(subNombre => {
             const liSub = document.createElement('li');
             liSub.className = 'sub-category-item';
-            liSub.textContent = sub;
-            
+            liSub.textContent = subNombre;
+
             liSub.onclick = (e) => {
-                e.stopPropagation(); 
-                const filtrados = todosLosProductos.filter(p => p.subcategoria === sub);
+                e.stopPropagation();
+                // Filtramos específicamente por la subcategoría
+                const filtrados = todosLosProductos.filter(p => 
+                    p.categoria === catNombre && p.subcategoria === subNombre
+                );
                 renderizarGrid(filtrados);
                 
-                // Estilo visual de selección
-                document.querySelectorAll('.sub-category-item').forEach(el => el.classList.remove('selected'));
-                liSub.classList.add('selected');
+                // Marcar subcategoría como seleccionada
+                actualizarEstadoSubActivo(liSub);
             };
             ulSub.appendChild(liSub);
         });
 
-        contenedorPadre.appendChild(liPadre);
-        if (mapaCategorias[cat].size > 0) {
-            contenedorPadre.appendChild(ulSub);
+        wrapper.appendChild(liPadre);
+        if (esquema[catNombre].size > 0) {
+            wrapper.appendChild(ulSub);
         }
-        menu.appendChild(contenedorPadre);
+        menu.appendChild(wrapper);
     });
 }
 
-function toggleMenu(padre, lista) {
+// Funciones auxiliares de UI
+function toggleMenu(btn, lista) {
     lista.classList.toggle('show');
-    const icono = padre.querySelector('.arrow-icon');
-    if (icono) icono.classList.toggle('rotate');
+    const icon = btn.querySelector('.arrow-icon');
+    if (icon) icon.classList.toggle('rotate');
+}
+
+function actualizarEstadoActivo(elemento) {
+    document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
+    elemento.classList.add('active');
+}
+
+function actualizarEstadoSubActivo(elemento) {
+    document.querySelectorAll('.sub-category-item').forEach(el => el.classList.remove('selected'));
+    elemento.classList.add('selected');
 }
