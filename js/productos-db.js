@@ -25,46 +25,41 @@ async function renderProductos() {
     // Limpiamos el contenedor (quita el mensaje de "Cargando")
     container.innerHTML = '';
 
-    if (productos.length === 0) {
+    if (!productos || productos.length === 0) {
         container.innerHTML = '<p style="text-align:center;">No hay productos disponibles en este momento.</p>';
         return;
     }
 
-    const container = document.getElementById('productos-dinamicos');
+    // Renderizado de productos
+    productos.forEach(prod => {
+        const precioFormateado = new Intl.NumberFormat('es-CL', {
+            style: 'currency',
+            currency: 'CLP'
+        }).format(prod.precio || 0);
 
-// 1. Limpiamos el contenedor (quita el mensaje de "Cargando...")
-container.innerHTML = ''; 
+        const imagenPrincipal = prod.url_imagen_1 || 'images/no-image.png';
 
-productos.forEach(prod => {
-    const precioFormateado = new Intl.NumberFormat('es-CL', {
-        style: 'currency',
-        currency: 'CLP'
-    }).format(prod.precio || 0);
-
-    const imagenPrincipal = prod.url_imagen_1 || 'images/no-image.png';
-
-    const productCard = `
-        <div class="product-card-simple">
-            <div class="product-img-frame">
-                <img src="${imagenPrincipal}" alt="${prod.nombre}" loading="lazy">
-                ${(prod.stock <= 0 || prod.stock === null) ? '<span class="badge-out">A pedido</span>' : ''}
-            </div>
-            <div class="product-info-simple">
-                <span class="cat-tag-simple">${prod.categoria || 'Insumo'}</span>
-                <h3 class="product-name-simple" title="${prod.nombre}">${prod.nombre}</h3>
-                <div class="footer-card">
-                    <span class="price-simple">${precioFormateado}</span>
-                    <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">
-                        Detalles
-                    </button>
+        const productCard = `
+            <div class="product-card-simple">
+                <div class="product-img-frame">
+                    <img src="${imagenPrincipal}" alt="${prod.nombre}" loading="lazy">
+                    ${(prod.stock <= 0 || prod.stock === null) ? '<span class="badge-out">A pedido</span>' : ''}
+                </div>
+                <div class="product-info-simple">
+                    <span class="cat-tag-simple">${prod.categoria || 'Insumo'}</span>
+                    <h3 class="product-name-simple" title="${prod.nombre}">${prod.nombre}</h3>
+                    <div class="footer-card">
+                        <span class="price-simple">${precioFormateado}</span>
+                        <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">
+                            Detalles
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
-    container.innerHTML += productCard;
-});
+        `;
+        container.innerHTML += productCard;
+    });
 }
-
 // Función global para manejar el click (puedes expandirla después)
 window.verDetalle = (id) => {
     console.log("Consultando detalle del producto ID:", id);
