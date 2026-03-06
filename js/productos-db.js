@@ -30,36 +30,32 @@ async function renderProductos() {
         return;
     }
 
-    // 3. Renderizado de tarjetas
     productos.forEach(prod => {
-        // Formateo de precio a CLP (Ej: $10.000)
-        const precioFormateado = new Intl.NumberFormat('es-CL', {
-            style: 'currency',
-            currency: 'CLP'
-        }).format(prod.precio || 0);
+    const precioFormateado = new Intl.NumberFormat('es-CL', {
+        style: 'currency',
+        currency: 'CLP'
+    }).format(prod.precio || 0);
 
-        // Fallback para imagen
-        const imagenPrincipal = prod.url_imagen_1 || 'images/no-image.png';
+    const imagenPrincipal = prod.url_imagen_1 || 'images/no-image.png';
 
-        const productCard = `
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="${imagenPrincipal}" alt="${prod.nombre}" loading="lazy">
-                    ${(prod.stock <= 0 || prod.stock === null) ? '<span class="badge-out">Sin Stock</span>' : ''}
-                </div>
-                <div class="product-content">
-                    <span class="cat-tag">${prod.categoria || 'General'}</span>
-                    <h3>${prod.nombre}</h3>
-                    <p class="desc-short">${prod.descripcion ? prod.descripcion.substring(0, 60) + '...' : 'Sin descripción disponible'}</p>
-                    <div class="product-footer">
-                        <span class="price">${precioFormateado}</span>
-                        <button class="btn-ver" onclick="verDetalle('${prod.id}')">Ver más</button>
-                    </div>
-                </div>
+    const productCard = `
+        <div class="product-card-simple">
+            <div class="product-img-frame">
+                <img src="${imagenPrincipal}" alt="${prod.nombre}" loading="lazy">
+                ${(prod.stock <= 0 || prod.stock === null) ? '<span class="badge-out">A pedido</span>' : ''}
             </div>
-        `;
-        container.innerHTML += productCard;
-    });
+            <div class="product-info-simple">
+                <span class="cat-tag-simple">${prod.categoria || 'Insumo'}</span>
+                <h3 class="product-name-simple">${prod.nombre}</h3>
+                <span class="price-simple">${precioFormateado}</span>
+                <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">
+                    Detalles
+                </button>
+            </div>
+        </div>
+    `;
+    container.innerHTML += productCard;
+});
 }
 
 // Función global para manejar el click (puedes expandirla después)
