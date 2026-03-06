@@ -1,19 +1,29 @@
+/* --- Estructura Global del Encabezado --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--blanco);
+    display: flex;
+    flex-direction: column; /* Alinea Navbar arriba y Galería abajo */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
 /* Navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 5%;
-    background-color: var(--blanco);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: fixed;
+    padding: 0.8rem 5%;
     width: 100%;
-    top: 0;
-    z-index: 1000;
+    /* Quitamos el position fixed de aquí porque ya lo tiene el header */
 }
 
 .logo img {
-    height: 50px; /* Ajusta según necesites */
+    height: 50px;
+    display: block;
 }
 
 .nav-links {
@@ -43,22 +53,19 @@
     border-radius: 5px;
 }
 
-/* Carrusel Marcas */
-/* Contenedor principal del carrusel */
+/* --- Carrusel de Marcas (Ticker) --- */
 .galeria-infinita {
     background: #ffffff;
-    border-bottom: 2px solid #e67e22; /* El naranja de tu logo */
+    border-top: 1px solid #eee; /* Separación sutil de la nav */
+    border-bottom: 2px solid #e67e22; /* El naranja de Energy */
     height: 80px;
     width: 100%;
     overflow: hidden;
     position: relative;
     display: flex;
     align-items: center;
-    /* Asegura que se vea después de la navbar */
-    clear: both; 
 }
 
-/* El riel que contiene los logos */
 .slider-track {
     display: flex;
     /* 11 marcas x 2 = 22 slides. 22 * 200px = 4400px */
@@ -66,19 +73,18 @@
     animation: scroll-marcas 30s linear infinite;
 }
 
-/* Cada cuadro de marca */
 .slide {
     width: 200px;
     height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0; /* Evita que los logos se aplasten */
+    flex-shrink: 0;
 }
 
 .slide img {
-    max-width: 150px; /* Ajusta el tamaño del logo */
-    max-height: 50px;
+    max-width: 150px;
+    max-height: 45px;
     object-fit: contain;
     filter: grayscale(100%);
     opacity: 0.7;
@@ -90,7 +96,12 @@
     opacity: 1;
 }
 
-/* Animación ajustada para 11 marcas */
+/* Pausar cuando el usuario pone el mouse encima */
+.slider-track:hover {
+    animation-play-state: paused;
+}
+
+/* --- Animación --- */
 @keyframes scroll-marcas {
     0% {
         transform: translateX(0);
@@ -100,7 +111,17 @@
         transform: translateX(-2200px);
     }
 }
-/* Pausar cuando el usuario pone el mouse encima */
-.slider-track:hover {
-    animation-play-state: paused;
+
+/* --- Responsive Burger (Opcional) --- */
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: var(--gris-oscuro);
+    margin: 5px;
+    transition: all 0.3s ease;
 }
