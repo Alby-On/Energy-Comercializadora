@@ -1,7 +1,9 @@
+/**
+ * Carga los componentes compartidos (Header y Footer)
+ * Todos los archivos HTML deben estar en la raíz del proyecto.
+ */
 async function loadSharedComponents() {
-    const isInPages = window.location.pathname.includes('/pages/');
-    const pathPrefix = isInPages ? '../' : './';
-
+    // Definimos los componentes a cargar
     const components = [
         { name: 'header', id: 'header-placeholder' },
         { name: 'footer', id: 'footer-placeholder' }
@@ -12,36 +14,20 @@ async function loadSharedComponents() {
         if (!container) continue;
 
         try {
-            const response = await fetch(`${pathPrefix}components/${comp.name}.html`);
+            // La ruta siempre será relativa a la raíz
+            const response = await fetch(`./components/${comp.name}.html`);
+            
             if (response.ok) {
                 container.innerHTML = await response.text();
-                
-                // --- AQUÍ ESTÁ EL TRUCO PARA GITHUB PAGES ---
-                // Ajustamos todos los enlaces del header recién cargado
-                const navLinks = container.querySelectorAll('a');
-                navLinks.forEach(link => {
-                    const originalHref = link.getAttribute('href');
-                    // Si estamos en una subcarpeta, agregamos ../ a los links
-                    if (isInPages) {
-                        if (originalHref === 'index.html') {
-                            link.href = '../index.html';
-                        } else if (originalHref.startsWith('pages/')) {
-                            // Si ya estamos en /pages/, quitamos el prefijo 'pages/'
-                            link.href = originalHref.replace('pages/', './');
-                        }
-                    }
-                });
-
-                // Ajustar la imagen del logo también
-                const logo = container.querySelector('#nav-logo');
-                if (logo) {
-                    logo.src = `${pathPrefix}images/Energy.png`;
-                }
+                console.log(`✅ Componente [${comp.name}] cargado correctamente.`);
+            } else {
+                console.error(`❌ No se encontró el archivo: components/${comp.name}.html`);
             }
         } catch (error) {
-            console.error(`❌ Error:`, error);
+            console.error(`❌ Error de red al cargar ${comp.name}:`, error);
         }
     }
 }
 
+// Iniciar la carga al abrir cualquier página
 document.addEventListener("DOMContentLoaded", loadSharedComponents);
