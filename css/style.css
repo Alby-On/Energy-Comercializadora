@@ -128,7 +128,33 @@ main p {
     margin-bottom: 20px;
     text-align: center; /* Sobrescribe el centrado general si es necesario */
 }
+/* Ajuste en style.css */
+.product-image-box {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
 
+.product-image-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Esto evita que la imagen se deforme */
+    transition: transform 0.3s ease;
+}
+
+.precio-tag {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--azul-energy);
+    margin: 10px 0;
+}
 /* Botón de acción dentro de la card (Opcional) */
 .product-card .btn-ver {
     background-color: var(--azul-energy);
