@@ -1,0 +1,109 @@
+/* Estructura Principal del Layout */
+.productos-layout {
+    display: flex;
+    gap: 40px; /* Espacio entre el menú y los productos */
+    align-items: flex-start;
+}
+
+/* --- COLUMNA IZQUIERDA: Sidebar de Categorías --- */
+.productos-sidebar {
+    flex: 0 0 280px; /* Ancho fijo para el menú */
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 200px; /* Se queda fijo al hacer scroll dado tu padding-top de 180px */
+}
+
+.filter-group h3 {
+    font-size: 1.1rem;
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #edf2f7;
+    background-color: #f8fafc;
+    color: #4a5568;
+}
+
+.category-item i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+    color: #f6ad55; /* Color energía */
+}
+
+.category-item:hover {
+    background-color: #edf2f7;
+    transform: translateX(5px);
+    border-color: #cbd5e0;
+}
+
+.category-item.active {
+    background-color: #2d3748;
+    color: #ffffff;
+    border-color: #2d3748;
+}
+
+.category-item.active i {
+    color: #f6ad55;
+}
+
+/* --- COLUMNA DERECHA: Grid de Productos --- */
+.productos-content {
+    flex: 1; /* Ocupa todo el espacio restante */
+}
+
+.productos-grid {
+    display: grid;
+    /* Crea columnas automáticas de mínimo 220px */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* Estado de Carga / Mensajes */
+.loading-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 20px;
+    border: 2px dashed #e2e8f0;
+    border-radius: 15px;
+    color: #a0aec0;
+}
+
+/* --- RESPONSIVE: Para tablets y celulares --- */
+@media (max-width: 992px) {
+    .productos-layout {
+        flex-direction: column; /* Apilar en pantallas pequeñas */
+    }
+
+    .productos-sidebar {
+        flex: none;
+        width: 100%;
+        position: relative;
+        top: 0;
+        margin-bottom: 30px;
+    }
+    
+    .productos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+}
