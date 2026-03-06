@@ -47,11 +47,20 @@
     background-color: #d35400;
 }
 /* PRODUCTOS CSS - ENERGY COMERCIALIZADORA */
+
+/* --- Ajuste del Contenedor para Layout Amplio --- */
+.container-full {
+    max-width: 1500px; /* Ancho mayor para dar espacio al sidebar + 4 columnas */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 /* --- Layout de Columnas (Sidebar + Grid) --- */
 .productos-layout {
     display: grid;
-    grid-template-columns: 280px 1fr; /* Sidebar fija y el resto para productos */
-    gap: 30px;
+    /* Sidebar de 260px y el resto para productos */
+    grid-template-columns: 260px 1fr; 
+    gap: 35px;
     align-items: flex-start;
     margin-top: 20px;
 }
@@ -63,8 +72,9 @@
     border-radius: 8px;
     border: 1px solid #eee;
     position: sticky;
-    top: 190px; /* Se queda fijo al hacer scroll (ajustado a tu navbar/carrusel) */
+    top: 190px; /* Ajustado a tu navbar/carrusel fijo */
     box-shadow: var(--sombra-suave);
+    z-index: 10;
 }
 
 .filter-group h3 {
@@ -77,7 +87,7 @@
     letter-spacing: 1px;
 }
 
-/* --- Lista de Categorías Padre --- */
+/* --- Lista de Categorías Padre e Interactivas --- */
 .filter-list {
     list-style: none;
     padding: 0;
@@ -110,18 +120,18 @@
     transform: rotate(180deg);
 }
 
-/* --- Lista de Subcategorías (Anidadas) --- */
+/* --- Subcategorías Anidadas --- */
 .sub-list {
     list-style: none;
     padding-left: 15px;
-    max-height: 0; /* Oculto por defecto */
+    max-height: 0; 
     overflow: hidden;
     transition: max-height 0.3s ease-out;
     background: #fdfdfd;
 }
 
 .sub-list.show {
-    max-height: 1000px; /* Suficiente para mostrar todo el contenido */
+    max-height: 1000px; 
     padding: 5px 0 10px 0;
 }
 
@@ -141,18 +151,29 @@
     padding-left: 20px;
 }
 
-/* --- Ajuste del Grid para el nuevo Layout --- */
-/* Reducimos a 3 columnas en escritorio porque el sidebar quita espacio */
+/* --- Grid de Productos (Configurado para 4x) --- */
 .productos-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
+    /* Mantenemos las 4 columnas que solicitaste */
+    grid-template-columns: repeat(4, 1fr); 
     gap: 20px;
+    padding-bottom: 80px;
 }
 
 /* --- Ajustes de Responsividad --- */
 
-/* Tablets y Laptops pequeñas */
+/* Laptops estándar: bajamos a 3 columnas para evitar que se amontonen */
+@media (max-width: 1400px) {
+    .productos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Tablets y Laptops pequeñas: El sidebar se mantiene pero bajamos a 2 columnas */
 @media (max-width: 1100px) {
+    .productos-layout {
+        grid-template-columns: 240px 1fr;
+    }
     .productos-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -161,7 +182,7 @@
 /* Móviles: El sidebar pasa a estar arriba del grid */
 @media (max-width: 850px) {
     .productos-layout {
-        grid-template-columns: 1fr; /* Una sola columna total */
+        grid-template-columns: 1fr;
     }
     
     .productos-sidebar {
@@ -179,143 +200,6 @@
     .productos-grid {
         grid-template-columns: 1fr;
     }
-}
-/* --- Estilo Clean & Industrial (Nosotros) --- */
-
-.nosotros-hero-clean {
-    padding: 60px 0;
-    text-align: center;
-    background-color: #ffffff; /* Fondo blanco */
-}
-
-.hero-tag {
-    color: var(--naranja-energy);
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    font-weight: 700;
-}
-
-.nosotros-hero-clean h1 {
-    color: var(--azul-energy);
-    font-size: 3.2rem;
-    margin: 15px 0;
-    font-weight: 800;
-}
-
-.hero-line-center {
-    width: 80px;
-    height: 4px;
-    background: var(--naranja-energy);
-    margin: 20px auto;
-}
-
-/* Sección Quiénes Somos */
-.quienes-somos-simple {
-    padding: 80px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.intro-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.text-large {
-    font-size: 1.15rem;
-    line-height: 1.8;
-    color: #555;
-}
-
-/* Qué Hacemos Section */
-.que-hacemos-industrial {
-    padding: 100px 0;
-    background-color: #fafafa; /* Gris casi blanco */
-}
-
-.feature-item {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 25px;
-}
-
-.feature-item i {
-    font-size: 1.5rem;
-    color: var(--azul-energy);
-    width: 30px;
-}
-
-.destaque-naranja-simple {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: var(--naranja-energy);
-    font-weight: 700;
-    margin-top: 40px;
-    padding: 15px;
-    border: 1px dashed var(--naranja-energy);
-    border-radius: 8px;
-}
-
-/* Imagen Minimalista */
-.image-box-clean {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.image-box-clean i {
-    font-size: 8rem;
-    color: #ddd;
-    z-index: 2;
-}
-
-.circle-outline {
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border: 2px solid var(--naranja-energy);
-    border-radius: 50%;
-    opacity: 0.2;
-}
-
-/* Cards Misión y Visión Clean */
-.card-nosotros-clean {
-    background: white;
-    padding: 40px;
-    border: 1px solid #eee;
-    border-radius: 4px; /* Menos redondeado, más industrial */
-    transition: 0.3s;
-}
-
-.card-nosotros-clean:hover {
-    border-color: var(--naranja-energy);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-}
-
-.icon-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.icon-header i {
-    color: var(--azul-energy);
-    font-size: 1.8rem;
-}
-
-.icon-header h3 {
-    margin: 0;
-    color: var(--azul-energy);
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 /* Servicios CSS */
 /* --- Estilos de la Página de Servicios --- */
