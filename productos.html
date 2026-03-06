@@ -12,25 +12,35 @@
 <body>
     <div id="header-placeholder"></div>
 
-    <main class="container" style="padding-top: 180px; padding-bottom: 80px;">
-        <aside class="productos-sidebar">
-    <div class="filter-group">
-        <h3>Categorías</h3>
-        <ul id="menu-categorias" class="filter-list">
-            <li class="category-item active" onclick="renderizarGrid(todosLosProductos)">
-                <i class="fas fa-layer-group"></i> Ver Todo
-            </li>
-            </ul>
-    </div>
-</aside>
+    <main class="container-full" style="padding-top: 180px; padding-bottom: 80px;">
+    
     <section class="productos-header">
         <h1>Nuestro Catálogo</h1>
         <p>Suministros eléctricos cargados en tiempo real.</p>
         <div class="linea-decorativa"></div>
     </section>
 
-    <div id="productos-dinamicos" class="productos-grid">
-        <p>Cargando productos...</p>
+    <div class="productos-layout">
+        
+        <aside class="productos-sidebar">
+            <div class="filter-group">
+                <h3>Categorías</h3>
+                <ul id="menu-categorias" class="filter-list">
+                    <li class="category-item active" onclick="renderizarGrid(todosLosProductos)">
+                        <span><i class="fas fa-layer-group"></i> Ver Todo</span>
+                    </li>
+                    </ul>
+            </div>
+        </aside>
+
+        <div class="productos-content">
+            <div id="productos-dinamicos" class="productos-grid">
+                <div class="loading-state">
+                    <p>Cargando productos de Energy SPA...</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 </main>
 
