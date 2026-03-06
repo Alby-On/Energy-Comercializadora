@@ -74,22 +74,30 @@ async function inicializarCatalogo() {
         .from('productos')
         .select('*');
 
-    if (error) return console.error(error);
+    if (error) return console.error("Error Supabase:", error);
     
-    todosLosProductos = data;
+    // Guardamos en la variable global (asegúrate que esté declarada fuera)
+    todosLosProductos = data; 
+    
     generarMenuJerarquico(data);
     renderizarGrid(data);
 }
 
 function generarMenuJerarquico(productos) {
     const menu = document.getElementById('menu-categorias');
+    if (!menu) return;
+
+    // 0. Limpiar el menú antes de empezar (importante)
+    menu.innerHTML = `
+        <li class="category-item active" onclick="renderizarGrid(todosLosProductos)">
+            <span><i class="fas fa-layer-group"></i> Ver Todo</span>
+        </li>
+    `;
     
     // 1. Crear el mapa de Categoría -> Subcategorías
     const mapaCategorias = {};
-
     productos.forEach(p => {
         if (!p.categoria) return;
-        
         if (!mapaCategorias[p.categoria]) {
             mapaCategorias[p.categoria] = new Set();
         }
@@ -100,43 +108,59 @@ function generarMenuJerarquico(productos) {
 
     // 2. Construir el HTML del menú
     Object.keys(mapaCategorias).sort().forEach(cat => {
-        const liPadre = document.createElement('li');
-        liPadre.className = 'category-item';
-        liPadre.innerHTML = `<span>${cat}</span> <i class="fas fa-chevron-down"></i>`;
-        
-        // Ul para las subcategorías
-        const ulSub = document.createElement('ul');
-        ulSub.className = 'sub-list';
+        const contenedorPadre = document.createElement('div');
+        contenedorPadre.className = 'category-wrapper';
 
-        // Evento para filtrar por Categoría Padre
+        const liPadre = document.createElement('li');
+        liPadre.className = 'category-item has-sub';
+        liPadre.innerHTML = `
+            <span><i class="fas fa-bolt"></i> ${cat}</span> 
+            <i class="fas fa-chevron-down arrow-icon"></i>
+        `;
+        
+        const ulSub = document.createElement('ul');
+        ulSub.className = 'sub-list'; // Por defecto oculto en CSS
+
+        // Evento para filtrar por Categoría Padre y mostrar submenú
         liPadre.onclick = (e) => {
             e.stopPropagation();
             toggleMenu(liPadre, ulSub);
             const filtrados = todosLosProductos.filter(p => p.categoria === cat);
             renderizarGrid(filtrados);
+            
+            // Quitar 'active' de otros y poner en este
+            document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
+            liPadre.classList.add('active');
         };
 
-        // Agregar Subcategorías al hijo
+        // Agregar Subcategorías
         mapaCategorias[cat].forEach(sub => {
             const liSub = document.createElement('li');
             liSub.className = 'sub-category-item';
             liSub.textContent = sub;
             
             liSub.onclick = (e) => {
-                e.stopPropagation(); // Evita que se cierre el padre
+                e.stopPropagation(); 
                 const filtrados = todosLosProductos.filter(p => p.subcategoria === sub);
                 renderizarGrid(filtrados);
+                
+                // Estilo visual de selección
+                document.querySelectorAll('.sub-category-item').forEach(el => el.classList.remove('selected'));
+                liSub.classList.add('selected');
             };
             ulSub.appendChild(liSub);
         });
 
-        menu.appendChild(liPadre);
-        menu.appendChild(ulSub);
+        contenedorPadre.appendChild(liPadre);
+        if (mapaCategorias[cat].size > 0) {
+            contenedorPadre.appendChild(ulSub);
+        }
+        menu.appendChild(contenedorPadre);
     });
 }
 
 function toggleMenu(padre, lista) {
-    // Cerrar otros menús si prefieres (opcional)
     lista.classList.toggle('show');
-    padre.querySelector('i').classList.toggle('rotate');
+    const icono = padre.querySelector('.arrow-icon');
+    if (icono) icono.classList.toggle('rotate');
 }
