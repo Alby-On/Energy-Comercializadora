@@ -46,118 +46,115 @@
 .cta-button:hover {
     background-color: #d35400;
 }
-/* PRODUCTOS CSS - ESTRUCTURA DE DISEÑO Y SERVICIOS */
-
-/* --- Ajuste del Contenedor para Layout Amplio --- */
-.container-full {
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* --- Layout de Columnas (Sidebar + Grid) --- */
+/* Estructura Principal del Layout */
 .productos-layout {
-    display: grid;
-    grid-template-columns: 260px 1fr; 
-    gap: 35px;
+    display: flex;
+    gap: 40px; /* Espacio entre el menú y los productos */
     align-items: flex-start;
-    margin-top: 20px;
 }
 
-/* --- Sidebar de Filtros --- */
+/* --- COLUMNA IZQUIERDA: Sidebar de Categorías --- */
 .productos-sidebar {
-    background: var(--blanco);
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #eee;
+    flex: 0 0 280px; /* Ancho fijo para el menú */
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     position: sticky;
-    top: 190px;
-    box-shadow: var(--sombra-suave);
-    z-index: 10;
+    top: 200px; /* Se queda fijo al hacer scroll dado tu padding-top de 180px */
 }
 
 .filter-group h3 {
-    color: var(--azul-energy);
     font-size: 1.1rem;
+    color: #2d3748;
     margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--naranja-energy);
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
-/* --- Lista de Categorías Padre e Interactivas --- */
 .filter-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .category-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 12px 10px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: 600;
-    color: var(--gris-oscuro);
-    border-bottom: 1px solid #f5f5f5;
-    transition: all 0.3s ease;
-    border-radius: 4px;
-}
-
-.category-item:hover {
-    background-color: #f8f9fa;
-    color: var(--naranja-energy);
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #edf2f7;
+    background-color: #f8fafc;
+    color: #4a5568;
 }
 
 .category-item i {
-    font-size: 0.8rem;
-    transition: transform 0.3s ease;
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+    color: #f6ad55; /* Color energía */
 }
 
-.category-item i.rotate {
-    transform: rotate(180deg);
+.category-item:hover {
+    background-color: #edf2f7;
+    transform: translateX(5px);
+    border-color: #cbd5e0;
 }
 
-/* --- Subcategorías Anidadas --- */
-.sub-list {
-    list-style: none;
-    padding-left: 15px;
-    max-height: 0; 
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    background: #fdfdfd;
+.category-item.active {
+    background-color: #2d3748;
+    color: #ffffff;
+    border-color: #2d3748;
 }
 
-.sub-list.show {
-    max-height: 1000px; 
-    padding: 5px 0 10px 0;
+.category-item.active i {
+    color: #f6ad55;
 }
 
-.sub-category-item {
-    padding: 8px 15px;
-    font-size: 0.85rem;
-    color: #666;
-    cursor: pointer;
-    border-left: 2px solid #eee;
-    transition: all 0.2s ease;
+/* --- COLUMNA DERECHA: Grid de Productos --- */
+.productos-content {
+    flex: 1; /* Ocupa todo el espacio restante */
 }
 
-.sub-category-item:hover {
-    color: var(--naranja-energy);
-    border-left-color: var(--naranja-energy);
-    background: #fff;
-    padding-left: 20px;
-}
-
-/* --- Grid de Productos (Contenedor Estructural) --- */
 .productos-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
+    /* Crea columnas automáticas de mínimo 220px */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
-    padding-bottom: 80px;
 }
 
+/* Estado de Carga / Mensajes */
+.loading-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 20px;
+    border: 2px dashed #e2e8f0;
+    border-radius: 15px;
+    color: #a0aec0;
+}
+
+/* --- RESPONSIVE: Para tablets y celulares --- */
+@media (max-width: 992px) {
+    .productos-layout {
+        flex-direction: column; /* Apilar en pantallas pequeñas */
+    }
+
+    .productos-sidebar {
+        flex: none;
+        width: 100%;
+        position: relative;
+        top: 0;
+        margin-bottom: 30px;
+    }
+    
+    .productos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+}
 /* --- Servicios CSS --- */
 .servicios-grid-main {
     display: flex;
