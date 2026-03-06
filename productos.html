@@ -15,79 +15,18 @@
     <main class="container" style="padding-top: 180px; padding-bottom: 80px;">
     <section class="productos-header">
         <h1>Nuestro Catálogo</h1>
-        <p>Suministros eléctricos certificados para proyectos industriales y domiciliarios.</p>
+        <p>Suministros eléctricos cargados en tiempo real.</p>
         <div class="linea-decorativa"></div>
     </section>
 
-    <h2 class="categoria-titulo">Conductores y Cables</h2>
-    <div class="productos-grid">
-        <div class="product-card">
-            <div class="product-icon">🔌</div>
-            <h3>Cables THHN / Eva</h3>
-            <p>Conductores de cobre para instalaciones de fuerza y alumbrado.</p>
-            <span class="certificacion">Certificado SEC</span>
-        </div>
-        <div class="product-card">
-            <div class="product-icon">🌀</div>
-            <h3>Cordones Flexibles</h3>
-            <p>Ideal para conexión de equipos industriales y herramientas.</p>
-            <span class="certificacion">Certificado SEC</span>
-        </div>
-        <div class="product-card">
-            <div class="product-icon">🏗️</div>
-            <h3>Cables de Control</h3>
-            <p>Multiconductores para automatización y señales críticas.</p>
-            <span class="certificacion">Uso Industrial</span>
-        </div>
-    </div>
-
-    <h2 class="categoria-titulo">Protecciones Eléctricas</h2>
-    <div class="productos-grid">
-        <div class="product-card">
-            <div class="product-icon">🔳</div>
-            <h3>Interruptores Automáticos</h3>
-            <p>Protección contra sobrecargas y cortocircuitos (DIN / Caja Moldeada).</p>
-            <span class="certificacion">Curva C / D</span>
-        </div>
-        <div class="product-card">
-            <div class="product-icon">🛡️</div>
-            <h3>Protectores Diferenciales</h3>
-            <p>Seguridad de vida para instalaciones residenciales e industriales.</p>
-            <span class="certificacion">Clase A / AC</span>
-        </div>
-        <div class="product-card">
-            <div class="product-icon">⚡</div>
-            <h3>Limitadores de Sobretensión</h3>
-            <p>Protección de equipos electrónicos contra descargas atmosféricas.</p>
-            <span class="certificacion">Tipo 1 / 2</span>
-        </div>
-    </div>
-
-    <h2 class="categoria-titulo">Canalización y Tableros</h2>
-    <div class="productos-grid">
-        <div class="product-card">
-            <div class="product-icon">📦</div>
-            <h3>Tableros Metálicos/PVC</h3>
-            <p>Gabinetes con diversos grados de protección IP para exterior/interior.</p>
-            <span class="certificacion">IP65 / IP67</span>
-        </div>
-        <div class="product-card">
-            <div class="product-icon">🚇</div>
-            <h3>Tuberías y Canaletas</h3>
-            <p>Conduit galvanizado, PVC y bandejas portacables de alta resistencia.</p>
-            <span class="certificacion">Libre de Halógenos</span>
-        </div>
-        <div class="product-card">
-            <div class="product-icon">🛠️</div>
-            <h3>Accesorios de Montaje</h3>
-            <p>Terminales, prensacables y riel DIN para armado de tableros.</p>
-            <span class="certificacion">Stock Permanente</span>
-        </div>
+    <div id="productos-dinamicos" class="productos-grid">
+        <p>Cargando productos...</p>
     </div>
 </main>
 
     <div id="footer-placeholder"></div>
-
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/productos-db.js"></script>
     <script src="js/components.js"></script>
 </body>
 </html>
