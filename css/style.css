@@ -272,3 +272,244 @@ main p {
     color: #e0e0e0;
     text-align: center;
 }
+/* Servicios CSS */
+/* --- Estilos de la Página de Servicios --- */
+
+.servicios-grid-main {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    margin-top: 60px;
+}
+
+.servicio-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.servicio-item.reverse {
+    direction: rtl; /* Invierte el orden visual */
+}
+
+.servicio-item.reverse .servicio-text {
+    direction: ltr; /* Mantiene el texto de izquierda a derecha */
+}
+
+.servicio-img-box {
+    background-color: var(--gris-claro);
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    color: var(--azul-energy);
+    font-size: 8rem;
+    transition: 0.3s;
+    border: 2px solid transparent;
+}
+
+.servicio-item:hover .servicio-img-box {
+    color: var(--naranja-energy);
+    border-color: var(--naranja-energy);
+    background-color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.servicio-text h2 {
+    color: var(--azul-energy);
+    font-size: 2rem;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.servicio-text h2::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--naranja-energy);
+}
+
+.servicio-text p {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    text-align: justify;
+}
+
+.check-list {
+    list-style: none;
+    padding: 0;
+}
+
+.check-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: var(--gris-oscuro);
+}
+
+.check-list li i {
+    color: var(--naranja-energy);
+    font-size: 1.1rem;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+    .servicio-item, .servicio-item.reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        text-align: center;
+    }
+    
+    .servicio-text h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .check-list li {
+        justify-content: center;
+    }
+}
+
+/* Contacto CSS */
+
+.contacto-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 40px;
+}
+
+/* Columna Izquierda (Info) */
+.contacto-info {
+    background-color: var(--azul-energy);
+    color: white;
+    padding: 50px;
+}
+
+.contacto-info h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.info-detalles {
+    margin: 40px 0;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.info-item i {
+    font-size: 1.2rem;
+    color: var(--naranja-energy);
+    margin-top: 5px;
+}
+
+.info-item h3 {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.info-item p {
+    color: #e0e0e0;
+    text-align: left;
+    margin: 0;
+}
+
+/* Redes Sociales */
+.contacto-sociales {
+    display: flex;
+    gap: 15px;
+}
+
+.contacto-sociales a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.contacto-sociales a:hover {
+    background: var(--naranja-energy);
+}
+
+/* Columna Derecha (Formulario) */
+.contacto-formulario {
+    padding: 50px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: var(--gris-oscuro);
+}
+
+.input-group input, 
+.input-group select, 
+.input-group textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.input-group input:focus, 
+.input-group textarea:focus {
+    outline: 2px solid var(--azul-energy);
+    border-color: transparent;
+}
+
+.btn-enviar {
+    background-color: var(--naranja-energy);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+.btn-enviar:hover {
+    background-color: #d35400;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+    .contacto-wrapper {
+        grid-template-columns: 1fr;
+    }
+    .contacto-info {
+        padding: 30px;
+    }
+}
