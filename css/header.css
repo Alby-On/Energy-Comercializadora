@@ -44,44 +44,44 @@
 }
 
 /* Carrusel Marcas */
-
-/* Contenedor principal */
+/* Contenedor principal del carrusel */
 .galeria-infinita {
-    background: #fdfdfd; /* Fondo muy claro */
-    border-bottom: 2px solid var(--naranja-energy);
+    background: #ffffff;
+    border-bottom: 2px solid #e67e22; /* El naranja de tu logo */
     height: 80px;
-    margin: 0 auto;
+    width: 100%;
     overflow: hidden;
     position: relative;
-    width: 100%;
     display: flex;
     align-items: center;
+    /* Asegura que se vea después de la navbar */
+    clear: both; 
 }
 
-/* El riel que se mueve */
+/* El riel que contiene los logos */
 .slider-track {
     display: flex;
-    width: calc(200px * 34); /* Ancho de cada slide * total de slides (17+17) */
-    animation: scroll-marcas 40s linear infinite;
+    /* 11 marcas x 2 = 22 slides. 22 * 200px = 4400px */
+    width: 4400px; 
+    animation: scroll-marcas 30s linear infinite;
 }
 
-/* Cada cuadro de logo */
+/* Cada cuadro de marca */
 .slide {
-    width: 200px; /* Ajusta según el tamaño de tus logos */
-    height: 60px;
+    width: 200px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 20px;
+    flex-shrink: 0; /* Evita que los logos se aplasten */
 }
 
 .slide img {
-    max-width: 100%;
-    max-height: 45px;
+    max-width: 150px; /* Ajusta el tamaño del logo */
+    max-height: 50px;
     object-fit: contain;
-    /* Filtro para que se vean grises y cambien a color al pasar el mouse (opcional) */
     filter: grayscale(100%);
-    opacity: 0.6;
+    opacity: 0.7;
     transition: 0.3s;
 }
 
@@ -90,17 +90,16 @@
     opacity: 1;
 }
 
-/* Animación */
+/* Animación ajustada para 11 marcas */
 @keyframes scroll-marcas {
     0% {
         transform: translateX(0);
     }
     100% {
-        /* Se mueve exactamente la mitad del ancho total del slider-track */
-        transform: translateX(calc(-200px * 17)); 
+        /* Se mueve la mitad exacta del track (11 logos * 200px = 2200px) */
+        transform: translateX(-2200px);
     }
 }
-
 /* Pausar cuando el usuario pone el mouse encima */
 .slider-track:hover {
     animation-play-state: paused;
