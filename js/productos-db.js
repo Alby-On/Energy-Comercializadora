@@ -65,3 +65,76 @@ window.verDetalle = (id) => {
 };
 
 document.addEventListener('DOMContentLoaded', renderProductos);
+let todosLosProductos = []; 
+
+async function inicializarCatalogo() {
+    const { data, error } = await _supabase
+        .from('productos')
+        .select('*');
+
+    if (error) return console.error(error);
+    
+    todosLosProductos = data;
+    generarMenuJerarquico(data);
+    renderizarGrid(data);
+}
+
+function generarMenuJerarquico(productos) {
+    const menu = document.getElementById('menu-categorias');
+    
+    // 1. Crear el mapa de Categoría -> Subcategorías
+    const mapaCategorias = {};
+
+    productos.forEach(p => {
+        if (!p.categoria) return;
+        
+        if (!mapaCategorias[p.categoria]) {
+            mapaCategorias[p.categoria] = new Set();
+        }
+        if (p.subcategoria) {
+            mapaCategorias[p.categoria].add(p.subcategoria);
+        }
+    });
+
+    // 2. Construir el HTML del menú
+    Object.keys(mapaCategorias).sort().forEach(cat => {
+        const liPadre = document.createElement('li');
+        liPadre.className = 'category-item';
+        liPadre.innerHTML = `<span>${cat}</span> <i class="fas fa-chevron-down"></i>`;
+        
+        // Ul para las subcategorías
+        const ulSub = document.createElement('ul');
+        ulSub.className = 'sub-list';
+
+        // Evento para filtrar por Categoría Padre
+        liPadre.onclick = (e) => {
+            e.stopPropagation();
+            toggleMenu(liPadre, ulSub);
+            const filtrados = todosLosProductos.filter(p => p.categoria === cat);
+            renderizarGrid(filtrados);
+        };
+
+        // Agregar Subcategorías al hijo
+        mapaCategorias[cat].forEach(sub => {
+            const liSub = document.createElement('li');
+            liSub.className = 'sub-category-item';
+            liSub.textContent = sub;
+            
+            liSub.onclick = (e) => {
+                e.stopPropagation(); // Evita que se cierre el padre
+                const filtrados = todosLosProductos.filter(p => p.subcategoria === sub);
+                renderizarGrid(filtrados);
+            };
+            ulSub.appendChild(liSub);
+        });
+
+        menu.appendChild(liPadre);
+        menu.appendChild(ulSub);
+    });
+}
+
+function toggleMenu(padre, lista) {
+    // Cerrar otros menús si prefieres (opcional)
+    lista.classList.toggle('show');
+    padre.querySelector('i').classList.toggle('rotate');
+}
