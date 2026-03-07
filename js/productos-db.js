@@ -1,16 +1,17 @@
-// 1. Configuración de Supabase con nombre de instancia único
+// 1. Configuración de Supabase
 const supabaseUrl = 'https://afrfaeouzkjdkkqeozgq.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmcmZhZW91emtqZGtrcWVvemdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMTg1OTUsImV4cCI6MjA4Nzc5NDU5NX0.CRUaz7sNOuotsV3tVM5O2KvTerAT6uTXHaTy4yKKAdM';
 
-// Usamos _supabase para evitar colisiones con el objeto global 'supabase' del CDN
 const _supabase = supabase.createClient(supabaseUrl, supabaseKey); 
 
-async function renderProductos() {
-    const container = document.getElementById('productos-dinamicos');
-    
-    if (!container) return; // Seguridad por si el ID no existe en el HTML actual
+// Variable global para almacenar los productos y usarlos en los filtros
+let todosLosProductos = []; 
 
-    // 2. Usamos _supabase (nuestra instancia) para la consulta
+// 2. Función principal de carga (Se ejecuta al abrir la página)
+async function inicializarCatalogo() {
+    const container = document.getElementById('productos-dinamicos');
+    if (!container) return;
+
     const { data: productos, error } = await _supabase
         .from('productos')
         .select('*')
@@ -22,15 +23,24 @@ async function renderProductos() {
         return;
     }
 
-    // Limpiamos el contenedor (quita el mensaje de "Cargando")
+    todosLosProductos = productos; // Guardamos para los filtros
+    
+    generarMenuJerarquico(todosLosProductos); // Crea el menú lateral
+    renderizarGrid(todosLosProductos);        // Dibuja los productos iniciales
+}
+
+// 3. Función para renderizar el grid de productos (reutilizable)
+function renderizarGrid(productos) {
+    const container = document.getElementById('productos-dinamicos');
+    if (!container) return;
+
     container.innerHTML = '';
 
     if (!productos || productos.length === 0) {
-        container.innerHTML = '<p style="text-align:center;">No hay productos disponibles en este momento.</p>';
+        container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No hay productos disponibles.</p>';
         return;
     }
 
-    // Renderizado de productos
     productos.forEach(prod => {
         const precioFormateado = new Intl.NumberFormat('es-CL', {
             style: 'currency',
@@ -60,41 +70,12 @@ async function renderProductos() {
         container.innerHTML += productCard;
     });
 }
-// Función global para manejar el click (puedes expandirla después)
-window.verDetalle = (id) => {
-    console.log("Consultando detalle del producto ID:", id);
-    // Aquí podrías abrir un modal o redirigir
-};
 
-document.addEventListener('DOMContentLoaded', renderProductos);
-let todosLosProductos = []; 
-
-// 1. Asegúrate de tener esta variable declarada al inicio de tu archivo JS
-let todosLosProductos = []; 
-
-async function inicializarCatalogo() {
-    const { data, error } = await _supabase
-        .from('productos')
-        .select('*');
-
-    if (error) {
-        console.error('Error Supabase:', error);
-        return;
-    }
-    
-    // Guardamos los datos globalmente para que los filtros funcionen
-    todosLosProductos = data; 
-    
-    // Ejecutamos las funciones
-    generarMenuJerarquico(data);
-    renderizarGrid(data);
-}
-
+// 4. Generar Menú Jerárquico Lateral
 function generarMenuJerarquico(productos) {
     const menu = document.getElementById('menu-categorias');
     if (!menu) return;
 
-    // Limpiamos y añadimos el botón "Ver Todo"
     menu.innerHTML = `
         <li class="category-item active" id="btn-ver-todo">
             <span><i class="fas fa-layer-group"></i> Ver Todo</span>
@@ -106,21 +87,14 @@ function generarMenuJerarquico(productos) {
         renderizarGrid(todosLosProductos);
     };
 
-    // 2. Construir el Esquema
     const esquema = {};
     productos.forEach(p => {
         const cat = p.categoria || 'Otros';
         const sub = p.subcategoria;
-
-        if (!esquema[cat]) {
-            esquema[cat] = new Set();
-        }
-        if (sub) {
-            esquema[cat].add(sub);
-        }
+        if (!esquema[cat]) esquema[cat] = new Set();
+        if (sub) esquema[cat].add(sub);
     });
 
-    // 3. Crear el HTML
     Object.keys(esquema).sort().forEach(catNombre => {
         const wrapper = document.createElement('div');
         wrapper.className = 'category-group';
@@ -128,7 +102,6 @@ function generarMenuJerarquico(productos) {
         const liPadre = document.createElement('li');
         liPadre.className = 'category-item has-sub';
         
-        // Iconos dinámicos
         let icono = 'fa-plug'; 
         const nombreMin = catNombre.toLowerCase();
         if(nombreMin.includes('herramienta')) icono = 'fa-tools';
@@ -146,7 +119,6 @@ function generarMenuJerarquico(productos) {
         liPadre.onclick = (e) => {
             e.stopPropagation();
             
-            // Cerramos otros menús (Estilo acordeón)
             document.querySelectorAll('.sub-list.show').forEach(el => {
                 if(el !== ulSub) {
                     el.classList.remove('show');
@@ -155,8 +127,6 @@ function generarMenuJerarquico(productos) {
             });
 
             toggleMenu(liPadre, ulSub);
-            
-            // Usamos la variable global todosLosProductos para filtrar
             const filtrados = todosLosProductos.filter(p => p.categoria === catNombre);
             renderizarGrid(filtrados);
             actualizarEstadoActivo(liPadre);
@@ -179,9 +149,31 @@ function generarMenuJerarquico(productos) {
         });
 
         wrapper.appendChild(liPadre);
-        if (esquema[catNombre].size > 0) {
-            wrapper.appendChild(ulSub);
-        }
+        if (esquema[catNombre].size > 0) wrapper.appendChild(ulSub);
         menu.appendChild(wrapper);
     });
 }
+
+// 5. Funciones auxiliares de Interfaz (CSS Control)
+function toggleMenu(btn, lista) {
+    lista.classList.toggle('show');
+    const icon = btn.querySelector('.arrow-icon');
+    if (icon) icon.classList.toggle('rotate');
+}
+
+function actualizarEstadoActivo(elemento) {
+    document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
+    elemento.classList.add('active');
+}
+
+function actualizarEstadoSubActivo(elemento) {
+    document.querySelectorAll('.sub-category-item').forEach(el => el.classList.remove('selected'));
+    elemento.classList.add('selected');
+}
+
+// 6. Funciones Globales y Eventos
+window.verDetalle = (id) => {
+    console.log("Consultando detalle del producto ID:", id);
+};
+
+document.addEventListener('DOMContentLoaded', inicializarCatalogo);
