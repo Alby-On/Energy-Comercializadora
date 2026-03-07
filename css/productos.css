@@ -1,68 +1,88 @@
 /* ================================================================
-   ESTRUCTURA PRINCIPAL DEL LAYOUT (35% Izq / 65% Der)
+   ESTRUCTURA PRINCIPAL DEL LAYOUT (30% Izq / 70% Der)
    ================================================================ */
 .productos-layout {
     display: grid;
-    /* Definimos las dos columnas exactas */
-    grid-template-columns: 35% 65%; 
-    gap: 30px; 
+    /* 30% para categorías, 70% para productos */
+    grid-template-columns: 30% 70%; 
+    gap: 40px; /* Un poco más de aire entre columnas */
     align-items: flex-start;
-    max-width: 1300px; /* Un poco más ancho para que luzca el 65% */
+    max-width: 1400px; /* Ampliamos el máximo para lucir el 70% */
     margin: 0 auto;
     padding: 0 20px;
 }
 
-/* --- COLUMNA IZQUIERDA: Sidebar de Categorías (35%) --- */
+/* --- COLUMNA IZQUIERDA: Sidebar (30%) --- */
 .productos-sidebar {
     background: #ffffff;
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     position: sticky;
-    top: 180px; /* Ajustado a tu padding-top del main */
+    top: 180px; 
     border: 1px solid #edf2f7;
+    /* Evita que el sidebar sea demasiado pequeño en pantallas medianas */
+    min-width: 250px; 
 }
 
-/* --- COLUMNA DERECHA: Grid de Productos (65%) --- */
+/* --- COLUMNA DERECHA: Grid de Productos (70%) --- */
 .productos-content {
-    /* No necesita flex:1 porque el grid ya le asigna el 65% */
     width: 100%;
 }
 
 .productos-grid {
     display: grid;
-    /* Ajustamos el minmax para que quepan bien los productos en el 65% del ancho */
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
+    /* Al tener el 70%, las cards pueden ser un poco más grandes (240px) */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 25px;
 }
 
 /* ================================================================
-   AJUSTES DE CATEGORÍAS Y SUB-LISTAS
+   ESTILOS DE CATEGORÍAS (Sidebar 30%)
    ================================================================ */
+.filter-group h3 {
+    font-size: 1.2rem;
+    color: #2d3748;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f6ad55;
+    display: inline-block;
+}
+
 .category-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 18px;
-    margin-bottom: 8px;
-    border-radius: 10px;
-    background-color: #f8fafc;
-    border: 1px solid #edf2f7;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    border: 1px solid #f1f5f9;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    font-weight: 500;
 }
 
 .category-item:hover {
-    background-color: #edf2f7;
+    background-color: #f8fafc;
+    border-color: #cbd5e0;
     transform: translateX(5px);
 }
 
+.category-item.active {
+    background-color: #2d3748;
+    color: #ffffff;
+    border-color: #2d3748;
+}
+
+/* Sub-listas con sangría clara */
 .sub-list {
     display: none;
     list-style: none;
-    padding-left: 25px;
-    margin-bottom: 20px;
-    border-left: 2px solid #f6ad55; /* Línea de color energía */
+    padding-left: 30px;
+    margin-top: -5px;
+    margin-bottom: 15px;
+    border-left: 2px solid #e2e8f0;
 }
 
 .sub-list.show {
@@ -70,25 +90,26 @@
 }
 
 /* ================================================================
-   RESPONSIVE (IMPORTANTE)
+   RESPONSIVE
    ================================================================ */
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
     .productos-layout {
-        /* En tablets bajamos a un 40/60 o similar */
-        grid-template-columns: 40% 60%;
+        /* En pantallas intermedias, ajustamos a 35/65 para no apretar el menú */
+        grid-template-columns: 35% 65%;
         gap: 20px;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
     .productos-layout {
-        /* En móviles pasamos a una sola columna (100%) */
+        /* En móviles y tablets pequeñas, todo a una columna (100%) */
         grid-template-columns: 100%;
     }
     
     .productos-sidebar {
         position: relative;
         top: 0;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
+        min-width: auto;
     }
 }
