@@ -69,11 +69,32 @@ window.verDetalle = (id) => {
 document.addEventListener('DOMContentLoaded', renderProductos);
 let todosLosProductos = []; 
 
+// 1. Asegúrate de tener esta variable declarada al inicio de tu archivo JS
+let todosLosProductos = []; 
+
+async function inicializarCatalogo() {
+    const { data, error } = await _supabase
+        .from('productos')
+        .select('*');
+
+    if (error) {
+        console.error('Error Supabase:', error);
+        return;
+    }
+    
+    // Guardamos los datos globalmente para que los filtros funcionen
+    todosLosProductos = data; 
+    
+    // Ejecutamos las funciones
+    generarMenuJerarquico(data);
+    renderizarGrid(data);
+}
+
 function generarMenuJerarquico(productos) {
     const menu = document.getElementById('menu-categorias');
     if (!menu) return;
 
-    // 1. Limpiamos y añadimos el botón "Ver Todo"
+    // Limpiamos y añadimos el botón "Ver Todo"
     menu.innerHTML = `
         <li class="category-item active" id="btn-ver-todo">
             <span><i class="fas fa-layer-group"></i> Ver Todo</span>
@@ -85,9 +106,8 @@ function generarMenuJerarquico(productos) {
         renderizarGrid(todosLosProductos);
     };
 
-    // 2. Construir el Esquema: { "Herramientas": Set(["Equipos de medición", "Manuales"]), ... }
+    // 2. Construir el Esquema
     const esquema = {};
-
     productos.forEach(p => {
         const cat = p.categoria || 'Otros';
         const sub = p.subcategoria;
@@ -100,58 +120,58 @@ function generarMenuJerarquico(productos) {
         }
     });
 
-    // 3. Crear el HTML basado en el esquema generado
+    // 3. Crear el HTML
     Object.keys(esquema).sort().forEach(catNombre => {
         const wrapper = document.createElement('div');
         wrapper.className = 'category-group';
 
-        // Botón de Categoría Padre (Ej: Herramientas)
         const liPadre = document.createElement('li');
         liPadre.className = 'category-item has-sub';
         
-        // Icono dinámico opcional (puedes personalizar según el nombre)
+        // Iconos dinámicos
         let icono = 'fa-plug'; 
-        if(catNombre.toLowerCase().includes('herramienta')) icono = 'fa-tools';
-        if(catNombre.toLowerCase().includes('iluminacion')) icono = 'fa-lightbulb';
+        const nombreMin = catNombre.toLowerCase();
+        if(nombreMin.includes('herramienta')) icono = 'fa-tools';
+        if(nombreMin.includes('ilumina')) icono = 'fa-lightbulb';
+        if(nombreMin.includes('medicion') || nombreMin.includes('tester')) icono = 'fa-bolt';
 
         liPadre.innerHTML = `
             <span><i class="fas ${icono}"></i> ${catNombre}</span>
             <i class="fas fa-chevron-down arrow-icon"></i>
         `;
 
-        // Contenedor de Subcategorías (Equipos de medición, etc.)
         const ulSub = document.createElement('ul');
         ulSub.className = 'sub-list';
 
-        // EVENTO PADRE: Desplegar y filtrar por categoría general
         liPadre.onclick = (e) => {
             e.stopPropagation();
             
-            // Cerramos otros menús abiertos si quieres estilo "acordeón"
+            // Cerramos otros menús (Estilo acordeón)
             document.querySelectorAll('.sub-list.show').forEach(el => {
-                if(el !== ulSub) el.classList.remove('show');
+                if(el !== ulSub) {
+                    el.classList.remove('show');
+                    el.previousElementSibling.querySelector('.arrow-icon')?.classList.remove('rotate');
+                }
             });
 
             toggleMenu(liPadre, ulSub);
             
+            // Usamos la variable global todosLosProductos para filtrar
             const filtrados = todosLosProductos.filter(p => p.categoria === catNombre);
             renderizarGrid(filtrados);
             actualizarEstadoActivo(liPadre);
         };
 
-        // Crear los ítems de Subcategoría
         esquema[catNombre].forEach(subNombre => {
             const liSub = document.createElement('li');
             liSub.className = 'sub-category-item';
             liSub.innerHTML = `<i class="fas fa-caret-right"></i> ${subNombre}`;
 
             liSub.onclick = (e) => {
-                e.stopPropagation(); // IMPORTANTE: No activar el click del padre
-                
+                e.stopPropagation(); 
                 const filtrados = todosLosProductos.filter(p => 
                     p.categoria === catNombre && p.subcategoria === subNombre
                 );
-                
                 renderizarGrid(filtrados);
                 actualizarEstadoSubActivo(liSub);
             };
