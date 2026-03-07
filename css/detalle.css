@@ -115,3 +115,18 @@
 @media (max-width: 768px) {
     .detalle-layout { grid-template-columns: 1fr; }
 }
+/* Oculta cualquier enlace de salto o accesibilidad que no deba ser visible */
+.skip-link, 
+.screen-reader-text,
+.galeria-producto span:first-child {
+    display: none !important;
+    visibility: hidden;
+}
+
+/* Asegura que el título no tenga elementos extra */
+#det-nombre {
+    display: block;
+    clear: both;
+    margin-top: 10px;
+    line-height: 1.2;
+}
