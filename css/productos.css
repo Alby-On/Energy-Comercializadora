@@ -1,4 +1,64 @@
 /* ================================================================
+   ESTILOS DEL ENCABEZADO (Centrado)
+   ================================================================ */
+.productos-header {
+    text-align: center;      /* Centra el texto */
+    max-width: 800px;        /* Evita que los párrafos se estiren demasiado */
+    margin: 0 auto 50px auto; /* Centra el bloque y da espacio hacia abajo */
+    padding: 0 20px;
+}
+
+.productos-header h1 {
+    font-size: 2.5rem;
+    color: #1a202c;          /* Un tono casi negro muy elegante */
+    margin-bottom: 12px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+
+.productos-header p {
+    font-size: 1.1rem;
+    color: #718096;          /* Gris suavizado para el subtítulo */
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Línea Decorativa con estilo "Eléctrico" */
+.linea-decorativa {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #f6ad55 0%, #ed8936 100%); /* Naranja energía */
+    margin: 0 auto;          /* Centra el div de la línea */
+    border-radius: 10px;
+    position: relative;
+}
+
+/* Opcional: Un pequeño destello al final de la línea */
+.linea-decorativa::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: #f6ad55;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #f6ad55;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+    .productos-header h1 {
+        font-size: 2rem;
+    }
+    .productos-header p {
+        font-size: 1rem;
+    }
+}
+
+/* ================================================================
    ESTRUCTURA PRINCIPAL DEL LAYOUT (30% Izq / 70% Der)
    ================================================================ */
 .productos-layout {
