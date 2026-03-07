@@ -7,6 +7,16 @@ const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 // Variable global para almacenar los productos y usarlos en los filtros
 let todosLosProductos = []; 
 
+function formatearTexto(texto) {
+    if (!texto) return '';
+    return texto
+        .replace(/_/g, ' ') // Reemplaza guiones bajos por espacios
+        .toLowerCase()      // Todo a minúsculas primero
+        .split(' ')         // Divide por espacios
+        .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1)) // Capitaliza cada palabra
+        .join(' ');         // Une de nuevo
+}
+
 // 2. Función principal de carga (Se ejecuta al abrir la página)
 async function inicializarCatalogo() {
     const container = document.getElementById('productos-dinamicos');
@@ -102,6 +112,9 @@ function generarMenuJerarquico(productos) {
         const liPadre = document.createElement('li');
         liPadre.className = 'category-item has-sub';
         
+        // --- CAMBIO: Formateo visual del nombre del padre ---
+        const nombrePadreVisual = formatearTextoVisual(catNombre);
+
         let icono = 'fa-plug'; 
         const nombreMin = catNombre.toLowerCase();
         if(nombreMin.includes('herramienta')) icono = 'fa-tools';
@@ -109,7 +122,7 @@ function generarMenuJerarquico(productos) {
         if(nombreMin.includes('medicion') || nombreMin.includes('tester')) icono = 'fa-bolt';
 
         liPadre.innerHTML = `
-            <span><i class="fas ${icono}"></i> ${catNombre}</span>
+            <span><i class="fas ${icono}"></i> ${nombrePadreVisual}</span>
             <i class="fas fa-chevron-down arrow-icon"></i>
         `;
 
@@ -127,6 +140,7 @@ function generarMenuJerarquico(productos) {
             });
 
             toggleMenu(liPadre, ulSub);
+            // El filtro sigue usando catNombre (el valor original de DB)
             const filtrados = todosLosProductos.filter(p => p.categoria === catNombre);
             renderizarGrid(filtrados);
             actualizarEstadoActivo(liPadre);
@@ -135,7 +149,10 @@ function generarMenuJerarquico(productos) {
         esquema[catNombre].forEach(subNombre => {
             const liSub = document.createElement('li');
             liSub.className = 'sub-category-item';
-            liSub.innerHTML = `<i class="fas fa-caret-right"></i> ${subNombre}`;
+            
+            // --- CAMBIO: Formateo visual del nombre de la subcategoría ---
+            const nombreSubVisual = formatearTextoVisual(subNombre);
+            liSub.innerHTML = `<i class="fas fa-caret-right"></i> ${nombreSubVisual}`;
 
             liSub.onclick = (e) => {
                 e.stopPropagation(); 
