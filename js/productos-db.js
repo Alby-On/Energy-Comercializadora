@@ -40,24 +40,37 @@ async function inicializarCatalogo() {
 }
 
 // 3. Función para renderizar el grid de productos (reutilizable)
+/**
+ * Renderizado de productos con nombres de categoría formateados
+ */
 function renderizarGrid(productos) {
     const container = document.getElementById('productos-dinamicos');
     if (!container) return;
 
+    // Limpiamos el contenedor
     container.innerHTML = '';
 
     if (!productos || productos.length === 0) {
-        container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No hay productos disponibles.</p>';
+        container.innerHTML = '<p style="text-align:center; grid-column: 1/-1; padding: 50px; color: #718096;">No hay productos disponibles en esta categoría.</p>';
         return;
     }
 
     productos.forEach(prod => {
+        // Formateo de precio
         const precioFormateado = new Intl.NumberFormat('es-CL', {
             style: 'currency',
             currency: 'CLP'
         }).format(prod.precio || 0);
 
+        // Gestión de imagen principal
         const imagenPrincipal = prod.url_imagen_1 || 'images/no-image.png';
+
+        // --- APLICACIÓN DE FORMATO VISUAL ---
+        // Limpiamos "elec_domiciliaria" -> "Elec Domiciliaria"
+        const categoriaVisual = formatearTextoVisual(prod.categoria || 'Insumo');
+        
+        // Opcional: Si quieres mostrar la subcategoría también formateada
+        const subcategoriaVisual = prod.subcategoria ? ` | ${formatearTextoVisual(prod.subcategoria)}` : '';
 
         const productCard = `
             <div class="product-card-simple">
@@ -66,8 +79,10 @@ function renderizarGrid(productos) {
                     ${(prod.stock <= 0 || prod.stock === null) ? '<span class="badge-out">A pedido</span>' : ''}
                 </div>
                 <div class="product-info-simple">
-                    <span class="cat-tag-simple">${prod.categoria || 'Insumo'}</span>
+                    <span class="cat-tag-simple">${categoriaVisual}${subcategoriaVisual}</span>
+                    
                     <h3 class="product-name-simple" title="${prod.nombre}">${prod.nombre}</h3>
+                    
                     <div class="footer-card">
                         <span class="price-simple">${precioFormateado}</span>
                         <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">
