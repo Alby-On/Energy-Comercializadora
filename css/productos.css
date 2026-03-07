@@ -241,25 +241,39 @@
     padding-bottom: 10px;
     border-bottom: 2px solid #f6ad55;
     display: inline-block;
+    font-weight: 700;
 }
 
+/* El contenedor que envuelve Padre + Hijos */
+.category-group {
+    margin-bottom: 10px;
+}
+
+/* Estilo del Padre */
 .category-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px;
-    margin-bottom: 10px;
+    padding: 12px 15px;
     border-radius: 8px;
     background-color: #ffffff;
     border: 1px solid #f1f5f9;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.category-item i:first-child {
+    margin-right: 10px;
+    color: #f6ad55;
+    width: 20px;
+    text-align: center;
 }
 
 .category-item:hover {
     background-color: #f8fafc;
-    border-color: #cbd5e0;
+    border-color: #f6ad55;
     transform: translateX(5px);
 }
 
@@ -269,18 +283,62 @@
     border-color: #2d3748;
 }
 
-/* Sub-listas con sangría clara */
+.category-item.active i:first-child {
+    color: #f6ad55;
+}
+
+/* Flecha de rotación */
+.arrow-icon {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+    color: #a0aec0;
+}
+
+.category-item.active .arrow-icon,
+.arrow-icon.rotate {
+    transform: rotate(180deg);
+    color: #f6ad55;
+}
+
+/* --- SUBCATEGORÍAS (Anidadas) --- */
 .sub-list {
-    display: none;
+    display: none; /* Controlado por JS .show */
     list-style: none;
-    padding-left: 30px;
-    margin-top: -5px;
-    margin-bottom: 15px;
-    border-left: 2px solid #e2e8f0;
+    padding-left: 20px; /* Sangría para jerarquía */
+    margin: 5px 0 10px 15px;
+    border-left: 2px solid #edf2f7;
 }
 
 .sub-list.show {
     display: block;
+}
+
+.sub-category-item {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    color: #718096;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 6px;
+    margin-bottom: 2px;
+}
+
+.sub-category-item i {
+    font-size: 0.7rem;
+    margin-right: 8px;
+    opacity: 0.5;
+}
+
+.sub-category-item:hover {
+    color: #f6ad55;
+    background-color: #fefaf6;
+    padding-left: 18px; /* Pequeño efecto de desplazamiento */
+}
+
+.sub-category-item.selected {
+    color: #2d3748;
+    font-weight: 700;
+    background-color: #f7fafc;
 }
 
 /* ================================================================
@@ -288,7 +346,6 @@
    ================================================================ */
 @media (max-width: 1100px) {
     .productos-layout {
-        /* En pantallas intermedias, ajustamos a 35/65 para no apretar el menú */
         grid-template-columns: 35% 65%;
         gap: 20px;
     }
@@ -296,7 +353,6 @@
 
 @media (max-width: 850px) {
     .productos-layout {
-        /* En móviles y tablets pequeñas, todo a una columna (100%) */
         grid-template-columns: 100%;
     }
     
@@ -305,5 +361,9 @@
         top: 0;
         margin-bottom: 40px;
         min-width: auto;
+    }
+
+    .sub-list {
+        margin-left: 10px;
     }
 }
