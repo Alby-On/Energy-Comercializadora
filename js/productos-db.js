@@ -7,14 +7,14 @@ const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 // Variable global para almacenar los productos y usarlos en los filtros
 let todosLosProductos = []; 
 
-function formatearTexto(texto) {
+function formatearTextoVisual(texto) {
     if (!texto) return '';
     return texto
-        .replace(/_/g, ' ') // Reemplaza guiones bajos por espacios
-        .toLowerCase()      // Todo a minúsculas primero
-        .split(' ')         // Divide por espacios
-        .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1)) // Capitaliza cada palabra
-        .join(' ');         // Une de nuevo
+        .replace(/_/g, ' ')
+        .toLowerCase()
+        .split(' ')
+        .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+        .join(' ');
 }
 
 // 2. Función principal de carga (Se ejecuta al abrir la página)
@@ -86,17 +86,22 @@ function generarMenuJerarquico(productos) {
     const menu = document.getElementById('menu-categorias');
     if (!menu) return;
 
+    // 1. Limpiar y añadir botón "Ver Todo"
     menu.innerHTML = `
         <li class="category-item active" id="btn-ver-todo">
             <span><i class="fas fa-layer-group"></i> Ver Todo</span>
         </li>
     `;
 
-    document.getElementById('btn-ver-todo').onclick = () => {
-        actualizarEstadoActivo(document.getElementById('btn-ver-todo'));
-        renderizarGrid(todosLosProductos);
-    };
+    const btnVerTodo = document.getElementById('btn-ver-todo');
+    if (btnVerTodo) {
+        btnVerTodo.onclick = () => {
+            actualizarEstadoActivo(btnVerTodo);
+            renderizarGrid(todosLosProductos);
+        };
+    }
 
+    // 2. Construir el Esquema único de categorías y subcategorías
     const esquema = {};
     productos.forEach(p => {
         const cat = p.categoria || 'Otros';
@@ -105,6 +110,7 @@ function generarMenuJerarquico(productos) {
         if (sub) esquema[cat].add(sub);
     });
 
+    // 3. Ordenar categorías y renderizar
     Object.keys(esquema).sort().forEach(catNombre => {
         const wrapper = document.createElement('div');
         wrapper.className = 'category-group';
@@ -112,9 +118,9 @@ function generarMenuJerarquico(productos) {
         const liPadre = document.createElement('li');
         liPadre.className = 'category-item has-sub';
         
-        // --- CAMBIO: Formateo visual del nombre del padre ---
         const nombrePadreVisual = formatearTextoVisual(catNombre);
 
+        // Selección de iconos
         let icono = 'fa-plug'; 
         const nombreMin = catNombre.toLowerCase();
         if(nombreMin.includes('herramienta')) icono = 'fa-tools';
@@ -129,9 +135,11 @@ function generarMenuJerarquico(productos) {
         const ulSub = document.createElement('ul');
         ulSub.className = 'sub-list';
 
+        // Evento click padre (Desplegar y filtrar categoría)
         liPadre.onclick = (e) => {
             e.stopPropagation();
             
+            // Estilo acordeón: cerrar otros
             document.querySelectorAll('.sub-list.show').forEach(el => {
                 if(el !== ulSub) {
                     el.classList.remove('show');
@@ -140,17 +148,19 @@ function generarMenuJerarquico(productos) {
             });
 
             toggleMenu(liPadre, ulSub);
-            // El filtro sigue usando catNombre (el valor original de DB)
             const filtrados = todosLosProductos.filter(p => p.categoria === catNombre);
             renderizarGrid(filtrados);
             actualizarEstadoActivo(liPadre);
         };
 
-        esquema[catNombre].forEach(subNombre => {
+        // 4. ORDENAR Y RENDERIZAR SUBCATEGORÍAS
+        // Convertimos el Set a Array para poder usar .sort()
+        const subCategoriasOrdenadas = Array.from(esquema[catNombre]).sort();
+
+        subCategoriasOrdenadas.forEach(subNombre => {
             const liSub = document.createElement('li');
             liSub.className = 'sub-category-item';
             
-            // --- CAMBIO: Formateo visual del nombre de la subcategoría ---
             const nombreSubVisual = formatearTextoVisual(subNombre);
             liSub.innerHTML = `<i class="fas fa-caret-right"></i> ${nombreSubVisual}`;
 
@@ -166,7 +176,10 @@ function generarMenuJerarquico(productos) {
         });
 
         wrapper.appendChild(liPadre);
-        if (esquema[catNombre].size > 0) wrapper.appendChild(ulSub);
+        // Solo agregar la lista de subcategorías si tiene elementos
+        if (subCategoriasOrdenadas.length > 0) {
+            wrapper.appendChild(ulSub);
+        }
         menu.appendChild(wrapper);
     });
 }
