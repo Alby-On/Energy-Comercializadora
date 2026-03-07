@@ -1,0 +1,193 @@
+/* ================================================================
+   SECCIÓN CONTACTO - ENERGY SPA
+   ================================================================ */
+
+/* --- ENCABEZADO --- */
+.contacto-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px;
+}
+
+.contacto-header h1 {
+    font-size: 3rem;
+    color: #1a202c;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.contacto-header p {
+    font-size: 1.1rem;
+    color: #718096;
+}
+
+/* --- WRAPPER PRINCIPAL (2 COLUMNAS) --- */
+.contacto-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+}
+
+/* --- COLUMNA IZQUIERDA: INFORMACIÓN --- */
+.contacto-info h2 {
+    font-size: 1.8rem;
+    color: #2d3748;
+    margin-bottom: 15px;
+}
+
+.contacto-info > p {
+    color: #718096;
+    margin-bottom: 40px;
+}
+
+.info-detalles {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.info-item i {
+    font-size: 1.4rem;
+    color: #f6ad55; /* Naranja Energy */
+    background: #fff8f1;
+    padding: 15px;
+    border-radius: 12px;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-item h3 {
+    font-size: 1.1rem;
+    color: #2d3748;
+    margin-bottom: 5px;
+}
+
+.info-item p {
+    color: #718096;
+    font-size: 1rem;
+}
+
+/* Redes Sociales */
+.contacto-sociales {
+    display: flex;
+    gap: 15px;
+    margin-top: 50px;
+}
+
+.contacto-sociales a {
+    width: 45px;
+    height: 45px;
+    background: #f7fafc;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.contacto-sociales a:hover {
+    background: #f6ad55;
+    color: #fff;
+    transform: translateY(-5px);
+}
+
+/* --- COLUMNA DERECHA: FORMULARIO --- */
+.contacto-formulario {
+    background: #f8fafc;
+    padding: 40px;
+    border-radius: 15px;
+}
+
+#form-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 0.95rem;
+}
+
+.input-group input, 
+.input-group select, 
+.input-group textarea {
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input:focus, 
+.input-group select:focus, 
+.input-group textarea:focus {
+    outline: none;
+    border-color: #f6ad55;
+    background: #fff;
+}
+
+/* Botón de envío */
+.btn-enviar {
+    background: #2d3748;
+    color: #fff;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-enviar:hover {
+    background: #f6ad55;
+    color: #2d3748;
+    box-shadow: 0 5px 15px rgba(246, 173, 85, 0.4);
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 992px) {
+    .contacto-wrapper {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        padding: 20px;
+    }
+    
+    .contacto-header h1 {
+        font-size: 2.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contacto-formulario {
+        padding: 20px;
+    }
+}
