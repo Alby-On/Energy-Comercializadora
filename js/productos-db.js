@@ -73,19 +73,23 @@ function generarMenuJerarquico(productos) {
     const menu = document.getElementById('menu-categorias');
     if (!menu) return;
 
-    // Limpiamos y añadimos el botón "Ver Todo"
+    // 1. Limpiamos y añadimos el botón "Ver Todo"
     menu.innerHTML = `
-        <li class="category-item active" onclick="renderizarGrid(todosLosProductos)">
+        <li class="category-item active" id="btn-ver-todo">
             <span><i class="fas fa-layer-group"></i> Ver Todo</span>
         </li>
     `;
 
-    // 1. Agrupar categorías y subcategorías únicas
-    // Estructura: { "Electricidad Domiciliaria": Set(["Cajas", "Conductores"]), ... }
+    document.getElementById('btn-ver-todo').onclick = () => {
+        actualizarEstadoActivo(document.getElementById('btn-ver-todo'));
+        renderizarGrid(todosLosProductos);
+    };
+
+    // 2. Construir el Esquema: { "Herramientas": Set(["Equipos de medición", "Manuales"]), ... }
     const esquema = {};
 
     productos.forEach(p => {
-        const cat = p.categoria || 'Sin Categoría';
+        const cat = p.categoria || 'Otros';
         const sub = p.subcategoria;
 
         if (!esquema[cat]) {
@@ -96,51 +100,59 @@ function generarMenuJerarquico(productos) {
         }
     });
 
-    // 2. Construir el HTML basado en el esquema
+    // 3. Crear el HTML basado en el esquema generado
     Object.keys(esquema).sort().forEach(catNombre => {
         const wrapper = document.createElement('div');
         wrapper.className = 'category-group';
 
-        // Botón de Categoría Padre
+        // Botón de Categoría Padre (Ej: Herramientas)
         const liPadre = document.createElement('li');
         liPadre.className = 'category-item has-sub';
+        
+        // Icono dinámico opcional (puedes personalizar según el nombre)
+        let icono = 'fa-plug'; 
+        if(catNombre.toLowerCase().includes('herramienta')) icono = 'fa-tools';
+        if(catNombre.toLowerCase().includes('iluminacion')) icono = 'fa-lightbulb';
+
         liPadre.innerHTML = `
-            <span><i class="fas fa-plug"></i> ${catNombre}</span>
+            <span><i class="fas ${icono}"></i> ${catNombre}</span>
             <i class="fas fa-chevron-down arrow-icon"></i>
         `;
 
-        // Contenedor de Subcategorías (Ul)
+        // Contenedor de Subcategorías (Equipos de medición, etc.)
         const ulSub = document.createElement('ul');
         ulSub.className = 'sub-list';
 
-        // Evento Click Padre: Filtra por categoría y despliega menú
+        // EVENTO PADRE: Desplegar y filtrar por categoría general
         liPadre.onclick = (e) => {
             e.stopPropagation();
+            
+            // Cerramos otros menús abiertos si quieres estilo "acordeón"
+            document.querySelectorAll('.sub-list.show').forEach(el => {
+                if(el !== ulSub) el.classList.remove('show');
+            });
+
             toggleMenu(liPadre, ulSub);
             
-            // Filtramos todos los productos que pertenezcan a esta categoría
             const filtrados = todosLosProductos.filter(p => p.categoria === catNombre);
             renderizarGrid(filtrados);
-            
-            // Feedback visual: marcar activo
             actualizarEstadoActivo(liPadre);
         };
 
-        // Crear los hijos (Subcategorías)
+        // Crear los ítems de Subcategoría
         esquema[catNombre].forEach(subNombre => {
             const liSub = document.createElement('li');
             liSub.className = 'sub-category-item';
-            liSub.textContent = subNombre;
+            liSub.innerHTML = `<i class="fas fa-caret-right"></i> ${subNombre}`;
 
             liSub.onclick = (e) => {
-                e.stopPropagation();
-                // Filtramos específicamente por la subcategoría
+                e.stopPropagation(); // IMPORTANTE: No activar el click del padre
+                
                 const filtrados = todosLosProductos.filter(p => 
                     p.categoria === catNombre && p.subcategoria === subNombre
                 );
-                renderizarGrid(filtrados);
                 
-                // Marcar subcategoría como seleccionada
+                renderizarGrid(filtrados);
                 actualizarEstadoSubActivo(liSub);
             };
             ulSub.appendChild(liSub);
@@ -152,21 +164,4 @@ function generarMenuJerarquico(productos) {
         }
         menu.appendChild(wrapper);
     });
-}
-
-// Funciones auxiliares de UI
-function toggleMenu(btn, lista) {
-    lista.classList.toggle('show');
-    const icon = btn.querySelector('.arrow-icon');
-    if (icon) icon.classList.toggle('rotate');
-}
-
-function actualizarEstadoActivo(elemento) {
-    document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
-    elemento.classList.add('active');
-}
-
-function actualizarEstadoSubActivo(elemento) {
-    document.querySelectorAll('.sub-category-item').forEach(el => el.classList.remove('selected'));
-    elemento.classList.add('selected');
 }
