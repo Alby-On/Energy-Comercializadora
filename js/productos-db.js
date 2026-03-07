@@ -218,7 +218,8 @@ function actualizarEstadoSubActivo(elemento) {
 
 // 6. Funciones Globales y Eventos
 window.verDetalle = (id) => {
-    console.log("Consultando detalle del producto ID:", id);
+    // Cambiamos el console.log por la redirección real
+    window.location.href = `detalle_productos.html?id=${id}`;
 };
 
 document.addEventListener('DOMContentLoaded', inicializarCatalogo);
