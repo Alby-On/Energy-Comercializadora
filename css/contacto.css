@@ -1,193 +1,171 @@
 /* ================================================================
-   SECCIÓN CONTACTO - ENERGY SPA
+   SECCIÓN CONTACTO COMPACTA - ENERGY SPA
    ================================================================ */
 
-/* --- ENCABEZADO --- */
+/* --- ENCABEZADO REDUCIDO --- */
 .contacto-header {
     text-align: center;
-    max-width: 700px;
-    margin: 0 auto 60px;
+    margin-bottom: 40px;
 }
 
 .contacto-header h1 {
-    font-size: 3rem;
+    font-size: 2.2rem;
     color: #1a202c;
-    font-weight: 800;
-    margin-bottom: 15px;
-    text-transform: uppercase;
+    margin-bottom: 10px;
 }
 
 .contacto-header p {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #718096;
 }
 
-/* --- WRAPPER PRINCIPAL (2 COLUMNAS) --- */
+/* --- CONTENEDOR PRINCIPAL COMPACTO --- */
 .contacto-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 80px;
-    background: #fff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-/* --- COLUMNA IZQUIERDA: INFORMACIÓN --- */
+/* --- LATERAL IZQUIERDO (INFO) --- */
+.contacto-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #2d3748;
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+}
+
 .contacto-info h2 {
-    font-size: 1.8rem;
-    color: #2d3748;
-    margin-bottom: 15px;
-}
-
-.contacto-info > p {
-    color: #718096;
-    margin-bottom: 40px;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #f6ad55;
 }
 
 .info-detalles {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
 }
 
 .info-item {
     display: flex;
-    align-items: flex-start;
-    gap: 20px;
+    align-items: center;
+    gap: 15px;
 }
 
 .info-item i {
-    font-size: 1.4rem;
-    color: #f6ad55; /* Naranja Energy */
-    background: #fff8f1;
-    padding: 15px;
-    border-radius: 12px;
-    width: 55px;
-    height: 55px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: #f6ad55;
+    font-size: 1.1rem;
+    width: 20px;
 }
 
 .info-item h3 {
-    font-size: 1.1rem;
-    color: #2d3748;
-    margin-bottom: 5px;
+    font-size: 0.9rem;
+    margin: 0;
+    color: #cbd5e0;
 }
 
 .info-item p {
-    color: #718096;
-    font-size: 1rem;
+    margin: 0;
+    font-size: 0.95rem;
 }
 
-/* Redes Sociales */
+/* Redes Sociales Compactas */
 .contacto-sociales {
     display: flex;
-    gap: 15px;
-    margin-top: 50px;
+    gap: 12px;
+    margin-top: 20px;
 }
 
 .contacto-sociales a {
-    width: 45px;
-    height: 45px;
-    background: #f7fafc;
-    color: #2d3748;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    text-decoration: none;
+    color: white;
+    font-size: 1.1rem;
+    transition: 0.3s;
 }
 
 .contacto-sociales a:hover {
-    background: #f6ad55;
-    color: #fff;
-    transform: translateY(-5px);
+    color: #f6ad55;
 }
 
-/* --- COLUMNA DERECHA: FORMULARIO --- */
+/* --- FORMULARIO COMPACTO --- */
 .contacto-formulario {
-    background: #f8fafc;
-    padding: 40px;
+    background: #ffffff;
+    padding: 30px;
+    border: 1px solid #edf2f7;
     border-radius: 15px;
 }
 
 #form-contacto {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Formulario en 2 columnas */
+    gap: 15px;
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
+}
+
+/* El mensaje y el botón ocupan todo el ancho */
+.input-group.full-width, .btn-enviar {
+    grid-column: 1 / span 2;
 }
 
 .input-group label {
+    font-size: 0.85rem;
     font-weight: 600;
-    color: #2d3748;
-    font-size: 0.95rem;
+    color: #4a5568;
 }
 
 .input-group input, 
 .input-group select, 
 .input-group textarea {
-    padding: 12px 15px;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.9rem;
 }
 
-.input-group input:focus, 
-.input-group select:focus, 
-.input-group textarea:focus {
-    outline: none;
-    border-color: #f6ad55;
-    background: #fff;
+.input-group textarea {
+    resize: none;
 }
 
-/* Botón de envío */
 .btn-enviar {
-    background: #2d3748;
-    color: #fff;
-    padding: 15px;
+    background: #f6ad55;
+    color: #2d3748;
+    padding: 12px;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 6px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-size: 0.85rem;
 }
 
 .btn-enviar:hover {
-    background: #f6ad55;
-    color: #2d3748;
-    box-shadow: 0 5px 15px rgba(246, 173, 85, 0.4);
+    background: #ed8936;
+    transform: translateY(-2px);
 }
 
 /* ================================================================
    RESPONSIVE
    ================================================================ */
-@media (max-width: 992px) {
+@media (max-width: 850px) {
     .contacto-wrapper {
         grid-template-columns: 1fr;
-        gap: 50px;
-        padding: 20px;
     }
     
-    .contacto-header h1 {
-        font-size: 2.3rem;
+    #form-contacto {
+        grid-template-columns: 1fr;
     }
-}
-
-@media (max-width: 480px) {
-    .contacto-formulario {
-        padding: 20px;
+    
+    .input-group.full-width, .btn-enviar {
+        grid-column: 1;
     }
 }
