@@ -104,57 +104,79 @@
 }
 
 /* DESTACADOS INDEX */
-
-.destacados-categoria {
-    padding: 60px 5%;
-    background-color: #f9f9f9;
-}
-
-.header-destacados {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.header-destacados h2 {
-    color: var(--azul-main);
-    font-size: 2.2rem;
-    position: relative;
-    padding-bottom: 15px;
-}
-
-.header-destacados h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background-color: var(--naranja-accent);
-}
-
-/* Reutilizamos o definimos el grid */
+/* --- Estilos de Card para Energy (Reutilizables) --- */
 .productos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
+    gap: 25px;
+    padding: 20px 0;
 }
 
-.btn-ver-mas {
-    display: inline-block;
-    padding: 12px 30px;
-    background-color: transparent;
-    border: 2px solid var(--azul-main);
+.producto-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Para que todas midan lo mismo */
+}
+
+.producto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.producto-img {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background-color: #f8f8f8;
+}
+
+.producto-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ajusta la imagen sin cortarla */
+    padding: 10px;
+}
+
+.producto-info {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.producto-info h3 {
+    font-size: 1.1rem;
     color: var(--azul-main);
-    text-decoration: none;
-    font-weight: 700;
-    border-radius: 5px;
-    transition: all 0.3s ease;
+    margin-bottom: 10px;
+    height: 2.4rem; /* Reserva espacio para 2 líneas de texto */
+    overflow: hidden;
 }
 
-.btn-ver-mas:hover {
+.producto-info .precio {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--naranja-accent);
+    margin-bottom: 15px;
+}
+
+.btn-agregar {
     background-color: var(--azul-main);
     color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-agregar:hover {
+    background-color: var(--naranja-accent);
 }
