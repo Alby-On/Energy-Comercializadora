@@ -1,16 +1,19 @@
 /* ================================================================
-   ESTILOS GENERALES DE LA PÁGINA NOSOTROS
+    ESTILOS GENERALES DE LA PÁGINA NOSOTROS - ENERGY
    ================================================================ */
 .nosotros-main {
     background-color: #ffffff;
     overflow-x: hidden;
-    color: #2d3748;
+    color: var(--gris-oscuro);
+    /* Ajuste para el header alto (Top Bar + Nav + Marcas) */
+    padding-top: 220px; 
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    box-sizing: border-box;
 }
 
 /* --- HERO SECTION --- */
@@ -22,8 +25,8 @@
 
 .hero-tag {
     display: inline-block;
-    background: #fff5f5;
-    color: #ed8936;
+    background: rgba(230, 126, 34, 0.1); /* Naranja Energy con opacidad */
+    color: var(--naranja-accent);
     padding: 6px 16px;
     border-radius: 20px;
     font-size: 0.85rem;
@@ -35,7 +38,7 @@
 
 .nosotros-hero-clean h1 {
     font-size: 3rem;
-    color: #1a202c;
+    color: var(--azul-main); /* Identidad corporativa */
     font-weight: 800;
     margin-bottom: 15px;
     letter-spacing: -1px;
@@ -51,7 +54,7 @@
 .hero-line-center {
     width: 60px;
     height: 4px;
-    background: #f6ad55;
+    background: var(--naranja-accent);
     margin: 0 auto;
     border-radius: 10px;
 }
@@ -62,7 +65,7 @@
 }
 
 .badge-title {
-    color: #f6ad55;
+    color: var(--naranja-accent);
     font-weight: 700;
     text-transform: uppercase;
     font-size: 0.9rem;
@@ -73,7 +76,7 @@
 .intro-grid h2 {
     font-size: 2.5rem;
     margin-bottom: 30px;
-    color: #2d3748;
+    color: var(--azul-main);
 }
 
 .text-large p {
@@ -84,7 +87,7 @@
     max-width: 900px;
 }
 
-/* --- SECCIÓN QUÉ HACEMOS (INDUSTRIAL) --- */
+/* --- SECCIÓN QUÉ HACEMOS --- */
 .que-hacemos-industrial {
     background-color: #f7fafc;
     padding: 100px 0;
@@ -106,7 +109,7 @@
 
 .feature-item i {
     font-size: 1.5rem;
-    color: #2d3748;
+    color: var(--azul-main); /* Iconos en azul */
     margin-top: 5px;
 }
 
@@ -115,26 +118,28 @@
     line-height: 1.6;
 }
 
+/* Caja de destaque azul/naranja */
 .destaque-naranja-simple {
     margin-top: 40px;
     padding: 25px;
-    background: #2d3748;
+    background: var(--azul-main);
     color: white;
     border-radius: 12px;
     display: flex;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 10px 30px rgba(45, 55, 72, 0.2);
+    box-shadow: 0 10px 30px rgba(44, 62, 80, 0.2);
+    border-left: 5px solid var(--naranja-accent);
 }
 
 .destaque-naranja-simple i {
-    color: #f6ad55;
+    color: var(--naranja-accent);
     font-size: 1.5rem;
 }
 
 /* Caja de imagen decorativa */
 .image-box-clean {
-    height: 400px;
+    height: 450px;
     background: #edf2f7;
     border-radius: 20px;
     display: flex;
@@ -142,25 +147,36 @@
     justify-content: center;
     position: relative;
     overflow: hidden;
+    border-bottom: 5px solid var(--azul-main);
 }
 
 .image-box-clean i {
     font-size: 8rem;
     color: #cbd5e0;
-    z-index: 1;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.image-box-clean:hover i {
+    transform: scale(1.1) rotate(5deg);
+    color: var(--azul-main);
 }
 
 .circle-outline {
     position: absolute;
     width: 300px;
     height: 300px;
-    border: 40px solid #e2e8f0;
+    border: 40px solid rgba(230, 126, 34, 0.05); /* Naranja muy suave */
     border-radius: 50%;
+    z-index: 1;
 }
 
 /* --- MISIÓN Y VISIÓN --- */
 .mision-vision {
     padding: 100px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
 }
 
 .card-nosotros-clean {
@@ -168,12 +184,13 @@
     background: #ffffff;
     border: 1px solid #edf2f7;
     border-radius: 15px;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .card-nosotros-clean:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    border-color: var(--naranja-accent);
 }
 
 .icon-header {
@@ -185,12 +202,13 @@
 
 .icon-header i {
     font-size: 1.8rem;
-    color: #f6ad55;
+    color: var(--naranja-accent);
 }
 
 .icon-header h3 {
     font-size: 1.5rem;
     font-weight: 700;
+    color: var(--azul-main);
 }
 
 .card-nosotros-clean p {
@@ -199,10 +217,14 @@
 }
 
 /* ================================================================
-   RESPONSIVE
+    RESPONSIVE
    ================================================================ */
 @media (max-width: 992px) {
-    .grid-dos {
+    .nosotros-main {
+        padding-top: 200px;
+    }
+
+    .grid-dos, .mision-vision {
         grid-template-columns: 1fr;
         gap: 40px;
     }
@@ -213,16 +235,20 @@
 
     .image-box-clean {
         height: 300px;
-        order: -1; /* Mueve la imagen arriba en móvil si lo deseas */
+        order: -1;
     }
 }
 
 @media (max-width: 480px) {
     .nosotros-main {
-        padding-top: 120px !important;
+        padding-top: 180px;
     }
     
     .nosotros-hero-clean {
         padding: 40px 0;
+    }
+
+    .nosotros-hero-clean h1 {
+        font-size: 1.8rem;
     }
 }
