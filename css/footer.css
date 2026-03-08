@@ -34,6 +34,7 @@
     align-items: flex-start;
     gap: 12px;
     color: #ccc;
+    line-height: 1.5;
 }
 
 .footer-section ul li i {
@@ -43,6 +44,32 @@
     text-align: center;
 }
 
+/* --- Ajustes para enlaces de contacto (Tel/Email) --- */
+.footer-section ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #ffffff;
+    padding-left: 5px;
+}
+
+/* Margen para separar horarios si están en la misma columna */
+.mt-4 {
+    margin-top: 25px;
+}
+
+/* Responsivo para centrar en móviles */
+@media (max-width: 768px) {
+    .footer-container {
+        text-align: center;
+    }
+    .footer-section ul li {
+        justify-content: center;
+    }
+}
 /* --- BOTÓN WHATSAPP FLOTANTE (RECUPERADO) --- */
 .wsp-float {
     position: fixed;
