@@ -1,3 +1,4 @@
+/* --- Estructura Base del Footer --- */
 .main-footer {
     background-color: #333333; /* Gris oscuro del logo */
     color: #ffffff;
@@ -18,8 +19,6 @@
 .footer-logo {
     max-height: 50px;
     margin-bottom: 20px;
-    /* Si el logo es oscuro, puedes usar este filtro para que se vea blanco:
-       filter: brightness(0) invert(1); */
 }
 
 .footer-section h3 {
@@ -27,8 +26,10 @@
     margin-bottom: 20px;
     font-size: 1.2rem;
     position: relative;
+    font-weight: 700;
 }
 
+/* --- Estilos de Listas y Contacto --- */
 .footer-section ul {
     list-style: none;
     padding: 0;
@@ -36,6 +37,18 @@
 
 .footer-section ul li {
     margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    line-height: 1.5;
+    color: #ccc;
+}
+
+.footer-section ul li i {
+    color: #e67e22; /* Iconos en naranja Energy */
+    margin-top: 5px;
+    width: 18px;
+    text-align: center;
 }
 
 .footer-section ul li a {
@@ -49,6 +62,11 @@
     padding-left: 5px;
 }
 
+/* Espaciado para la sección de horario */
+.mt-4 {
+    margin-top: 25px;
+}
+
 .footer-bottom {
     background-color: #222222;
     text-align: center;
@@ -59,30 +77,23 @@
 }
 
 .footer-bottom strong {
-    color: #4a7ab5; /* Azul del logo para tu marca Albyon Digital */
+    color: #4a7ab5; /* Azul Albyon Digital */
 }
 
-/* Responsivo */
-@media (max-width: 768px) {
-    .footer-container {
-        text-align: center;
-    }
-}
-/* Boton Whatsapp */
 /* --- Botón WhatsApp Flotante --- */
 .wsp-float {
     position: fixed;
     width: 60px;
     height: 60px;
-    right: 40px;  /* Eje compartido */
-    bottom: 40px; /* Posición base */
+    right: 40px;
+    bottom: 40px;
     background-color: #25d366;
     color: #FFF;
     border-radius: 50px;
     text-align: center;
     font-size: 35px;
-    box-shadow: 2px 2px 3px #999;
-    z-index: 2000; /* Por encima del header y todo el contenido */
+    box-shadow: 2px 2px 3px #0000004d;
+    z-index: 2000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -90,7 +101,6 @@
     transition: transform 0.3s;
 }
 
-/* Efecto de Pulsación (Ondas) */
 .wsp-float::before {
     content: '';
     position: absolute;
@@ -103,12 +113,8 @@
     z-index: -1;
 }
 
-.wsp-float:hover {
-    transform: scale(1.1);
-    color: #FFF;
-}
+.wsp-float:hover { transform: scale(1.1); color: #FFF; }
 
-/* Tooltip (Texto que aparece al lado) */
 .wsp-tooltip {
     position: absolute;
     right: 75px;
@@ -123,50 +129,26 @@
     transition: 0.3s;
 }
 
-.wsp-float:hover .wsp-tooltip {
-    opacity: 1;
-    visibility: visible;
-}
+.wsp-float:hover .wsp-tooltip { opacity: 1; visibility: visible; }
 
-/* Animación de la Pulsación */
 @keyframes pulse-wsp {
-    0% {
-        transform: scale(1);
-        opacity: 0.7;
-    }
-    100% {
-        transform: scale(1.6);
-        opacity: 0;
-    }
-}
-
-/* Ajuste para móviles */
-@media (max-width: 768px) {
-    .wsp-float {
-        width: 50px;
-        height: 50px;
-        bottom: 20px;
-        right: 20px;
-        font-size: 30px;
-    }
-    .wsp-tooltip {
-        display: none; /* Ocultar texto en móviles para no tapar pantalla */
-    }
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(1.6); opacity: 0; }
 }
 
 /* --- COMPONENTE CARRITO --- */
 :root {
     --cart-width: 380px;
+    --azul-main: #2c3e50; /* Definir si no están en variables globales */
+    --naranja-accent: #e67e22;
 }
 
-/* Botón Flotante */
 .cart-trigger {
     position: fixed;
     width: 60px;
     height: 60px;
-    right: 40px;  /* Eje compartido con WSP */
-    bottom: 120px; /* Espacio vertical */
-    margin: 0; 
+    right: 40px;
+    bottom: 120px; /* Sobre el botón de WSP */
     background: var(--naranja-accent);
     color: white;
     border-radius: 50%;
@@ -176,21 +158,19 @@
     font-size: 24px;
     cursor: pointer;
     z-index: 2500;
-    box-shadow: 2px 2px 3px #999;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
 }
 
-.cart-trigger:hover { transform: scale(1.1); background: #d35400; }
-
 .badge-naranja {
     position: absolute;
-    top: 0;
-    right: 0;
-    background: var(--azul-main);
+    top: -5px;
+    right: -5px;
+    background: #2c3e50;
     color: white;
-    font-size: 12px;
-    width: 24px;
-    height: 24px;
+    font-size: 11px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -199,100 +179,70 @@
     font-weight: bold;
 }
 
-/* Overlay de fondo */
+/* Sidebar y Overlay */
 .cart-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
     display: none;
     z-index: 2900;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px);
 }
-
 .cart-overlay.active { display: block; }
 
-/* Sidebar */
 .cart-main {
     position: fixed;
     top: 0;
     right: calc(var(--cart-width) * -1);
     width: var(--cart-width);
-    height: 100%;
+    height: 100vh;
     background: white;
     z-index: 3000;
     display: flex;
     flex-direction: column;
     transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
 }
-
 .cart-main.active { right: 0; }
 
-/* Header Carrito */
 .cart-header-energy {
-    background: var(--azul-main);
+    background: #2c3e50;
     color: white;
-    padding: 25px;
+    padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.header-title { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.2rem; }
-
-.close-btn { background: none; border: none; color: white; font-size: 32px; cursor: pointer; line-height: 1; }
-
-/* Contenido */
-.cart-content { flex: 1; overflow-y: auto; padding: 20px; }
-
-.cart-empty { text-align: center; margin-top: 50px; color: #cbd5e0; }
-.cart-empty i { font-size: 4rem; margin-bottom: 15px; }
-.btn-continuar { display: block; margin-top: 20px; color: var(--azul-main); text-decoration: underline; font-weight: 600; cursor: pointer; }
-
-/* Footer */
-.cart-footer-energy { padding: 25px; background: #f8f9fa; border-top: 1px solid #eee; }
-
-.total-row { display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: 800; color: var(--azul-main); margin-bottom: 10px; }
-
-.iva-notice { font-size: 0.75rem; color: #718096; margin-bottom: 20px; text-align: center; }
-
-.btn-whatsapp-confirm {
-    width: 100%;
-    background: #25D366;
-    color: white;
-    border: none;
-    padding: 16px;
-    border-radius: 8px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.btn-whatsapp-confirm:hover { background: #1ebd5b; }
-
-
+/* --- Ajustes Responsivos Finales --- */
 @media (max-width: 768px) {
+    .footer-container {
+        text-align: center;
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-section ul li {
+        justify-content: center; /* Centrar iconos y texto en móvil */
+    }
+
     .wsp-float {
-        width: 50px;
-        height: 50px;
+        width: 55px;
+        height: 55px;
         bottom: 20px;
         right: 20px;
-        font-size: 30px;
     }
 
     .cart-trigger {
-        width: 50px;
-        height: 50px;
-        right: 20px;  /* Eje compartido en móvil */
-        bottom: 85px; 
-        font-size: 20px;
+        width: 55px;
+        height: 55px;
+        right: 20px;
+        bottom: 90px;
+    }
+
+    .cart-main {
+        width: 100%;
+        right: -100%;
     }
 }
