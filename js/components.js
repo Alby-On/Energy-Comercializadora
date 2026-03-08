@@ -6,7 +6,8 @@ async function loadSharedComponents() {
     // Definimos los componentes a cargar
     const components = [
         { name: 'header', id: 'header-placeholder' },
-        { name: 'footer', id: 'footer-placeholder' }
+        { name: 'footer', id: 'footer-placeholder' },
+        { name: 'carro_compras', id: 'cart-placeholder' }
     ];
 
     for (const comp of components) {
