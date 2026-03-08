@@ -55,5 +55,6 @@ async function cargarProductosDestacados(categoria = 'iluminacion') {
 
 // Ejecutar al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    cargarProductosDestacados('iluminacion'); // Puedes cambiar 'iluminacion' por la categoría que prefieras
+    cargarProductosDestacados('iluminacion', 'productos-iluminacion-grid');
+    cargarProductosDestacados('herramientas', 'productos-herramientas-grid');
 });
