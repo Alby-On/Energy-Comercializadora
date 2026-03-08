@@ -38,3 +38,31 @@ async function loadSharedComponents() {
 
 // Iniciar la carga al abrir cualquier página
 document.addEventListener("DOMContentLoaded", loadSharedComponents);
+
+function inicializarMenuMobile() {
+    const burger = document.querySelector('.burger');
+    const nav = document.querySelector('.nav-links');
+    const navLinks = document.querySelectorAll('.nav-links li');
+
+    if (burger) {
+        burger.addEventListener('click', () => {
+            // Alternar el menú
+            nav.classList.toggle('nav-active');
+
+            // Animación de los enlaces (aparecen uno por uno)
+            navLinks.forEach((link, index) => {
+                if (link.style.animation) {
+                    link.style.animation = '';
+                } else {
+                    link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+                }
+            });
+
+            // Animación del Burger (se transforma en X)
+            burger.classList.toggle('toggle');
+        });
+    }
+}
+
+// Ejecutar al cargar el DOM
+document.addEventListener('DOMContentLoaded', inicializarMenuMobile);
