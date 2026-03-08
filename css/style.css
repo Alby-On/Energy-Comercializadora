@@ -102,6 +102,7 @@
         display: none !important;
     }
 }
+
 /* --- Ajuste específico para el Grid de Destacados --- */
 #productos-destacados-grid {
     display: grid;
@@ -116,14 +117,14 @@
 
 /* --- Ajustes Responsivos --- */
 
-/* Tablets (992px hacia abajo): 2 o 3 columnas */
+/* Tablets (1100px hacia abajo): 3 columnas */
 @media (max-width: 1100px) {
     #productos-destacados-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-/* Tablets pequeñas: 2 columnas */
+/* Tablets pequeñas (768px): 2 columnas */
 @media (max-width: 768px) {
     #productos-destacados-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -131,9 +132,58 @@
     }
 }
 
-/* Celulares (480px hacia abajo): 1 columna o 2 pequeñas */
+/* Celulares (480px hacia abajo): 1 columna */
 @media (max-width: 480px) {
     #productos-destacados-grid {
-        grid-template-columns: 1fr; /* Una card por fila para mejor lectura */
+        grid-template-columns: 1fr; 
     }
+}
+
+/* --- CENTRADO HEADER DESTACADOS --- */
+.header-destacados {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+}
+
+.header-destacados h2 {
+    color: var(--azul-main);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+}
+
+/* Línea decorativa naranja */
+.header-destacados h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 4px;
+    background-color: var(--naranja-accent);
+    border-radius: 2px;
+}
+
+.header-destacados p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+/* Centrado para el contenedor del botón Ver Más */
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.py-5 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
 }
