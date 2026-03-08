@@ -1,9 +1,8 @@
 /**
- * Carga los componentes compartidos (Header y Footer)
- * Todos los archivos HTML deben estar en la raíz del proyecto.
+ * Carga los componentes compartidos (Header, Footer y Carrito)
+ * La ruta es relativa a la carpeta /components/
  */
 async function loadSharedComponents() {
-    // Definimos los componentes a cargar
     const components = [
         { name: 'header', id: 'header-placeholder' },
         { name: 'footer', id: 'footer-placeholder' },
@@ -15,12 +14,19 @@ async function loadSharedComponents() {
         if (!container) continue;
 
         try {
-            // La ruta siempre será relativa a la raíz
             const response = await fetch(`./components/${comp.name}.html`);
             
             if (response.ok) {
                 container.innerHTML = await response.text();
                 console.log(`✅ Componente [${comp.name}] cargado correctamente.`);
+
+                // --- LÓGICA DE SINCRONIZACIÓN PARA EL CARRITO ---
+                // Si el componente que acabamos de cargar es el carrito,
+                // avisamos al sistema para que renderice los productos guardados.
+                if (comp.name === 'carro_compras') {
+                    document.dispatchEvent(new CustomEvent('cartLoaded'));
+                }
+                
             } else {
                 console.error(`❌ No se encontró el archivo: components/${comp.name}.html`);
             }
