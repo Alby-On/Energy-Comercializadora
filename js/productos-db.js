@@ -1,6 +1,6 @@
 // Variable global para almacenar los productos y usarlos en los filtros
 let todosLosProductos = []; 
-let configuracionCategorias = []; // Nueva: Almacena la estructura real de la BD
+let configuracionCategorias = []; // Almacena la estructura real de la BD
 
 function formatearTextoVisual(texto) {
     if (!texto) return '';
@@ -12,65 +12,74 @@ function formatearTextoVisual(texto) {
         .join(' ');
 }
 
-// 2. Función principal de carga mejorada
+// 2. Función principal de carga mejorada (Segura para todas las páginas)
 async function inicializarCatalogo() {
     const client = window._supabase || _supabase;
     if (!client) return;
 
     try {
-        // 1. Esto se ejecuta en TODAS las páginas (Header)
-        const { data: categorias } = await client
+        // --- PASO 1: CARGA GLOBAL (Header) ---
+        // Esto se ejecuta en TODAS las páginas donde esté el script
+        const { data: categorias, error: errCat } = await client
             .from('configuracion_catalogo')
             .select('*')
             .order('nombre_visible', { ascending: true });
 
+        if (errCat) throw errCat;
+
         if (categorias) {
-            generarMenuHeader(categorias); // ¡Adiós al "Cargando..." en Servicios!
+            configuracionCategorias = categorias;
+            generarMenuHeader(categorias); // Adiós al "Cargando..." en cualquier página
         }
 
-        // 2. Esto SOLO se ejecuta en productos.html
+        // --- PASO 2: CARGA ESPECÍFICA (Solo productos.html) ---
         const container = document.getElementById('productos-dinamicos');
         if (container) {
-            const { data: productos } = await client
+            const { data: productos, error: errProd } = await client
                 .from('productos')
-                .select('*');
+                .select('*')
+                .order('nombre', { ascending: true });
+
+            if (errProd) throw errProd;
             
             todosLosProductos = productos || [];
             
-            // Si hay menú lateral, lo llenamos
+            // Si hay menú lateral, lo llenamos con la configuración oficial
             const lateral = document.getElementById('menu-categorias');
             if (lateral) generarMenuJerarquicoDesdeConfig(categorias);
             
+            // Renderizar el grid inicial
             renderizarGrid(todosLosProductos);
             
-            // Verificar si el usuario vino desde el header con un filtro (?cat=...)
-            const params = new URLSearchParams(window.location.search);
-            const catFiltro = params.get('cat');
-            if (catFiltro) {
-                const filtrados = todosLosProductos.filter(p => p.categoria === catFiltro);
-                renderizarGrid(filtrados);
-            }
+            // Verificar si venimos desde el header filtrando por URL (?cat=...)
+            checkURLParams();
         }
     } catch (err) {
         console.error("Error en inicialización global:", err);
     }
 }
 
-// NUEVA: Genera el menú desplegable del Header
+// Genera el menú desplegable del Header (Navbar)
 function generarMenuHeader(categorias) {
     const headerMenu = document.getElementById('header-menu-dinamico');
     if (!headerMenu) return;
 
     headerMenu.innerHTML = '';
+    
+    if (categorias.length === 0) {
+        headerMenu.innerHTML = '<li><a href="#">Próximamente</a></li>';
+        return;
+    }
+
     categorias.forEach(cat => {
         const li = document.createElement('li');
-        // Redirige a productos.html pasándole la categoría por URL si es necesario
+        // Redirige a productos.html pasándole la categoría por URL
         li.innerHTML = `<a href="productos.html?cat=${cat.categoria}">${cat.nombre_visible}</a>`;
         headerMenu.appendChild(li);
     });
 }
 
-// MODIFICADA: Ahora usa la configuración oficial de la BD
+// Genera el menú lateral (Acordeón) en productos.html
 function generarMenuJerarquicoDesdeConfig(categorias) {
     const menu = document.getElementById('menu-categorias');
     if (!menu) return;
@@ -93,7 +102,7 @@ function generarMenuJerarquicoDesdeConfig(categorias) {
         const liPadre = document.createElement('li');
         liPadre.className = 'category-item has-sub';
         
-        // Lógica de iconos (puedes expandirla)
+        // Lógica de iconos
         let icono = 'fa-plug';
         const nombreMin = cat.categoria.toLowerCase();
         if(nombreMin.includes('herramienta')) icono = 'fa-tools';
@@ -110,7 +119,7 @@ function generarMenuJerarquicoDesdeConfig(categorias) {
 
         liPadre.onclick = (e) => {
             e.stopPropagation();
-            // Acordeón
+            // Cerrar otros acordeones
             document.querySelectorAll('.sub-list.show').forEach(el => {
                 if(el !== ulSub) {
                     el.classList.remove('show');
@@ -119,13 +128,11 @@ function generarMenuJerarquicoDesdeConfig(categorias) {
             });
             toggleMenu(liPadre, ulSub);
             
-            // Filtrar productos por el ID de categoría de la BD
             const filtrados = todosLosProductos.filter(p => p.categoria === cat.categoria);
             renderizarGrid(filtrados);
             actualizarEstadoActivo(liPadre);
         };
 
-        // Renderizar subcategorías reales de la configuración
         cat.subcategorias.forEach(subNombre => {
             const liSub = document.createElement('li');
             liSub.className = 'sub-category-item';
@@ -148,7 +155,7 @@ function generarMenuJerarquicoDesdeConfig(categorias) {
     });
 }
 
-// 3. Función para renderizar el grid (Se mantiene igual a tu lógica)
+// Renderiza los productos en el Grid
 function renderizarGrid(productos) {
     const container = document.getElementById('productos-dinamicos');
     if (!container) return;
@@ -167,7 +174,6 @@ function renderizarGrid(productos) {
 
         const imagenPrincipal = prod.url_imagen_1 || 'images/no-image.png';
         
-        // Para el tag visual, intentamos buscar el nombre lindo en la configuración
         const conf = configuracionCategorias.find(c => c.categoria === prod.categoria);
         const categoriaVisual = conf ? conf.nombre_visible : formatearTextoVisual(prod.categoria);
         const subcategoriaVisual = prod.subcategoria ? ` | ${prod.subcategoria}` : '';
@@ -192,7 +198,28 @@ function renderizarGrid(productos) {
     });
 }
 
-// Auxiliares de Interfaz
+// Captura el parámetro ?cat= de la URL para filtrar al cargar la página
+function checkURLParams() {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('cat');
+    if (cat && todosLosProductos.length > 0) {
+        const filtrados = todosLosProductos.filter(p => p.categoria === cat);
+        renderizarGrid(filtrados);
+        
+        // Marcar visualmente la categoría en el menú lateral si existe
+        setTimeout(() => {
+            const items = document.querySelectorAll('.category-item span');
+            items.forEach(span => {
+                const conf = configuracionCategorias.find(c => c.categoria === cat);
+                if (conf && span.innerText.includes(conf.nombre_visible)) {
+                    actualizarEstadoActivo(span.parentElement);
+                }
+            });
+        }, 500);
+    }
+}
+
+// Auxiliares de interfaz
 function toggleMenu(btn, lista) {
     lista.classList.toggle('show');
     const icon = btn.querySelector('.arrow-icon');
@@ -214,12 +241,3 @@ window.verDetalle = (id) => {
 };
 
 document.addEventListener('DOMContentLoaded', inicializarCatalogo);
-function checkURLParams() {
-    const params = new URLSearchParams(window.location.search);
-    const cat = params.get('cat');
-    if (cat && todosLosProductos.length > 0) {
-        const filtrados = todosLosProductos.filter(p => p.categoria === cat);
-        renderizarGrid(filtrados);
-        // Opcional: marcar como activo en el menú lateral
-    }
-}
