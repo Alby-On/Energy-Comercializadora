@@ -48,17 +48,18 @@ function eliminarDelCarrito(id) {
  * Guarda los cambios y refresca el contador (Badge) y la lista visual
  */
 function actualizarInterfaz() {
-    localStorage.setItem('energy_cart', JSON.stringify(carrito));
+    // Re-leer el carrito para asegurar que tenemos lo último
+    carrito = JSON.parse(localStorage.getItem('energy_cart')) || [];
     
-    // Actualizar el circulito naranja del botón flotante
+    // 1. Actualizar el contador (Badge)
     const badge = document.getElementById('cart-badge');
     const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
-    
     if (badge) {
         badge.innerText = totalItems;
         badge.style.display = totalItems > 0 ? 'flex' : 'none';
     }
 
+    // 2. Dibujar la lista
     renderizarLista();
 }
 
