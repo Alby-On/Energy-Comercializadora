@@ -85,7 +85,7 @@ header {
     display: block;
 }
 
-/* --- Navegación y Dropdown --- */
+/* --- Navegación y Dropdown (Escritorio) --- */
 .nav-links {
     display: flex;
     list-style: none;
@@ -126,7 +126,7 @@ header {
     top: 100%;
     left: 0;
     border-radius: 4px;
-    border-top: 3px solid var(--naranja-accent); /* Detalle naranja arriba */
+    border-top: 3px solid var(--naranja-accent);
     list-style: none;
     padding: 10px 0;
     opacity: 0;
@@ -134,31 +134,23 @@ header {
     transition: all 0.3s ease;
 }
 
-/* Mostrar con animación */
 .dropdown:hover .dropdown-content { 
     display: block; 
     opacity: 1;
     transform: translateY(0);
 }
 
-.dropdown-content li {
-    padding: 0; /* Reset padding para que el link ocupe todo el ancho */
-}
-
 .dropdown-content li a {
     color: #333;
     padding: 12px 20px;
-    text-decoration: none;
     display: block;
-    font-weight: 500;
-    font-size: 0.9rem;
     transition: background 0.2s;
 }
 
 .dropdown-content li a:hover { 
     background-color: #f8f9fa; 
     color: var(--azul-main);
-    padding-left: 25px; /* Efecto de desplazamiento al hover */
+    padding-left: 25px;
 }
 
 .dropbtn i {
@@ -184,13 +176,28 @@ header {
     color: white !important;
     padding: 10px 22px;
     border-radius: 5px;
-    text-decoration: none;
     font-weight: 600;
     transition: background 0.3s;
 }
 
 .btn-contacto:hover {
     background-color: #d35400; 
+}
+
+/* --- Burger Icon --- */
+.burger {
+    display: none; 
+    cursor: pointer;
+    margin-left: 20px;
+    z-index: 1100;
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: var(--azul-main);
+    margin: 5px;
+    transition: all 0.3s ease;
 }
 
 /* --- Carrusel de Marcas --- */
@@ -212,15 +219,6 @@ header {
     animation: scroll-marcas 35s linear infinite;
 }
 
-.slide {
-    width: 200px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
 .slide img {
     max-width: 150px;
     max-height: 50px;
@@ -228,43 +226,58 @@ header {
     transition: transform 0.3s ease;
 }
 
-.slide img:hover {
-    transform: scale(1.15);
-}
-
 @keyframes scroll-marcas {
     0% { transform: translateX(0); }
     100% { transform: translateX(-2200px); }
 }
 
-.slider-track:hover {
-    animation-play-state: paused;
+/* --- Animaciones de Entrada links Mobile --- */
+@keyframes navLinkFade {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
-/* --- Menú Mobile (Burger) --- */
-.burger {
-    display: none; 
-    cursor: pointer;
-    margin-left: 20px;
-}
-
-.burger div {
-    width: 25px;
-    height: 3px;
-    background-color: var(--azul-main);
-    margin: 5px;
-    transition: all 0.3s ease;
-}
-
-/* --- Ajustes Responsive --- */
+/* --- AJUSTES RESPONSIVE (MÓVIL) --- */
 @media (max-width: 992px) {
     .hide-mobile {
         display: none;
     }
+
     .burger {
-        display: block;
+        display: block; /* Aparece el icono burger */
     }
-    /* El nav-links se ocultará usualmente con una clase 'nav-active' que activarás con JS */
+
+    .nav-links {
+        position: absolute;
+        right: 0px;
+        height: 92vh;
+        top: 80px;
+        background-color: var(--blanco);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%; 
+        transform: translateX(100%); /* Oculto por defecto */
+        transition: transform 0.5s ease-in;
+        box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+        padding-top: 50px;
+        z-index: 1050;
+    }
+
+    /* Estado cuando el menú se abre (Activado por JS) */
+    .nav-links.nav-active {
+        transform: translateX(0%);
+    }
+
+    .nav-links li {
+        opacity: 0; /* JS le dará animación para que aparezcan */
+        margin: 20px 0;
+    }
+
+    /* Transformación del Burger a X (Activado por JS) */
+    .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+    .toggle .line2 { opacity: 0; }
+    .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
 }
 
 @media (max-width: 480px) {
@@ -276,41 +289,7 @@ header {
         border-left: none;
         padding-left: 0;
     }
-}
-/* --- Animaciones de Entrada para los Li --- */
-@keyframes navLinkFade {
-    from { opacity: 0; transform: translateX(50px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@media (max-width: 992px) {
     .nav-links {
-        position: absolute;
-        right: 0px;
-        height: 92vh;
-        top: 80px; /* Debajo del navbar */
-        background-color: var(--blanco);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 70%; /* Ocupa el 70% del ancho */
-        transform: translateX(100%); /* Oculto a la derecha */
-        transition: transform 0.5s ease-in;
-        box-shadow: -4px 0 10px rgba(0,0,0,0.1);
-        padding-top: 50px;
+        width: 100%; /* Ocupa todo el ancho en celulares pequeños */
     }
-
-    .nav-links li {
-        opacity: 0;
-        margin: 20px 0;
-    }
-
-    .nav-active {
-        transform: translateX(0%); /* Aparece */
-    }
-
-    /* Transformación a X */
-    .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
-    .toggle .line2 { opacity: 0; }
-    .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
 }
