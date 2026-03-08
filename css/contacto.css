@@ -2,6 +2,11 @@
    SECCIÓN CONTACTO COMPACTA - ENERGY SPA
    ================================================================ */
 
+.contacto-main {
+    padding-top: 220px; /* Ajuste para el nuevo header alto */
+    padding-bottom: 80px;
+}
+
 /* --- ENCABEZADO REDUCIDO --- */
 .contacto-header {
     text-align: center;
@@ -10,7 +15,7 @@
 
 .contacto-header h1 {
     font-size: 2.2rem;
-    color: #1a202c;
+    color: var(--azul-main); /* Azul Corporativo */
     margin-bottom: 10px;
 }
 
@@ -26,6 +31,7 @@
     gap: 30px;
     max-width: 1000px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 /* --- LATERAL IZQUIERDO (INFO) --- */
@@ -33,7 +39,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: #2d3748;
+    background: var(--azul-main); /* Cambio de Gris a Azul Corporativo */
     color: white;
     padding: 30px;
     border-radius: 15px;
@@ -42,7 +48,7 @@
 .contacto-info h2 {
     font-size: 1.4rem;
     margin-bottom: 20px;
-    color: #f6ad55;
+    color: var(--naranja-accent); /* Naranja Energy */
 }
 
 .info-detalles {
@@ -58,7 +64,7 @@
 }
 
 .info-item i {
-    color: #f6ad55;
+    color: var(--naranja-accent); /* Iconos en Naranja */
     font-size: 1.1rem;
     width: 20px;
 }
@@ -88,7 +94,7 @@
 }
 
 .contacto-sociales a:hover {
-    color: #f6ad55;
+    color: var(--naranja-accent);
 }
 
 /* --- FORMULARIO COMPACTO --- */
@@ -101,7 +107,7 @@
 
 #form-contacto {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Formulario en 2 columnas */
+    grid-template-columns: 1fr 1fr; 
     gap: 15px;
 }
 
@@ -111,7 +117,6 @@
     gap: 5px;
 }
 
-/* El mensaje y el botón ocupan todo el ancho */
 .input-group.full-width, .btn-enviar {
     grid-column: 1 / span 2;
 }
@@ -131,13 +136,20 @@
     font-size: 0.9rem;
 }
 
+.input-group input:focus, 
+.input-group textarea:focus {
+    outline: none;
+    border-color: var(--azul-main);
+    box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+}
+
 .input-group textarea {
     resize: none;
 }
 
 .btn-enviar {
-    background: #f6ad55;
-    color: #2d3748;
+    background: var(--naranja-accent); /* Botón Naranja */
+    color: white; /* Texto blanco para mejor contraste */
     padding: 12px;
     border: none;
     border-radius: 6px;
@@ -149,7 +161,7 @@
 }
 
 .btn-enviar:hover {
-    background: #ed8936;
+    background: #d35400; /* Naranja más oscuro */
     transform: translateY(-2px);
 }
 
@@ -157,6 +169,10 @@
    RESPONSIVE
    ================================================================ */
 @media (max-width: 850px) {
+    .contacto-main {
+        padding-top: 180px;
+    }
+
     .contacto-wrapper {
         grid-template-columns: 1fr;
     }
