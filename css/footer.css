@@ -74,8 +74,8 @@
     position: fixed;
     width: 60px;
     height: 60px;
-    bottom: 40px;
-    right: 40px;
+    right: 40px;  /* Eje compartido */
+    bottom: 40px; /* Posición base */
     background-color: #25d366;
     color: #FFF;
     border-radius: 50px;
@@ -162,12 +162,12 @@
 /* Botón Flotante */
 .cart-trigger {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 120px; /* Elevación para quedar arriba de WhatsApp */
+    right: 40px;  /* Mismo eje que WhatsApp */
     background: var(--naranja-accent);
     color: white;
-    width: 65px;
-    height: 65px;
+    width: 60px;  /* Igualamos el ancho */
+    height: 60px; /* Igualamos el alto */
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -284,4 +284,23 @@
 .cart-trigger {
     right: 30px;
     bottom: 110px; /* Lo subimos para que no tape al de WhatsApp que suele estar en bottom: 30px */
+}
+@media (max-width: 768px) {
+    /* 1. Ajuste WhatsApp en móvil */
+    .wsp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px; 
+        font-size: 30px; /* Reducimos el icono para que quepa bien */
+    }
+
+    /* 2. Ajuste Carrito en móvil */
+    .cart-trigger {
+        width: 50px;
+        height: 50px;
+        right: 20px;  /* Mismo eje que wsp */
+        bottom: 85px; /* 20px base + 50px wsp + 15px de separación */
+        font-size: 20px; /* Reducimos el icono */
+    }
 }
