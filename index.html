@@ -30,17 +30,23 @@
     </div>
     </section>
     <div id="footer-placeholder"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script src="js/supabase.js"></script> 
+    <script src="js/productos-db.js"></script>
+    <script src="js/components.js"></script>
+
     <script>
+    // Se ejecuta solo cuando todo lo anterior (librería + html) está listo
+    window.onload = function() {
         const swiper = new Swiper('.hero-slider', {
             loop: true,
-            speed: 800,
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false,
-            },
             effect: 'fade',
-            fadeEffect: {
-                crossFade: true
+            speed: 1000,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
             },
             pagination: {
                 el: '.swiper-pagination',
@@ -51,13 +57,8 @@
                 prevEl: '.swiper-button-prev',
             },
         });
+        console.log("Swiper inicializado correctamente");
+    };
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="js/supabase.js"></script> 
-
-    <script src="js/productos-db.js"></script>
-
-    <script src="js/components.js"></script>
     </body>
 </html>
