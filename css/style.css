@@ -102,4 +102,38 @@
         display: none !important;
     }
 }
+/* --- Ajuste específico para el Grid de Destacados --- */
+#productos-destacados-grid {
+    display: grid;
+    /* Forzamos 4 columnas de igual tamaño en escritorio */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 25px; /* Espacio entre las tarjetas */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
 
+/* --- Ajustes Responsivos --- */
+
+/* Tablets (992px hacia abajo): 2 o 3 columnas */
+@media (max-width: 1100px) {
+    #productos-destacados-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Tablets pequeñas: 2 columnas */
+@media (max-width: 768px) {
+    #productos-destacados-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+/* Celulares (480px hacia abajo): 1 columna o 2 pequeñas */
+@media (max-width: 480px) {
+    #productos-destacados-grid {
+        grid-template-columns: 1fr; /* Una card por fila para mejor lectura */
+    }
+}
