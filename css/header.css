@@ -9,165 +9,9 @@ header {
     display: flex;
     flex-direction: column; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    /* Solo agregué este borde sutil arriba para identidad */
     border-top: 3px solid var(--azul-main); 
 }
 
-/* --- Navbar --- */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.8rem 5%;
-    background-color: var(--blanco);
-    height: 80px; 
-}
-
-.logo {
-    flex: 1; 
-    display: flex;
-    align-items: center;
-}
-
-.logo img {
-    height: 50px;
-    display: block;
-}
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    flex: 2; 
-    justify-content: center; 
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links li {
-    padding: 0 15px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--gris-oscuro);
-    font-weight: 600;
-    transition: color 0.3s;
-    white-space: nowrap;
-}
-
-.nav-links a:hover {
-    color: var(--azul-main); /* Uso de color corporativo */
-}
-
-.nav-actions {
-    flex: 1; 
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.btn-contacto {
-    background-color: var(--naranja-accent); /* Color corporativo */
-    color: white !important;
-    padding: 10px 22px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background 0.3s;
-}
-
-.btn-contacto:hover {
-    background-color: #d35400; 
-}
-
-/* Dropdown */
-.dropdown { position: relative; display: inline-block; }
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #ffffff;
-    min-width: 200px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1000;
-    border-radius: 4px;
-    list-style: none;
-    padding: 10px 0;
-}
-
-.dropdown-content li a {
-    color: #333;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content li a:hover { 
-    background-color: #f1f1f1; 
-    color: var(--azul-main); /* Cambio a color corporativo */
-}
-
-.dropdown:hover .dropdown-content { display: block; }
-
-/* --- Carrusel de Marcas --- */
-.galeria-infinita {
-    background: #ffffff;
-    border-top: 1px solid #eee; 
-    border-bottom: 3px solid var(--naranja-accent); /* Color corporativo Energy */
-    height: 85px;
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.slider-track {
-    display: flex;
-    width: 4400px; 
-    animation: scroll-marcas 35s linear infinite;
-}
-
-.slide {
-    width: 200px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.slide img {
-    max-width: 150px;
-    max-height: 50px;
-    object-fit: contain;
-    filter: none; 
-    opacity: 1;
-    transition: transform 0.3s ease;
-}
-
-.slide img:hover {
-    transform: scale(1.15);
-}
-
-/* --- Animación --- */
-@keyframes scroll-marcas {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-2200px);
-    }
-}
-
-.slider-track:hover {
-    animation-play-state: paused;
-}
-
-.burger {
-    display: none; 
-    margin-left: 20px;
-}
 /* --- Top Bar Principal --- */
 .top-bar {
     background-color: var(--azul-main);
@@ -198,10 +42,9 @@ header {
 }
 
 .top-item i {
-    color: var(--naranja-accent); /* Iconos de contacto en naranja */
+    color: var(--naranja-accent);
 }
 
-/* --- Redes Sociales en Top Bar --- */
 .top-socials {
     display: flex;
     gap: 15px;
@@ -221,11 +64,207 @@ header {
     transform: translateY(-2px);
 }
 
+/* --- Navbar --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 5%;
+    background-color: var(--blanco);
+    height: 80px; 
+}
+
+.logo {
+    flex: 1; 
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px;
+    display: block;
+}
+
+/* --- Navegación y Dropdown --- */
+.nav-links {
+    display: flex;
+    list-style: none;
+    flex: 2; 
+    justify-content: center; 
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    padding: 0 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--gris-oscuro);
+    font-weight: 600;
+    transition: color 0.3s;
+    white-space: nowrap;
+}
+
+.nav-links a:hover {
+    color: var(--azul-main);
+}
+
+/* Estilos Específicos Dropdown */
+.dropdown { 
+    position: relative; 
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 220px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+    z-index: 2000;
+    top: 100%;
+    left: 0;
+    border-radius: 4px;
+    border-top: 3px solid var(--naranja-accent); /* Detalle naranja arriba */
+    list-style: none;
+    padding: 10px 0;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+/* Mostrar con animación */
+.dropdown:hover .dropdown-content { 
+    display: block; 
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-content li {
+    padding: 0; /* Reset padding para que el link ocupe todo el ancho */
+}
+
+.dropdown-content li a {
+    color: #333;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.dropdown-content li a:hover { 
+    background-color: #f8f9fa; 
+    color: var(--azul-main);
+    padding-left: 25px; /* Efecto de desplazamiento al hover */
+}
+
+.dropbtn i {
+    font-size: 0.7rem;
+    margin-left: 5px;
+    transition: transform 0.3s;
+}
+
+.dropdown:hover .dropbtn i {
+    transform: rotate(180deg);
+}
+
+/* --- Acciones --- */
+.nav-actions {
+    flex: 1; 
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.btn-contacto {
+    background-color: var(--naranja-accent);
+    color: white !important;
+    padding: 10px 22px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-contacto:hover {
+    background-color: #d35400; 
+}
+
+/* --- Carrusel de Marcas --- */
+.galeria-infinita {
+    background: #ffffff;
+    border-top: 1px solid #eee; 
+    border-bottom: 3px solid var(--naranja-accent);
+    height: 85px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.slider-track {
+    display: flex;
+    width: 4400px; 
+    animation: scroll-marcas 35s linear infinite;
+}
+
+.slide {
+    width: 200px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.slide img {
+    max-width: 150px;
+    max-height: 50px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.slide img:hover {
+    transform: scale(1.15);
+}
+
+@keyframes scroll-marcas {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-2200px); }
+}
+
+.slider-track:hover {
+    animation-play-state: paused;
+}
+
+/* --- Menú Mobile (Burger) --- */
+.burger {
+    display: none; 
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: var(--azul-main);
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
 /* --- Ajustes Responsive --- */
 @media (max-width: 992px) {
     .hide-mobile {
-        display: none; /* Oculta dirección y horario en pantallas pequeñas */
+        display: none;
     }
+    .burger {
+        display: block;
+    }
+    /* El nav-links se ocultará usualmente con una clase 'nav-active' que activarás con JS */
 }
 
 @media (max-width: 480px) {
