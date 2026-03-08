@@ -2,6 +2,9 @@
 const urlParams = new URLSearchParams(window.location.search);
 const productoId = urlParams.get('id');
 
+// Variable global para almacenar el producto cargado y usarlo al agregar al carrito
+let productoActual = null;
+
 async function cargarDetalle() {
     if (!productoId) return;
 
@@ -16,6 +19,9 @@ async function cargarDetalle() {
         return;
     }
 
+    // Guardamos los datos necesarios en la variable global
+    productoActual = prod;
+
     // 1. Llenar textos informativos
     document.getElementById('det-nombre').textContent = prod.nombre;
     document.getElementById('det-descripcion').textContent = prod.descripcion || 'Sin descripción disponible.';
@@ -28,28 +34,22 @@ async function cargarDetalle() {
     const imgPrincipal = document.getElementById('img-principal');
     const thumbContainer = document.getElementById('thumbnails');
     
-    // Filtramos para obtener solo las imágenes que existen y no son nulas/vacías
     const imagenesDisponibles = [prod.url_imagen_1, prod.url_imagen_2, prod.url_imagen_3]
         .filter(url => url && url.trim() !== "");
 
-    // Limpiamos el contenedor de miniaturas
     thumbContainer.innerHTML = '';
 
     if (imagenesDisponibles.length > 0) {
-        // Establecemos la primera imagen válida como principal
         imgPrincipal.src = imagenesDisponibles[0];
         
-        // Creamos las miniaturas solo para las imágenes que existen
         imagenesDisponibles.forEach((url, index) => {
             const imgThumb = document.createElement('img');
             imgThumb.src = url;
             imgThumb.alt = `Miniatura ${index + 1}`;
             imgThumb.className = `thumb-item ${index === 0 ? 'active' : ''}`;
             
-            // Evento para cambiar la imagen principal al hacer clic
             imgThumb.onclick = () => {
                 imgPrincipal.src = url;
-                // Actualizar estado visual de la miniatura activa
                 document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
                 imgThumb.classList.add('active');
             };
@@ -57,17 +57,51 @@ async function cargarDetalle() {
             thumbContainer.appendChild(imgThumb);
         });
     } else {
-        // Imagen por defecto si la base de datos no tiene ninguna URL
         imgPrincipal.src = 'images/no-image.png';
     }
 }
 
-// Función global para el selector de cantidad
+// --- LÓGICA DE COMPRA ---
+
+// Función para el selector de cantidad
 window.cambiarCantidad = (valor) => {
     const input = document.getElementById('input-cantidad');
+    if (!input) return;
     let nuevaCant = parseInt(input.value) + valor;
     if (nuevaCant >= 1) {
         input.value = nuevaCant;
+    }
+};
+
+// Función para enviar al carrito global
+window.prepararAgregado = () => {
+    if (!productoActual) {
+        console.error("No hay datos del producto para agregar.");
+        return;
+    }
+
+    const inputCant = document.getElementById('input-cantidad');
+    const cantidad = parseInt(inputCant.value) || 1;
+
+    // Usamos la función global que definimos en carrito.js
+    // Pasamos: id, nombre, precio y la cantidad seleccionada
+    if (typeof agregarAlCarrito === 'function') {
+        agregarAlCarrito(
+            productoActual.id, 
+            productoActual.nombre, 
+            productoActual.precio, 
+            cantidad
+        );
+        
+        // Feedback visual: opcionalmente reseteamos el contador a 1
+        inputCant.value = 1;
+        
+        // Abrir el carrito para confirmar la acción
+        if (typeof toggleCart === 'function') {
+            toggleCart();
+        }
+    } else {
+        console.error("La función agregarAlCarrito no está disponible. Revisa que carrito.js esté cargado.");
     }
 };
 
