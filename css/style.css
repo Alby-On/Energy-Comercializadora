@@ -144,6 +144,10 @@
     text-align: center;
     max-width: 800px;
     margin: 0 auto 50px auto;
+    /* Asegura que el contenido interno también se alinee al centro */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .header-destacados h2 {
@@ -174,9 +178,20 @@
     margin-top: 10px;
 }
 
+/* --- Ajuste para asegurar que el Grid esté centrado --- */
+.productos-grid {
+    display: grid;
+    justify-content: center; /* Centra las cards si no llenan el ancho total */
+    justify-items: center;   /* Centra el contenido dentro de cada celda */
+    margin: 0 auto;
+}
+
 /* Centrado para el contenedor del botón Ver Más */
 .text-center {
     text-align: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .mt-4 {
