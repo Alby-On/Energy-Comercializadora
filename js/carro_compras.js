@@ -67,12 +67,17 @@ function actualizarInterfaz() {
 /**
  * Dibuja los productos dentro del sidebar lateral
  */
+/**
+ * Dibuja los productos dentro del sidebar lateral
+ */
 function renderizarLista() {
     const listaContenedor = document.getElementById('cart-items-list');
     const totalContenedor = document.getElementById('cart-total-val');
     
+    // 1. Verificación de existencia para evitar errores en consola
     if (!listaContenedor || !totalContenedor) return;
 
+    // 2. Si el carrito está vacío, limpiamos ambos contenedores y salimos
     if (carrito.length === 0) {
         listaContenedor.innerHTML = `
             <div class="cart-empty">
@@ -83,8 +88,9 @@ function renderizarLista() {
         return;
     }
 
+    // 3. Calculamos y generamos el HTML en una sola pasada
     let sumaTotal = 0;
-    listaContenedor.innerHTML = carrito.map(item => {
+    const htmlFinal = carrito.map(item => {
         const subtotal = item.precio * item.cantidad;
         sumaTotal += subtotal;
         
@@ -99,8 +105,10 @@ function renderizarLista() {
                 </button>
             </div>
         `;
-    }).join('');
+    }).join(''); // El .join('') es vital para que no aparezcan comas entre items
 
+    // 4. INSERCIÓN ÚNICA: Esto sobreescribe cualquier contenido previo, eliminando el doble total
+    listaContenedor.innerHTML = htmlFinal;
     totalContenedor.innerText = `$${sumaTotal.toLocaleString('es-CL')}`;
 }
 
