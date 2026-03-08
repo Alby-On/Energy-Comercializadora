@@ -231,3 +231,7 @@
 @media (max-width: 480px) {
     :root { --cart-width: 100%; }
 }
+.cart-trigger {
+    right: 30px;
+    bottom: 110px; /* Lo subimos para que no tape al de WhatsApp que suele estar en bottom: 30px */
+}
