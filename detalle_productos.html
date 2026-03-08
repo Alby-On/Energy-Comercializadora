@@ -33,13 +33,13 @@
             <p id="det-precio" class="precio-detalle">$0</p>
 
             <div class="controles-compra">
-                <div class="selector-cantidad">
-                    <button onclick="cambiarCantidad(-1)">-</button>
-                    <input type="number" id="input-cantidad" value="1" min="1">
-                    <button onclick="cambiarCantidad(1)">+</button>
-                </div>
-                <button class="btn-agregar-carrito">
-                    <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+            <div class="selector-cantidad">
+                <button onclick="cambiarCantidad(-1)">-</button>
+                <input type="number" id="input-cantidad" value="1" min="1" readonly>
+                <button onclick="cambiarCantidad(1)">+</button>
+            </div>
+                <button class="btn-agregar-carrito" onclick="prepararAgregado()">
+            <i class="fas fa-shopping-cart"></i> Agregar al Carrito
                 </button>
             </div>
 
