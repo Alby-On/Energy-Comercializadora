@@ -216,3 +216,12 @@ window.verDetalle = (id) => {
 };
 
 document.addEventListener('DOMContentLoaded', inicializarCatalogo);
+function checkURLParams() {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('cat');
+    if (cat && todosLosProductos.length > 0) {
+        const filtrados = todosLosProductos.filter(p => p.categoria === cat);
+        renderizarGrid(filtrados);
+        // Opcional: marcar como activo en el menú lateral
+    }
+}
