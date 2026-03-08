@@ -2,6 +2,16 @@
    SECCIÓN SERVICIOS - ENERGY SPA
    ================================================================ */
 
+/* --- CONTENEDOR PRINCIPAL (Ancho controlado) --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /* --- ENCABEZADO DE SECCIÓN --- */
 .servicios-header {
     text-align: center;
@@ -11,7 +21,7 @@
 
 .servicios-header h1 {
     font-size: 2.8rem;
-    color: #1a202c;
+    color: var(--gris-oscuro);
     font-weight: 800;
     margin-bottom: 15px;
     text-transform: uppercase;
@@ -26,7 +36,7 @@
 .linea-decorativa {
     width: 70px;
     height: 5px;
-    background: #f6ad55;
+    background: var(--naranja-accent); /* Color Energy */
     margin: 25px auto 0;
     border-radius: 10px;
 }
@@ -35,7 +45,7 @@
 .servicios-grid-main {
     display: flex;
     flex-direction: column;
-    gap: 100px; /* Espacio entre cada servicio */
+    gap: 100px; 
 }
 
 .servicio-item {
@@ -45,13 +55,13 @@
     align-items: center;
 }
 
-/* Clase para invertir el orden (Imagen a la derecha) */
+/* Clase para invertir el orden */
 .servicio-item.reverse {
-    direction: rtl; /* Invierte el orden de las columnas */
+    direction: rtl; 
 }
 
 .servicio-item.reverse .servicio-text {
-    direction: ltr; /* Devuelve el texto a su dirección normal */
+    direction: ltr; 
 }
 
 /* --- CAJAS DE ICONO/IMAGEN --- */
@@ -75,33 +85,33 @@
     z-index: 2;
 }
 
-/* Efecto decorativo de fondo en la caja de imagen */
+/* Efecto decorativo de fondo */
 .servicio-img-box::before {
     content: '';
     position: absolute;
     width: 250px;
     height: 250px;
-    background: #f6ad55;
+    background: var(--naranja-accent);
     opacity: 0.05;
     border-radius: 50%;
     z-index: 1;
 }
 
 .servicio-item:hover .servicio-img-box {
-    border-color: #f6ad55;
+    border-color: var(--naranja-accent);
     background: #ffffff;
     box-shadow: 0 20px 40px rgba(0,0,0,0.05);
 }
 
 .servicio-item:hover .servicio-img-box i {
-    color: #f6ad55;
+    color: var(--azul-main); /* Cambia a azul al pasar el mouse */
     transform: scale(1.1);
 }
 
 /* --- CONTENIDO DE TEXTO --- */
 .servicio-text h2 {
     font-size: 2.2rem;
-    color: #2d3748;
+    color: var(--gris-oscuro);
     margin-bottom: 20px;
     font-weight: 700;
 }
@@ -130,7 +140,7 @@
 }
 
 .check-list li i {
-    color: #f6ad55; /* Color energía */
+    color: var(--naranja-accent); 
     font-size: 1.2rem;
 }
 
@@ -138,27 +148,42 @@
    RESPONSIVE
    ================================================================ */
 @media (max-width: 992px) {
+    .container {
+        padding-top: 200px !important; /* Ajuste por el header alto */
+    }
+
     .servicio-item, .servicio-item.reverse {
         grid-template-columns: 1fr;
         gap: 30px;
-        direction: ltr; /* Quitamos el invertido en móvil */
+        direction: ltr; 
     }
 
     .servicio-img-box {
-        height: 250px;
+        height: 280px;
     }
 
     .servicio-text h2 {
         font-size: 1.8rem;
+        text-align: center;
     }
 
-    .servicios-header h1 {
-        font-size: 2.2rem;
+    .servicio-text p {
+        text-align: center;
+    }
+
+    .check-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }
 
 @media (max-width: 480px) {
     .container {
-        padding-top: 120px !important;
+        padding-top: 180px !important;
+    }
+    
+    .servicios-header h1 {
+        font-size: 1.8rem;
     }
 }
