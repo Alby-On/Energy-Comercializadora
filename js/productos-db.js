@@ -14,34 +14,47 @@ function formatearTextoVisual(texto) {
 
 // 2. Función principal de carga mejorada
 async function inicializarCatalogo() {
-    const container = document.getElementById('productos-dinamicos');
-    if (!container) return;
+    // 1. Intentamos obtener el cliente de Supabase
+    const client = window._supabase || _supabase;
+    if (!client) return console.error("Supabase no inicializado");
 
     try {
-        const client = window._supabase || _supabase;
+        // 2. CARGA DEL MENÚ (Esto debe ejecutarse SIEMPRE para el Header)
+        const { data: categorias, error: errConfig } = await client
+            .from('configuracion_catalogo')
+            .select('*')
+            .order('nombre_visible', { ascending: true });
 
-        // CARGA PARALELA: Traemos la configuración del menú y los productos al mismo tiempo
-        const [resConfig, resProds] = await Promise.all([
-            client.from('configuracion_catalogo').select('*').order('nombre_visible', { ascending: true }),
-            client.from('productos').select('*').order('nombre', { ascending: true })
-        ]);
-
-        if (resConfig.error) throw resConfig.error;
-        if (resProds.error) throw resProds.error;
-
-        configuracionCategorias = resConfig.data;
-        todosLosProductos = resProds.data;
-
-        // Generar ambos menús
-        generarMenuHeader(configuracionCategorias);
-        generarMenuJerarquicoDesdeConfig(configuracionCategorias);
+        if (errConfig) throw errConfig;
         
-        // Dibujar productos iniciales
-        renderizarGrid(todosLosProductos);
+        configuracionCategorias = categorias;
+        // Inyectamos el menú del Header (esto funcionará en Servicios, Inicio, etc.)
+        generarMenuHeader(categorias);
+
+        // 3. CARGA DEL GRID (Esto solo si estamos en productos.html)
+        const container = document.getElementById('productos-dinamicos');
+        const lateralMenu = document.getElementById('menu-categorias');
+
+        if (container) {
+            const { data: productos, error: errProds } = await client
+                .from('productos')
+                .select('*')
+                .order('nombre', { ascending: true });
+
+            if (errProds) throw errProds;
+
+            todosLosProductos = productos;
+            
+            // Generar menú lateral y grid solo si los elementos existen
+            if (lateralMenu) generarMenuJerarquicoDesdeConfig(categorias);
+            renderizarGrid(todosLosProductos);
+            
+            // Lógica extra: filtrar si viene una categoría por URL
+            checkURLParams();
+        }
 
     } catch (error) {
-        console.error('Error al inicializar catálogo:', error);
-        container.innerHTML = `<p style="text-align:center;">Error al conectar con la base de datos.</p>`;
+        console.error('Error al inicializar:', error);
     }
 }
 
