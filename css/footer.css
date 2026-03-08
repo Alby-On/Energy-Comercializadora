@@ -1,10 +1,10 @@
 /* --- Estructura Base del Footer --- */
 .main-footer {
-    background-color: #333333; /* Gris oscuro del logo */
+    background-color: #333333;
     color: #ffffff;
     padding: 60px 0 0 0;
     font-family: 'Segoe UI', sans-serif;
-    border-top: 4px solid #e67e22; /* Línea naranja del logo */
+    border-top: 4px solid #e67e22;
 }
 
 .footer-container {
@@ -16,20 +16,13 @@
     padding: 0 20px 40px 20px;
 }
 
-.footer-logo {
-    max-height: 50px;
-    margin-bottom: 20px;
-}
-
 .footer-section h3 {
-    color: #e67e22; /* Naranja para títulos */
+    color: #e67e22;
     margin-bottom: 20px;
     font-size: 1.2rem;
-    position: relative;
     font-weight: 700;
 }
 
-/* --- Estilos de Listas y Contacto --- */
 .footer-section ul {
     list-style: none;
     padding: 0;
@@ -40,44 +33,14 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    line-height: 1.5;
     color: #ccc;
 }
 
 .footer-section ul li i {
-    color: #e67e22; /* Iconos en naranja Energy */
+    color: #e67e22;
     margin-top: 5px;
     width: 18px;
     text-align: center;
-}
-
-.footer-section ul li a {
-    color: #ccc;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.footer-section ul li a:hover {
-    color: #ffffff;
-    padding-left: 5px;
-}
-
-/* Espaciado para la sección de horario */
-.mt-4 {
-    margin-top: 25px;
-}
-
-.footer-bottom {
-    background-color: #222222;
-    text-align: center;
-    padding: 20px 0;
-    font-size: 0.9rem;
-    color: #888;
-    border-top: 1px solid #444;
-}
-
-.footer-bottom strong {
-    color: #4a7ab5; /* Azul Albyon Digital */
 }
 
 /* --- Botón WhatsApp Flotante --- */
@@ -90,56 +53,34 @@
     background-color: #25d366;
     color: #FFF;
     border-radius: 50px;
-    text-align: center;
-    font-size: 35px;
-    box-shadow: 2px 2px 3px #0000004d;
-    z-index: 2000;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 35px;
+    z-index: 2000;
+    transition: 0.3s;
     text-decoration: none;
-    transition: transform 0.3s;
 }
 
 .wsp-float::before {
     content: '';
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     border-radius: 50%;
     background-color: #25d366;
-    opacity: 0.7;
     animation: pulse-wsp 2s infinite;
     z-index: -1;
 }
-
-.wsp-float:hover { transform: scale(1.1); color: #FFF; }
-
-.wsp-tooltip {
-    position: absolute;
-    right: 75px;
-    background-color: #333;
-    color: #fff;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 14px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.3s;
-}
-
-.wsp-float:hover .wsp-tooltip { opacity: 1; visibility: visible; }
 
 @keyframes pulse-wsp {
     0% { transform: scale(1); opacity: 0.7; }
     100% { transform: scale(1.6); opacity: 0; }
 }
 
-/* --- COMPONENTE CARRITO --- */
+/* --- COMPONENTE CARRITO (DISEÑO RECUPERADO) --- */
 :root {
     --cart-width: 380px;
-    --azul-main: #2c3e50; /* Definir si no están en variables globales */
+    --azul-main: #2c3e50;
     --naranja-accent: #e67e22;
 }
 
@@ -148,7 +89,7 @@
     width: 60px;
     height: 60px;
     right: 40px;
-    bottom: 120px; /* Sobre el botón de WSP */
+    bottom: 120px;
     background: var(--naranja-accent);
     color: white;
     border-radius: 50%;
@@ -159,33 +100,25 @@
     cursor: pointer;
     z-index: 2500;
     box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
 }
 
 .badge-naranja {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #2c3e50;
+    top: -5px; right: -5px;
+    background: var(--azul-main);
     color: white;
     font-size: 11px;
-    width: 22px;
-    height: 22px;
+    width: 22px; height: 22px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     border: 2px solid white;
-    font-weight: bold;
 }
 
-/* Sidebar y Overlay */
+/* Sidebar y Estructura Interna */
 .cart-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background: rgba(0,0,0,0.6);
     display: none;
     z-index: 2900;
@@ -208,7 +141,7 @@
 .cart-main.active { right: 0; }
 
 .cart-header-energy {
-    background: #2c3e50;
+    background: var(--azul-main);
     color: white;
     padding: 20px;
     display: flex;
@@ -216,33 +149,56 @@
     align-items: center;
 }
 
-/* --- Ajustes Responsivos Finales --- */
+.header-title { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+.close-btn { background: none; border: none; color: white; font-size: 32px; cursor: pointer; }
+
+/* Cuerpo del carrito y scroll */
+.cart-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.cart-empty { text-align: center; margin-top: 50px; color: #cbd5e0; }
+.cart-empty i { font-size: 4rem; display: block; }
+
+/* Footer del carrito */
+.cart-footer-energy {
+    padding: 25px;
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--azul-main);
+    margin-bottom: 10px;
+}
+
+.btn-whatsapp-confirm {
+    width: 100%;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+/* --- Ajustes Responsivos --- */
 @media (max-width: 768px) {
-    .footer-container {
-        text-align: center;
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-section ul li {
-        justify-content: center; /* Centrar iconos y texto en móvil */
-    }
-
-    .wsp-float {
-        width: 55px;
-        height: 55px;
-        bottom: 20px;
-        right: 20px;
-    }
-
-    .cart-trigger {
-        width: 55px;
-        height: 55px;
-        right: 20px;
-        bottom: 90px;
-    }
-
-    .cart-main {
-        width: 100%;
-        right: -100%;
-    }
+    .cart-main { width: 100%; right: -100%; }
+    .wsp-float, .cart-trigger { width: 55px; height: 55px; right: 20px; }
+    .wsp-float { bottom: 20px; }
+    .cart-trigger { bottom: 90px; }
+    .footer-container { text-align: center; }
+    .footer-section ul li { justify-content: center; }
 }
