@@ -168,3 +168,73 @@ header {
     display: none; 
     margin-left: 20px;
 }
+/* --- Top Bar Principal --- */
+.top-bar {
+    background-color: var(--azul-main);
+    color: white;
+    padding: 10px 5%;
+    font-size: 0.8rem;
+    width: 100%;
+}
+
+.top-bar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.top-left {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.top-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.top-item i {
+    color: var(--naranja-accent); /* Iconos de contacto en naranja */
+}
+
+/* --- Redes Sociales en Top Bar --- */
+.top-socials {
+    display: flex;
+    gap: 15px;
+    border-left: 1px solid rgba(255,255,255,0.2);
+    padding-left: 15px;
+}
+
+.top-socials a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.top-socials a:hover {
+    color: var(--naranja-accent);
+    transform: translateY(-2px);
+}
+
+/* --- Ajustes Responsive --- */
+@media (max-width: 992px) {
+    .hide-mobile {
+        display: none; /* Oculta dirección y horario en pantallas pequeñas */
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar-content {
+        justify-content: center;
+        gap: 10px;
+    }
+    .top-socials {
+        border-left: none;
+        padding-left: 0;
+    }
+}
