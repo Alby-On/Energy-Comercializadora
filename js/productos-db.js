@@ -14,47 +14,45 @@ function formatearTextoVisual(texto) {
 
 // 2. Función principal de carga mejorada
 async function inicializarCatalogo() {
-    // 1. Intentamos obtener el cliente de Supabase
     const client = window._supabase || _supabase;
-    if (!client) return console.error("Supabase no inicializado");
+    if (!client) return;
 
     try {
-        // 2. CARGA DEL MENÚ (Esto debe ejecutarse SIEMPRE para el Header)
-        const { data: categorias, error: errConfig } = await client
+        // 1. Esto se ejecuta en TODAS las páginas (Header)
+        const { data: categorias } = await client
             .from('configuracion_catalogo')
             .select('*')
             .order('nombre_visible', { ascending: true });
 
-        if (errConfig) throw errConfig;
-        
-        configuracionCategorias = categorias;
-        // Inyectamos el menú del Header (esto funcionará en Servicios, Inicio, etc.)
-        generarMenuHeader(categorias);
-
-        // 3. CARGA DEL GRID (Esto solo si estamos en productos.html)
-        const container = document.getElementById('productos-dinamicos');
-        const lateralMenu = document.getElementById('menu-categorias');
-
-        if (container) {
-            const { data: productos, error: errProds } = await client
-                .from('productos')
-                .select('*')
-                .order('nombre', { ascending: true });
-
-            if (errProds) throw errProds;
-
-            todosLosProductos = productos;
-            
-            // Generar menú lateral y grid solo si los elementos existen
-            if (lateralMenu) generarMenuJerarquicoDesdeConfig(categorias);
-            renderizarGrid(todosLosProductos);
-            
-            // Lógica extra: filtrar si viene una categoría por URL
-            checkURLParams();
+        if (categorias) {
+            generarMenuHeader(categorias); // ¡Adiós al "Cargando..." en Servicios!
         }
 
-    } catch (error) {
-        console.error('Error al inicializar:', error);
+        // 2. Esto SOLO se ejecuta en productos.html
+        const container = document.getElementById('productos-dinamicos');
+        if (container) {
+            const { data: productos } = await client
+                .from('productos')
+                .select('*');
+            
+            todosLosProductos = productos || [];
+            
+            // Si hay menú lateral, lo llenamos
+            const lateral = document.getElementById('menu-categorias');
+            if (lateral) generarMenuJerarquicoDesdeConfig(categorias);
+            
+            renderizarGrid(todosLosProductos);
+            
+            // Verificar si el usuario vino desde el header con un filtro (?cat=...)
+            const params = new URLSearchParams(window.location.search);
+            const catFiltro = params.get('cat');
+            if (catFiltro) {
+                const filtrados = todosLosProductos.filter(p => p.categoria === catFiltro);
+                renderizarGrid(filtrados);
+            }
+        }
+    } catch (err) {
+        console.error("Error en inicialización global:", err);
     }
 }
 
