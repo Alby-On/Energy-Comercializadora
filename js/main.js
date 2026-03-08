@@ -3,7 +3,6 @@ async function cargarProductosDestacados(categoria = 'iluminacion') {
     if (!grid) return;
 
     try {
-        // Consultamos Supabase filtrando por categoría y limitando a 4
         const { data: productos, error } = await _supabase
             .from('productos')
             .select('*')
@@ -13,26 +12,44 @@ async function cargarProductosDestacados(categoria = 'iluminacion') {
         if (error) throw error;
 
         if (productos && productos.length > 0) {
-            grid.innerHTML = productos.map(prod => `
-                <div class="producto-card">
-                    <div class="producto-img">
-                        <img src="${prod.imagen_url || 'images/no-image.png'}" alt="${prod.nombre}">
+            grid.innerHTML = productos.map(prod => {
+                // Formateo de precio igual a productos.html
+                const precioFormateado = new Intl.NumberFormat('es-CL', {
+                    style: 'currency', currency: 'CLP'
+                }).format(prod.precio || 0);
+
+                const imagenPrincipal = prod.url_imagen_1 || 'images/no-image.png';
+
+                // Buscamos la categoría visual (si tienes acceso a configuracionCategorias)
+                // Si no, usamos un formateo simple
+                const categoriaVisual = (typeof configuracionCategorias !== 'undefined') 
+                    ? (configuracionCategorias.find(c => c.categoria === prod.categoria)?.nombre_visible || prod.categoria)
+                    : prod.categoria;
+
+                // Generamos la misma estructura que productos.html
+                return `
+                    <div class="product-card-simple">
+                        <div class="product-img-frame">
+                            <img src="${imagenPrincipal}" alt="${prod.nombre}" loading="lazy">
+                            ${(prod.stock <= 0) ? '<span class="badge-out">A pedido</span>' : ''}
+                        </div>
+                        <div class="product-info-simple">
+                            <span class="cat-tag-simple">${categoriaVisual}</span>
+                            <h3 class="product-name-simple" title="${prod.nombre}">${prod.nombre}</h3>
+                            <div class="footer-card">
+                                <span class="price-simple">${precioFormateado}</span>
+                                <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">Detalles</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="producto-info">
-                        <h3>${prod.nombre}</h3>
-                        <p class="precio">$${prod.precio.toLocaleString('es-CL')}</p>
-                        <button class="btn-agregar" onclick="agregarAlCarrito('${prod.id}', '${prod.nombre}', ${prod.precio})">
-                            <i class="fas fa-cart-plus"></i> Agregar
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         } else {
-            grid.innerHTML = '<p>No hay productos destacados en este momento.</p>';
+            grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding: 40px; color: #718096;">No hay productos destacados en este momento.</p>';
         }
     } catch (error) {
         console.error("Error cargando destacados:", error);
-        grid.innerHTML = '<p>Error al conectar con la base de datos.</p>';
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">Error al conectar con la base de datos.</p>';
     }
 }
 
