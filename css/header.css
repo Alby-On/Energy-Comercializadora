@@ -277,3 +277,40 @@ header {
         padding-left: 0;
     }
 }
+/* --- Animaciones de Entrada para los Li --- */
+@keyframes navLinkFade {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 992px) {
+    .nav-links {
+        position: absolute;
+        right: 0px;
+        height: 92vh;
+        top: 80px; /* Debajo del navbar */
+        background-color: var(--blanco);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%; /* Ocupa el 70% del ancho */
+        transform: translateX(100%); /* Oculto a la derecha */
+        transition: transform 0.5s ease-in;
+        box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+        padding-top: 50px;
+    }
+
+    .nav-links li {
+        opacity: 0;
+        margin: 20px 0;
+    }
+
+    .nav-active {
+        transform: translateX(0%); /* Aparece */
+    }
+
+    /* Transformación a X */
+    .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+    .toggle .line2 { opacity: 0; }
+    .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+}
