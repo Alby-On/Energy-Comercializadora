@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Energy Comercializadora</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
@@ -14,16 +15,24 @@
 
     <div id="header-placeholder"></div>
 
-    <section id="inicio" class="hero">
-        <div class="hero-content">
-            <h1>Energía que Impulsa tu Negocio</h1>
-            <p>Soluciones integrales en comercialización y logística.</p>
-            <a href="#productos" class="cta-button">Ver Productos</a>
+    <section id="inicio" class="hero-container">
+    <div class="swiper hero-slider">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image: url('images/banners/banner1.webp');"></div>
+            <div class="swiper-slide" style="background-image: url('images/banners/banner2.webp');"></div>
+            <div class="swiper-slide" style="background-image: url('images/banners/banner3.webp');"></div>
+            <div class="swiper-slide" style="background-image: url('images/banners/banner4.webp');"></div>
+            <div class="swiper-slide" style="background-image: url('images/banners/banner5.webp');"></div>
         </div>
+
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
     </section>
     <div id="footer-placeholder"></div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="js/supabase.js"></script> 
 
     <script src="js/productos-db.js"></script>
