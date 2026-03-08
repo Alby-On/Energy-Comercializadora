@@ -79,7 +79,31 @@ header {
 .btn-contacto:hover {
     background-color: #d35400; /* Naranja más oscuro al pasar el mouse */
 }
+/* Estilo básico del dropdown en el Header */
+.dropdown { position: relative; display: inline-block; }
 
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-radius: 4px;
+    list-style: none;
+    padding: 10px 0;
+}
+
+.dropdown-content li a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content li a:hover { background-color: #f1f1f1; color: var(--primary); }
+
+.dropdown:hover .dropdown-content { display: block; }
 /* --- Carrusel de Marcas (A COLOR) --- */
 .galeria-infinita {
     background: #ffffff;
