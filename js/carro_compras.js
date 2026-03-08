@@ -48,18 +48,19 @@ function eliminarDelCarrito(id) {
  * Guarda los cambios y refresca el contador (Badge) y la lista visual
  */
 function actualizarInterfaz() {
-    // Re-leer el carrito para asegurar que tenemos lo último
-    carrito = JSON.parse(localStorage.getItem('energy_cart')) || [];
+    // 1. PRIMERO: Guardamos lo que hay en la variable 'carrito' al disco
+    localStorage.setItem('energy_cart', JSON.stringify(carrito));
     
-    // 1. Actualizar el contador (Badge)
+    // 2. ACTUALIZAMOS EL BADGE (Círculo naranja)
     const badge = document.getElementById('cart-badge');
     const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+    
     if (badge) {
         badge.innerText = totalItems;
         badge.style.display = totalItems > 0 ? 'flex' : 'none';
     }
 
-    // 2. Dibujar la lista
+    // 3. DIBUJAMOS LA LISTA
     renderizarLista();
 }
 
@@ -132,16 +133,21 @@ function enviarPedidoWhatsApp() {
 
 // --- INICIALIZACIÓN DE INTERFAZ ---
 
-// 1. Cuando el DOM está listo (Carga inicial de la página)
+function iniciarCarro() {
+    // LEER del disco solo al iniciar la página o el componente
+    carrito = JSON.parse(localStorage.getItem('energy_cart')) || [];
+    actualizarInterfaz();
+}
+
+// 1. Carga inicial
 document.addEventListener('DOMContentLoaded', () => {
-    // Solo actualizamos si el elemento ya existe en el HTML estático
     if (document.getElementById('cart-items-list')) {
-        actualizarInterfaz();
+        iniciarCarro();
     }
 });
 
-// 2. Cuando el componente se carga dinámicamente desde componentes.js
+// 2. Carga dinámica (componentes.js)
 document.addEventListener('cartLoaded', () => {
-    console.log("⚡ Carrito inyectado dinámicamente: Renderizando datos de Energy...");
-    actualizarInterfaz();
+    console.log("⚡ Carrito detectado: Sincronizando datos...");
+    iniciarCarro();
 });
