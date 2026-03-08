@@ -2,11 +2,11 @@
    LÓGICA GLOBAL DEL CARRITO - ENERGY COMERCIALIZADORA
    ================================================================ */
 
-// 1. Inicializar el carrito desde LocalStorage
+// 1. Persistencia: Cargar el carrito desde el navegador
 let carrito = JSON.parse(localStorage.getItem('energy_cart')) || [];
 
 /**
- * Alterna la visibilidad del sidebar y el overlay
+ * Control de apertura y cierre del panel lateral
  */
 function toggleCart() {
     const sidebar = document.getElementById('cart-sidebar');
@@ -16,17 +16,13 @@ function toggleCart() {
         sidebar.classList.toggle('active');
         overlay.classList.toggle('active');
         
-        // Bloquear scroll del fondo para mejor UX
+        // Bloqueamos el scroll del fondo si el carro está abierto
         document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : 'auto';
     }
 }
 
 /**
- * Agrega un producto al carrito
- * @param {string} id - ID único de Supabase
- * @param {string} nombre - Nombre del producto
- * @param {number} precio - Valor unitario
- * @param {number} cantidad - Cantidad a añadir (por defecto 1)
+ * Agrega productos (Soporta unidades múltiples para la página de detalle)
  */
 function agregarAlCarrito(id, nombre, precio, cantidad = 1) {
     const productoExistente = carrito.find(item => item.id === id);
@@ -41,7 +37,7 @@ function agregarAlCarrito(id, nombre, precio, cantidad = 1) {
 }
 
 /**
- * Elimina un producto completamente del carrito
+ * Elimina un producto por completo del listado
  */
 function eliminarDelCarrito(id) {
     carrito = carrito.filter(item => item.id !== id);
@@ -49,12 +45,12 @@ function eliminarDelCarrito(id) {
 }
 
 /**
- * Guarda en LocalStorage y refresca los elementos visuales
+ * Guarda los cambios y refresca el contador (Badge) y la lista visual
  */
 function actualizarInterfaz() {
     localStorage.setItem('energy_cart', JSON.stringify(carrito));
     
-    // Actualizar el número en el badge naranja (el icono flotante)
+    // Actualizar el circulito naranja del botón flotante
     const badge = document.getElementById('cart-badge');
     const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
     
@@ -67,7 +63,7 @@ function actualizarInterfaz() {
 }
 
 /**
- * Dibuja los productos dentro del sidebar
+ * Dibuja los productos dentro del sidebar lateral
  */
 function renderizarLista() {
     const listaContenedor = document.getElementById('cart-items-list');
@@ -91,12 +87,12 @@ function renderizarLista() {
         sumaTotal += subtotal;
         
         return `
-            <div class="cart-item-render" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+            <div class="cart-item-render" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
                 <div style="flex: 1;">
                     <h4 style="font-size: 0.9rem; margin: 0; color: var(--azul-main);">${item.nombre}</h4>
                     <small style="color: #666;">${item.cantidad} x $${item.precio.toLocaleString('es-CL')}</small>
                 </div>
-                <button onclick="eliminarDelCarrito('${item.id}')" style="background:none; border:none; color: #e74c3c; cursor:pointer;">
+                <button onclick="eliminarDelCarrito('${item.id}')" style="background:none; border:none; color: #e74c3c; cursor:pointer; padding: 5px;">
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </div>
@@ -107,31 +103,34 @@ function renderizarLista() {
 }
 
 /**
- * Genera el mensaje y abre WhatsApp
+ * ACCIÓN FINAL: Envío del pedido a WhatsApp
  */
 function enviarPedidoWhatsApp() {
     if (carrito.length === 0) {
-        alert("El carrito está vacío.");
+        alert("El carrito está vacío. Agregue productos para cotizar.");
         return;
     }
 
-    let mensaje = "⚡ *NUEVA SOLICITUD - ENERGY COMERCIALIZADORA*%0A%0A";
-    mensaje += "Hola, me gustaría cotizar los siguientes productos:%0A%0A";
+    // Encabezado del mensaje
+    let mensaje = "⚡ *SOLICITUD DE COTIZACIÓN - ENERGY*%0A%0A";
+    mensaje += "Hola, me gustaría consultar por los siguientes productos:%0A%0A";
 
+    // Detalle de productos
     carrito.forEach(item => {
         mensaje += `• ${item.nombre} (x${item.cantidad})%0A`;
     });
 
+    // Total y cierre
     const total = document.getElementById('cart-total-val').innerText;
-    mensaje += `%0A*TOTAL ESTIMADO:* ${total}%0A%0A_Favor confirmar disponibilidad y costos de envío._`;
+    mensaje += `%0A*TOTAL ESTIMADO:* ${total}%0A%0A_Favor confirmar disponibilidad para retiro o despacho en Chillán._`;
 
-    // Número de contacto de Energy (Ejercito de Chile N° 80)
+    // Número de contacto de Energy
     const telefono = "56932318919"; 
     window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
 }
 
-// Inicializar al cargar el documento
+// Inicialización automática
 document.addEventListener('DOMContentLoaded', actualizarInterfaz);
 
-// Escuchar evento si el carrito se inyecta dinámicamente vía fetch
+// Por si el carrito se inyecta dinámicamente
 document.addEventListener('cartLoaded', actualizarInterfaz);
