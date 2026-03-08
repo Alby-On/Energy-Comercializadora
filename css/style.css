@@ -181,9 +181,12 @@
 /* --- Ajuste para asegurar que el Grid esté centrado --- */
 .productos-grid {
     display: grid;
-    justify-content: center; /* Centra las cards si no llenan el ancho total */
-    justify-items: center;   /* Centra el contenido dentro de cada celda */
+    /* justify-content centra el grupo de columnas dentro del contenedor */
+    justify-content: center; 
+    /* justify-items centra la card dentro de su celda */
+    justify-items: center;   
     margin: 0 auto;
+    width: 100%;
 }
 
 /* Centrado para el contenedor del botón Ver Más */
@@ -201,4 +204,12 @@
 .py-5 {
     padding-top: 3rem;
     padding-bottom: 3rem;
+}
+
+/* Ajuste adicional para el contenedor global si fuera necesario */
+.container-energy {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
 }
