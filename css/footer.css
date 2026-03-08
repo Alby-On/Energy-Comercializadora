@@ -162,12 +162,16 @@
 /* Botón Flotante */
 .cart-trigger {
     position: fixed;
-    bottom: 120px; /* Elevación para quedar arriba de WhatsApp */
-    right: 40px;  /* Mismo eje que WhatsApp */
+    width: 60px;   /* IGUAL AL DE WSP */
+    height: 60px;  /* IGUAL AL DE WSP */
+    right: 40px;   /* EXACTAMENTE IGUAL AL DE WSP */
+    bottom: 120px; /* Mantiene la separación vertical */
+    
+    /* Asegúrate de que no haya un margin-right molestando */
+    margin: 0; 
+    
     background: var(--naranja-accent);
     color: white;
-    width: 60px;  /* Igualamos el ancho */
-    height: 60px; /* Igualamos el alto */
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -175,7 +179,7 @@
     font-size: 24px;
     cursor: pointer;
     z-index: 2500;
-    box-shadow: 0 10px 25px rgba(230, 126, 34, 0.3);
+    box-shadow: 2px 2px 3px #999; /* Usa la misma sombra que el de WSP para que pesen igual */
     transition: all 0.3s ease;
 }
 
