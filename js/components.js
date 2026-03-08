@@ -1,6 +1,5 @@
 /**
  * Carga los componentes compartidos (Header, Footer y Carrito)
- * La ruta es relativa a la carpeta /components/
  */
 async function loadSharedComponents() {
     const components = [
@@ -20,9 +19,16 @@ async function loadSharedComponents() {
                 container.innerHTML = await response.text();
                 console.log(`✅ Componente [${comp.name}] cargado correctamente.`);
 
-                // --- LÓGICA DE SINCRONIZACIÓN PARA EL CARRITO ---
-                // Si el componente que acabamos de cargar es el carrito,
-                // avisamos al sistema para que renderice los productos guardados.
+                // --- LÓGICA ESPECÍFICA POR COMPONENTE ---
+
+                // 1. Si cargamos el HEADER, activamos el menú móvil (Burger)
+                if (comp.name === 'header') {
+                    if (typeof inicializarMenuMobile === "function") {
+                        inicializarMenuMobile();
+                    }
+                }
+
+                // 2. Si cargamos el CARRITO, avisamos para renderizar productos
                 if (comp.name === 'carro_compras') {
                     document.dispatchEvent(new CustomEvent('cartLoaded'));
                 }
