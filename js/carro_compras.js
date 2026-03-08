@@ -130,8 +130,18 @@ function enviarPedidoWhatsApp() {
     window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
 }
 
-// Inicialización automática
-document.addEventListener('DOMContentLoaded', actualizarInterfaz);
+// --- INICIALIZACIÓN DE INTERFAZ ---
 
-// Por si el carrito se inyecta dinámicamente
-document.addEventListener('cartLoaded', actualizarInterfaz);
+// 1. Cuando el DOM está listo (Carga inicial de la página)
+document.addEventListener('DOMContentLoaded', () => {
+    // Solo actualizamos si el elemento ya existe en el HTML estático
+    if (document.getElementById('cart-items-list')) {
+        actualizarInterfaz();
+    }
+});
+
+// 2. Cuando el componente se carga dinámicamente desde componentes.js
+document.addEventListener('cartLoaded', () => {
+    console.log("⚡ Carrito inyectado dinámicamente: Renderizando datos de Energy...");
+    actualizarInterfaz();
+});
