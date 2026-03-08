@@ -7,10 +7,10 @@ header {
     z-index: 1000;
     background-color: var(--blanco);
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    /* LÍNEA CORPORATIVA SUPERIOR */
-    border-top: 4px solid var(--naranja-accent); 
+    /* Solo agregué este borde sutil arriba para identidad */
+    border-top: 3px solid var(--azul-main); 
 }
 
 /* --- Navbar --- */
@@ -20,129 +20,100 @@ header {
     align-items: center;
     padding: 0.8rem 5%;
     background-color: var(--blanco);
-    height: 80px;
+    height: 80px; 
 }
 
 .logo {
-    flex: 1;
+    flex: 1; 
     display: flex;
     align-items: center;
 }
 
 .logo img {
-    height: 55px; /* Un poco más grande para destacar */
+    height: 50px;
     display: block;
-    transition: transform 0.3s;
 }
 
-.logo img:hover {
-    transform: scale(1.05);
-}
-
-/* Contenedor de links centrado */
 .nav-links {
     display: flex;
     list-style: none;
-    flex: 2;
-    justify-content: center;
+    flex: 2; 
+    justify-content: center; 
     margin: 0;
     padding: 0;
 }
 
 .nav-links li {
     padding: 0 15px;
-    position: relative;
 }
 
 .nav-links a {
     text-decoration: none;
     color: var(--gris-oscuro);
-    font-size: 1.05rem;
     font-weight: 600;
     transition: color 0.3s;
     white-space: nowrap;
-    padding: 5px 0;
-}
-
-/* EFECTO DE SUBRAYADO CORPORATIVO */
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
-    left: 15px;
-    background-color: var(--azul-main);
-    transition: width 0.3s ease;
 }
 
 .nav-links a:hover {
-    color: var(--azul-main);
+    color: var(--azul-main); /* Uso de color corporativo */
 }
 
-.nav-links a:hover::after {
-    width: calc(100% - 30px);
-}
-
-/* Espacio para el botón a la derecha */
 .nav-actions {
-    flex: 1;
+    flex: 1; 
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
 .btn-contacto {
-    background-color: var(--naranja-accent);
+    background-color: var(--naranja-accent); /* Color corporativo */
     color: white !important;
-    padding: 12px 26px; /* Más cuerpo al botón */
+    padding: 10px 22px;
     border-radius: 5px;
     text-decoration: none;
-    font-weight: 700;
-    text-transform: uppercase; /* Más autoridad */
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
-    transition: all 0.3s;
-    box-shadow: 0 4px 0px #d35400; /* Efecto 3D sutil */
+    font-weight: 600;
+    transition: background 0.3s;
 }
 
 .btn-contacto:hover {
-    background-color: #d35400;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0px #a04000;
+    background-color: #d35400; 
 }
 
-.btn-contacto:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0px #a04000;
-}
+/* Dropdown */
+.dropdown { position: relative; display: inline-block; }
 
-/* --- Dropdown --- */
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: #ffffff;
-    min-width: 220px;
-    box-shadow: 0px 10px 20px rgba(0,0,0,0.15);
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
     z-index: 1000;
-    border-radius: 0 0 8px 8px; /* Redondeado solo abajo */
-    border-top: 3px solid var(--azul-main); /* Detalle azul arriba */
+    border-radius: 4px;
     list-style: none;
     padding: 10px 0;
-    top: 100%;
 }
 
-.dropdown-content li a:hover {
-    background-color: #f8f9fa;
-    color: var(--azul-main);
-    padding-left: 20px; /* Efecto de empuje */
+.dropdown-content li a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }
+
+.dropdown-content li a:hover { 
+    background-color: #f1f1f1; 
+    color: var(--azul-main); /* Cambio a color corporativo */
+}
+
+.dropdown:hover .dropdown-content { display: block; }
 
 /* --- Carrusel de Marcas --- */
 .galeria-infinita {
-    background: #fdfdfd;
-    border-top: 1px solid #eee;
-    border-bottom: 4px solid var(--azul-main); /* Línea azul fuerte al final */
+    background: #ffffff;
+    border-top: 1px solid #eee; 
+    border-bottom: 3px solid var(--naranja-accent); /* Color corporativo Energy */
     height: 85px;
     width: 100%;
     overflow: hidden;
@@ -157,15 +128,43 @@ header {
     animation: scroll-marcas 35s linear infinite;
 }
 
+.slide {
+    width: 200px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
 .slide img {
-    max-width: 140px;
-    max-height: 45px;
+    max-width: 150px;
+    max-height: 50px;
     object-fit: contain;
-    filter: grayscale(20%); /* Un toque de sobriedad */
-    transition: all 0.3s ease;
+    filter: none; 
+    opacity: 1;
+    transition: transform 0.3s ease;
 }
 
 .slide img:hover {
-    filter: grayscale(0%);
-    transform: scale(1.1);
+    transform: scale(1.15);
+}
+
+/* --- Animación --- */
+@keyframes scroll-marcas {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-2200px);
+    }
+}
+
+.slider-track:hover {
+    animation-play-state: paused;
+}
+
+.burger {
+    display: none; 
+    margin-left: 20px;
 }
