@@ -47,5 +47,6 @@ async function cargarProductosDestacados(categoria, containerId) {
 // Llamar a ambas categorías al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     cargarProductosDestacados('iluminacion', 'productos-iluminacion-grid');
-    cargarProductosDestacados('herramientas', 'productos-herramientas-grid'); // Nueva llamada
+    cargarProductosDestacados('herramientas', 'productos-herramientas-grid'); 
+     cargarProductosDestacados('herramientas', 'productos-materiales-grid'); 
 });
