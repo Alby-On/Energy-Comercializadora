@@ -249,3 +249,40 @@
     justify-content: center;
     width: 100%;
 }
+/* ================================================================
+   AJUSTES EXCLUSIVOS PARA EL GRID DEL INDEX
+   (No afecta a productos.html)
+   ================================================================ */
+
+/* 1. Forzamos que los contenedores del Index tengan columnas iguales */
+.destacados-categoria .productos-grid {
+    display: grid !important;
+    /* Esto obliga a tener 4 columnas del mismo ancho exacto */
+    grid-template-columns: repeat(4, 1fr) !important; 
+    gap: 25px;
+    width: 100%;
+}
+
+/* 2. Aseguramos que la card se estire para llenar su columna asignada */
+.destacados-categoria .product-card-simple {
+    width: 100% !important;
+    min-width: 100% !important;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 3. Ajuste para tu Samsung S22 Ultra (Index solamente) */
+@media (max-width: 768px) {
+    .destacados-categoria .productos-grid {
+        /* En móvil forzamos 2 columnas iguales */
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px;
+    }
+}
+
+/* 4. Ajuste para pantallas muy pequeñas (Index solamente) */
+@media (max-width: 480px) {
+    .destacados-categoria .productos-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
