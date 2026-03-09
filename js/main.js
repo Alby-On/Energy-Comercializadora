@@ -48,5 +48,5 @@ async function cargarProductosDestacados(categoria, containerId) {
 document.addEventListener('DOMContentLoaded', () => {
     cargarProductosDestacados('iluminacion', 'productos-iluminacion-grid');
     cargarProductosDestacados('herramientas', 'productos-herramientas-grid'); 
-     cargarProductosDestacados('herramientas', 'productos-materiales-grid'); 
+     cargarProductosDestacados('electricidad', 'productos-materiales-grid'); 
 });
