@@ -76,18 +76,18 @@
     min-height: 2.6em; 
 }
 
-/* --- NUEVO: Estilo para el SKU Público --- */
+/* --- Estilo para el SKU (Igual fuente que el nombre) --- */
 .sku-public-container {
-    font-size: 0.75rem;
-    color: #718096;
-    font-family: 'Courier New', monospace;
-    background: #f7fafc;
-    padding: 2px 12px;
-    border-radius: 12px;
-    border: 1px solid #edf2f7;
-    margin-bottom: 15px; /* Espacio antes del precio */
+    font-family: inherit; /* Hereda la fuente del body/nombre */
+    font-size: 0.8rem;
+    color: #4a5568; /* Un gris un poco más oscuro para legibilidad */
+    background: #f1f5f9; /* Fondo suave para dar contraste */
+    padding: 3px 14px;
+    border-radius: 6px; /* Bordes menos redondeados para un look más moderno */
+    margin-bottom: 15px; 
     display: inline-block;
-    font-weight: bold;
+    font-weight: 500; /* Peso medio, similar al nombre pero no tan negrita */
+    letter-spacing: 0.3px;
 }
 
 /* --- Pie de la Card --- */
