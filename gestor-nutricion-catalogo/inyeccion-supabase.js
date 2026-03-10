@@ -146,6 +146,7 @@ async function inyectarEquipo(e) {
         // 2. Preparación del Payload
         const payload = {
             nombre: document.getElementById('nombre').value,
+            sku: document.getElementById('sku').value || "S/N",
             categoria: document.getElementById('cat').value,
             subcategoria: document.getElementById('subcat').value,
             stock: parseInt(document.getElementById('stock').value) || 0,
