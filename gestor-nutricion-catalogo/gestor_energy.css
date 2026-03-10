@@ -373,3 +373,12 @@ td strong {
     justify-content: center; /* Centrado horizontal */
     z-index: 2000;
 }
+.sku-badge {
+    background: #e2e8f0;
+    color: #475569;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
