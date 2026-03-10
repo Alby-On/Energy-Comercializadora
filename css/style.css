@@ -286,3 +286,21 @@
         grid-template-columns: 1fr !important;
     }
 }
+/* Ajuste para los sliders de destacados */
+.swiper-destacados-container {
+    padding: 20px 0;
+    position: relative;
+}
+
+.swiper-slide {
+    height: auto; /* Permite que las cards mantengan su diseño flex */
+    display: flex;
+    justify-content: center;
+}
+
+/* Flechas más pequeñas para destacados */
+.swiper-button-next[class*="sbn-"],
+.swiper-button-prev[class*="sbp-"] {
+    transform: scale(0.6);
+    color: var(--azul-main) !important;
+}
