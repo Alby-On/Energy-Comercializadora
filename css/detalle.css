@@ -225,3 +225,31 @@
         justify-content: center;
     }
 }
+
+
+/* Contenedor del SKU en Detalle */
+.sku-detail-container {
+    margin-bottom: 25px; /* Separación generosa del selector de cantidad */
+    padding: 12px 16px;
+    background-color: #f8fafc; /* Gris muy suave */
+    border-radius: 8px;
+    border-left: 4px solid var(--azul-main); /* Línea azul de Energy */
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sku-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #64748b;
+    letter-spacing: 1px;
+}
+
+.sku-value {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gris-oscuro);
+}
