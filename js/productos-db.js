@@ -181,26 +181,26 @@ function renderizarGrid(productos) {
         const subcategoriaVisual = prod.subcategoria ? ` | ${prod.subcategoria}` : '';
         
         // --- CAMBIO: Lógica para el SKU ---
-        const skuVisual = prod.sku ? `<span class="sku-tag-public">SKU: ${prod.sku}</span>` : '';
+        const skuVisual = prod.sku ? `<div class="sku-public-container">SKU: ${prod.sku}</div>` : '';
 
         const productCard = `
-            <div class="product-card-simple">
-                <div class="product-img-frame">
-                    <img src="${imagenPrincipal}" alt="${prod.nombre}" loading="lazy">
-                    ${(prod.stock <= 0) ? '<span class="badge-out">A pedido</span>' : ''}
-                </div>
-                <div class="product-info-simple">
-                    <div class="top-info-card">
-                        <span class="cat-tag-simple">${categoriaVisual}${subcategoriaVisual}</span>
-                        ${skuVisual} </div>
-                    <h3 class="product-name-simple" title="${prod.nombre}">${prod.nombre}</h3>
-                    <div class="footer-card">
-                        <span class="price-simple">${precioFormateado}</span>
-                        <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">Detalles</button>
-                    </div>
-                </div>
+        <div class="product-card-simple">
+            <div class="product-img-frame">
+            <img src="${imagenPrincipal}" alt="${prod.nombre}" loading="lazy">
+            ${(prod.stock <= 0) ? '<span class="badge-out">A pedido</span>' : ''}
+        </div>
+        <div class="product-info-simple">
+            <span class="cat-tag-simple">${categoriaVisual}${subcategoriaVisual}</span>
+            
+            <h3 class="product-name-simple" title="${prod.nombre}">${prod.nombre}</h3>
+            
+            ${skuVisual} <div class="footer-card">
+                <span class="price-simple">${precioFormateado}</span>
+                <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">Detalles</button>
             </div>
-        `;
+        </div>
+    </div>
+`;
         container.innerHTML += productCard;
     });
 }
