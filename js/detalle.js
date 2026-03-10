@@ -31,7 +31,7 @@ async function cargarDetalle() {
             
             // Inyectamos la estructura con etiqueta y valor
             skuElement.innerHTML = `
-                <span class="sku-label">Código Ref:</span>
+                <span class="sku-label">SKU:</span>
                 <span class="sku-value">${valorSKU}</span>
             `;
         }
