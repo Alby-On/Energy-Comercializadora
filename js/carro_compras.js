@@ -24,13 +24,15 @@ function toggleCart() {
 /**
  * Agrega productos (Soporta unidades múltiples para la página de detalle)
  */
-function agregarAlCarrito(id, nombre, precio, cantidad = 1) {
+
+function agregarAlCarrito(id, nombre, precio, sku = "S/N", cantidad = 1) {
     const productoExistente = carrito.find(item => item.id === id);
 
     if (productoExistente) {
         productoExistente.cantidad += cantidad;
     } else {
-        carrito.push({ id, nombre, precio, cantidad });
+        // Ahora guardamos también el SKU en el objeto del carrito
+        carrito.push({ id, nombre, precio, sku, cantidad });
     }
 
     actualizarInterfaz();
@@ -95,16 +97,16 @@ function renderizarLista() {
         sumaTotal += subtotal;
         
         return `
-            <div class="cart-item-render" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
-                <div style="flex: 1;">
-                    <h4 style="font-size: 0.9rem; margin: 0; color: var(--azul-main);">${item.nombre}</h4>
-                    <small style="color: #666;">${item.cantidad} x $${item.precio.toLocaleString('es-CL')}</small>
-                </div>
-                <button onclick="eliminarDelCarrito('${item.id}')" style="background:none; border:none; color: #e74c3c; cursor:pointer; padding: 5px;">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </div>
-        `;
+    <div class="cart-item-render" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+        <div style="flex: 1;">
+            <h4 style="font-size: 0.85rem; margin: 0; color: var(--azul-main); line-height: 1.2;">${item.nombre}</h4>
+            <div style="font-size: 0.7rem; color: #888; margin: 2px 0;">SKU: ${item.sku}</div> <small style="color: #666;">${item.cantidad} x $${item.precio.toLocaleString('es-CL')}</small>
+        </div>
+        <button onclick="eliminarDelCarrito('${item.id}')" style="background:none; border:none; color: #e74c3c; cursor:pointer; padding: 5px;">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </div>
+   `;
     }).join(''); // El .join('') es vital para que no aparezcan comas entre items
 
     // 4. INSERCIÓN ÚNICA: Esto sobreescribe cualquier contenido previo, eliminando el doble total
@@ -115,26 +117,26 @@ function renderizarLista() {
 /**
  * ACCIÓN FINAL: Envío del pedido a WhatsApp
  */
+/**
+ * Envío del pedido a WhatsApp con SKU incluido
+ */
 function enviarPedidoWhatsApp() {
     if (carrito.length === 0) {
-        alert("El carrito está vacío. Agregue productos para cotizar.");
+        alert("El carrito está vacío.");
         return;
     }
 
-    // Encabezado del mensaje
     let mensaje = "⚡ *SOLICITUD DE COTIZACIÓN - ENERGY*%0A%0A";
     mensaje += "Hola, me gustaría consultar por los siguientes productos:%0A%0A";
 
-    // Detalle de productos
     carrito.forEach(item => {
-        mensaje += `• ${item.nombre} (x${item.cantidad})%0A`;
+        // Formato: • PRODUCTO [SKU-123] (x2)
+        mensaje += `• ${item.nombre} *[${item.sku}]* (x${item.cantidad})%0A`;
     });
 
-    // Total y cierre
     const total = document.getElementById('cart-total-val').innerText;
     mensaje += `%0A*TOTAL ESTIMADO:* ${total}%0A%0A_Favor confirmar disponibilidad para retiro o despacho en Chillán._`;
 
-    // Número de contacto de Energy
     const telefono = "56932318919"; 
     window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
 }
