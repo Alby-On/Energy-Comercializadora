@@ -4,10 +4,13 @@ async function cargarProductosDestacados(categoria, containerId) {
     if (!grid) return;
 
     try {
+        // --- ACTUALIZACIÓN: Filtramos por es_destacado = true ---
         const { data: productos, error } = await _supabase
             .from('productos')
             .select('*')
             .eq('categoria', categoria)
+            .eq('es_destacado', true) // 🔥 Solo los que marcaste en el gestor
+            .order('created_at', { ascending: false }) // Los más nuevos primero
             .limit(4);
 
         if (error) throw error;
@@ -33,7 +36,8 @@ async function cargarProductosDestacados(categoria, containerId) {
                             
                             <h3 class="product-name-simple" title="${prod.nombre}">${prod.nombre}</h3>
                             
-                            ${skuVisual} <div class="footer-card">
+                            ${skuVisual} 
+                            <div class="footer-card">
                                 <span class="price-simple">${precioFormateado}</span>
                                 <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">Detalles</button>
                             </div>
@@ -42,16 +46,17 @@ async function cargarProductosDestacados(categoria, containerId) {
                 `;
             }).join('');
         } else {
-            grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No hay productos en esta categoría.</p>';
+            // Mensaje amigable si no has marcado ninguno como destacado todavía
+            grid.innerHTML = '<p style="text-align:center; grid-column:1/-1; color: #a0aec0; padding: 20px;">Próximamente productos destacados en esta sección.</p>';
         }
     } catch (error) {
         console.error("Error cargando destacados:", error);
     }
 }
 
-// Llamar a ambas categorías al cargar la página
+// Llamar a las categorías al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     cargarProductosDestacados('iluminacion', 'productos-iluminacion-grid');
     cargarProductosDestacados('herramientas', 'productos-herramientas-grid'); 
-     cargarProductosDestacados('materiales_electricos', 'productos-materiales_electricos-grid'); 
+    cargarProductosDestacados('materiales_electricos', 'productos-materiales_electricos-grid'); 
 });
