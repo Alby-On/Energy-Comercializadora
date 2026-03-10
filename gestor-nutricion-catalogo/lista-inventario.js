@@ -113,13 +113,19 @@ async function prepararEdicion(id) {
         editCatSelect.appendChild(opt);
     });
 
-    // Seteamos valores actuales incluyendo SKU
+    // Seteamos valores actuales incluyendo SKU y Destacado
     if(document.getElementById("edit-sku")) document.getElementById("edit-sku").value = p.sku || "";
     document.getElementById("edit-nombre").value = p.nombre;
     document.getElementById("edit-cat").value = p.categoria;
     document.getElementById("edit-stock").value = p.stock;
     document.getElementById("edit-precio").value = p.precio || 0;
     document.getElementById("edit-desc").value = p.descripcion || "";
+
+    // --- NUEVO: Seteamos el checkbox de destacado ---
+    const checkDestacado = document.getElementById("edit-destacado");
+    if(checkDestacado) {
+        checkDestacado.checked = p.es_destacado === true;
+    }
 
     cargarSubcategoriasEdicion(p.subcategoria);
 
@@ -203,7 +209,9 @@ async function saveEdit() {
         subcategoria: document.getElementById("edit-subcat").value,
         stock: parseInt(document.getElementById("edit-stock").value) || 0,
         precio: parseInt(document.getElementById("edit-precio").value) || 0,
-        descripcion: document.getElementById("edit-desc").value
+        descripcion: document.getElementById("edit-desc").value,
+        // --- NUEVO: Capturamos el valor del checkbox de destacado ---
+        es_destacado: document.getElementById("edit-destacado") ? document.getElementById("edit-destacado").checked : false
     };
 
     try {
