@@ -45,3 +45,13 @@ async function cargarProductosDestacados(categoria, containerId) {
         console.error("Error cargando destacados:", error);
     }
 }
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Carga de productos de Iluminación
+    cargarProductosDestacados('iluminacion', 'productos-iluminacion-grid');
+    
+    // 2. Carga de productos de Herramientas
+    cargarProductosDestacados('herramientas', 'productos-herramientas-grid'); 
+    
+    // 3. Carga de productos de Materiales Eléctricos
+    cargarProductosDestacados('materiales_electricos', 'productos-materiales_electricos-grid'); 
+});
