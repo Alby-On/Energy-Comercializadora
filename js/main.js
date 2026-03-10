@@ -19,6 +19,9 @@ async function cargarProductosDestacados(categoria, containerId) {
                 }).format(prod.precio || 0);
 
                 const imagenPrincipal = prod.url_imagen_1 || 'images/no-image.png';
+                
+                // Formateamos el SKU con la misma clase que el catálogo
+                const skuVisual = prod.sku ? `<div class="sku-public-container">SKU: ${prod.sku}</div>` : '';
 
                 return `
                     <div class="product-card-simple">
@@ -26,9 +29,11 @@ async function cargarProductosDestacados(categoria, containerId) {
                             <img src="${imagenPrincipal}" alt="${prod.nombre}" loading="lazy">
                         </div>
                         <div class="product-info-simple">
-                            <span class="cat-tag-simple">${prod.categoria}</span>
+                            <span class="cat-tag-simple">${prod.categoria.replace(/_/g, ' ')}</span>
+                            
                             <h3 class="product-name-simple" title="${prod.nombre}">${prod.nombre}</h3>
-                            <div class="footer-card">
+                            
+                            ${skuVisual} <div class="footer-card">
                                 <span class="price-simple">${precioFormateado}</span>
                                 <button class="btn-cotizar-simple" onclick="verDetalle('${prod.id}')">Detalles</button>
                             </div>
@@ -37,10 +42,10 @@ async function cargarProductosDestacados(categoria, containerId) {
                 `;
             }).join('');
         } else {
-            grid.innerHTML = '<p>No hay productos en esta categoría.</p>';
+            grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No hay productos en esta categoría.</p>';
         }
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error cargando destacados:", error);
     }
 }
 
