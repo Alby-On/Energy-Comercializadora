@@ -19,13 +19,20 @@ async function cargarDetalle() {
         return;
     }
 
-    // Guardamos los datos necesarios en la variable global
+    // Guardamos los datos necesarios en la variable global (incluye el SKU)
     productoActual = prod;
 
     // 1. Llenar textos informativos
     document.getElementById('det-nombre').textContent = prod.nombre;
     document.getElementById('det-descripcion').textContent = prod.descripcion || 'Sin descripción disponible.';
     document.getElementById('bread-categoria').textContent = formatearTextoVisual(prod.categoria);
+    
+    // --- ACTUALIZACIÓN: Mostrar el SKU en la interfaz ---
+    const skuElement = document.getElementById('det-sku');
+    if (skuElement) {
+        skuElement.textContent = prod.sku ? `SKU: ${prod.sku}` : 'SKU: S/N';
+    }
+
     document.getElementById('det-precio').textContent = new Intl.NumberFormat('es-CL', {
         style: 'currency', currency: 'CLP'
     }).format(prod.precio || 0);
@@ -83,17 +90,17 @@ window.prepararAgregado = () => {
     const inputCant = document.getElementById('input-cantidad');
     const cantidad = parseInt(inputCant.value) || 1;
 
-    // Usamos la función global que definimos en carrito.js
-    // Pasamos: id, nombre, precio y la cantidad seleccionada
+    // Usamos la función global con el nuevo parámetro SKU
     if (typeof agregarAlCarrito === 'function') {
         agregarAlCarrito(
             productoActual.id, 
             productoActual.nombre, 
             productoActual.precio, 
+            productoActual.sku || "S/N", // <--- PASAMOS EL SKU AQUÍ
             cantidad
         );
         
-        // Feedback visual: opcionalmente reseteamos el contador a 1
+        // Feedback visual
         inputCant.value = 1;
         
         // Abrir el carrito para confirmar la acción
@@ -101,7 +108,7 @@ window.prepararAgregado = () => {
             toggleCart();
         }
     } else {
-        console.error("La función agregarAlCarrito no está disponible. Revisa que carrito.js esté cargado.");
+        console.error("La función agregarAlCarrito no está disponible.");
     }
 };
 
