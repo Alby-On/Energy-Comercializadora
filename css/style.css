@@ -96,19 +96,28 @@
 }
 
 /* ================================================================
-   GRID DE 6 PRODUCTOS EN 1 SOLA FILA
+   CONFIGURACIÓN DE GRIDS (CATÁLOGO VS INDEX)
    ================================================================ */
 
+/* 1. GRID ESTÁNDAR (Para productos.html - 4 columnas) */
 .productos-grid {
-    display: grid !important;
-    /* 6 columnas en escritorio */
-    grid-template-columns: repeat(6, 1fr) !important;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
     width: 100%;
-    max-width: 1300px; /* Un poco más ancho para que quepan los 6 */
+    max-width: 1200px;
     margin: 0 auto;
 }
 
+/* 2. GRID EXCLUSIVO DEL INDEX (6 columnas) 
+   Solo se aplica si el grid está dentro de .destacados-categoria */
+.destacados-categoria .productos-grid {
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 1300px; 
+    gap: 15px;
+}
+
+/* --- Estilo de la Card --- */
 .product-card-simple {
     width: 100%;
     background: var(--blanco);
@@ -125,12 +134,16 @@
     box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
-/* Ajuste de imagen para 6 columnas */
+/* Ajuste de imagen - En el index es un poco más pequeña por las 6 columnas */
 .product-img-frame {
     width: 100%;
-    height: 160px; /* Altura compacta */
+    height: 200px; 
     overflow: hidden;
     background: #f8f9fa;
+}
+
+.destacados-categoria .product-img-frame {
+    height: 160px; /* Más compacto para el index */
 }
 
 .product-img-frame img {
@@ -185,8 +198,10 @@
 
 /* --- Responsividad --- */
 @media (max-width: 1200px) {
-    .productos-grid {
-        grid-template-columns: repeat(3, 1fr) !important; /* Baja a 3 columnas */
+    /* Ambos grids bajan a 3 columnas en tablets */
+    .productos-grid,
+    .destacados-categoria .productos-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -194,8 +209,10 @@
     .hero-slider { height: 300px; }
     .hero-container { padding-top: 100px; }
     
-    .productos-grid {
-        grid-template-columns: repeat(2, 1fr) !important; /* 2 columnas para el S22 Ultra */
+    /* Ambos grids bajan a 2 columnas en celulares */
+    .productos-grid,
+    .destacados-categoria .productos-grid {
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
     }
 
@@ -205,7 +222,8 @@
 }
 
 @media (max-width: 480px) {
-    .productos-grid {
-        grid-template-columns: 1fr !important; /* 1 columna en teléfonos muy pequeños */
+    .productos-grid,
+    .destacados-categoria .productos-grid {
+        grid-template-columns: 1fr; 
     }
 }
