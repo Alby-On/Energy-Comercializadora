@@ -367,3 +367,17 @@
         margin-left: 10px;
     }
 }
+
+.top-info-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.sku-tag-public {
+    font-size: 0.7rem;
+    color: #a0aec0; /* Gris suave */
+    font-family: monospace;
+    font-weight: bold;
+}
