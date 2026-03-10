@@ -13,27 +13,25 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Hero Section */
-/* --- Contenedor Principal --- */
+/* --- Hero Section --- */
 .hero-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding-top: 180px; /* Separación para el menú fixed */
+    padding-top: 180px; 
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* --- Estructura del Slider --- */
 .hero-slider {
     width: 100%;
-    height: 650px; /* ALTURA AUMENTADA */
+    height: 650px; 
     border-radius: 12px;
     overflow: hidden;
-    position: relative; /* Necesario para posicionar flechas y puntos */
+    position: relative; 
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* --- Estilo de cada Slide --- */
+/* --- Estilo Base de Swiper (Hero y Destacados) --- */
 .swiper-slide {
     background-size: cover;
     background-position: center center;
@@ -41,110 +39,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: auto; /* Importante para que las cards no se corten */
 }
 
-/* --- Flechas de Navegación --- */
+/* --- Flechas Generales del Hero --- */
 .swiper-button-next,
 .swiper-button-prev {
-    color: #ffffff !important; /* Color blanco para las flechas */
-    background: rgba(0, 0, 0, 0.2); /* Fondo sutil para que resalten */
-    width: 50px !important; /* Ligeramente más grandes por la nueva altura */
+    color: #ffffff !important;
+    background: rgba(0, 0, 0, 0.2);
+    width: 50px !important;
     height: 50px !important;
     border-radius: 50%;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
+    z-index: 10;
 }
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
-    font-size: 20px !important; /* Tamaño de la flecha interior */
+    font-size: 20px !important;
     font-weight: bold;
 }
 
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
     background: rgba(0, 0, 0, 0.5);
-    transform: scale(1.1); /* Efecto de crecimiento al pasar el mouse */
+    transform: scale(1.1);
 }
 
-/* --- Puntos de Paginación --- */
-.swiper-pagination-bullet {
-    background: #ffffff !important;
-    opacity: 0.6;
-}
-
-.swiper-pagination-bullet-active {
-    background: #ffffff !important;
-    opacity: 1;
-    width: 20px; /* Punto activo alargado para mejor diseño */
-    border-radius: 5px;
-}
-
-/* --- Ajustes para Celulares (Responsive) --- */
-@media (max-width: 1024px) {
-    .hero-slider {
-        height: 500px; /* Altura intermedia para tablets */
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-container {
-        padding-top: 100px; /* Menos espacio en móvil si el menú es más chico */
-    }
-    
-    .hero-slider {
-        height: 300px; /* Altura reducida para móviles */
-        border-radius: 8px;
-    }
-
-    /* Ocultar flechas en móvil para dar prioridad al deslizamiento táctil */
-    .swiper-button-next,
-    .swiper-button-prev {
-        display: none !important;
-    }
-}
-
-/* --- Ajuste específico para el Grid de Destacados --- */
-#productos-destacados-grid {
-    display: grid;
-    /* Forzamos 4 columnas de igual tamaño en escritorio */
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 25px; /* Espacio entre las tarjetas */
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px 0;
-}
-
-/* --- Ajustes Responsivos --- */
-
-/* Tablets (1100px hacia abajo): 3 columnas */
-@media (max-width: 1100px) {
-    #productos-destacados-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* Tablets pequeñas (768px): 2 columnas */
-@media (max-width: 768px) {
-    #productos-destacados-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-}
-
-/* Celulares (480px hacia abajo): 1 columna */
-@media (max-width: 480px) {
-    #productos-destacados-grid {
-        grid-template-columns: 1fr; 
-    }
-}
-
-/* --- CENTRADO HEADER DESTACADOS --- */
+/* --- Centrado Header Destacados --- */
 .header-destacados {
     text-align: center;
     max-width: 800px;
     margin: 0 auto 50px auto;
-    /* Asegura que el contenido interno también se alinee al centro */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -160,7 +86,6 @@
     padding-bottom: 15px;
 }
 
-/* Línea decorativa naranja */
 .header-destacados h2::after {
     content: '';
     position: absolute;
@@ -172,52 +97,62 @@
     border-radius: 2px;
 }
 
-.header-destacados p {
-    color: #666;
-    font-size: 1.1rem;
-    margin-top: 10px;
-}
+/* ================================================================
+   NUEVOS AJUSTES PARA SLIDER DE PRODUCTOS DESTACADOS
+   ================================================================ */
 
-/* --- Ajuste para asegurar que el Grid esté centrado --- */
-.productos-grid {
-    display: grid;
-    /* justify-content centra el grupo de columnas dentro del contenedor */
-    justify-content: center; 
-    /* justify-items centra la card dentro de su celda */
-    justify-items: center;   
+/* Contenedor que envuelve el Swiper en el Index */
+.swiper-container-destacados {
+    width: 100%;
+    max-width: 1240px;
     margin: 0 auto;
+    position: relative;
+    padding: 20px 10px 50px 10px;
+    overflow: hidden; /* Evita scroll horizontal de la página */
+}
+
+/* Eliminamos el comportamiento de GRID para permitir el deslizamiento */
+.destacados-categoria .productos-grid {
+    display: block !important; /* Swiper maneja el layout internamente */
     width: 100%;
 }
 
-/* Centrado para el contenedor del botón Ver Más */
-.text-center {
-    text-align: center;
-    display: flex;
-    justify-content: center;
+/* Ajuste de las Cards dentro del Slider */
+.destacados-categoria .product-card-simple {
     width: 100%;
+    margin: 0;
+    transition: transform 0.3s ease;
 }
 
-.mt-4 {
-    margin-top: 2rem;
+.destacados-categoria .product-card-simple:hover {
+    transform: translateY(-5px);
 }
 
-.py-5 {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+/* Flechas específicas para los sliders de productos (más sutiles) */
+.swiper-button-next[class*="sbn-"],
+.swiper-button-prev[class*="sbp-"] {
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    color: var(--azul-main) !important;
+    transform: scale(0.8);
 }
 
-/* Ajuste adicional para el contenedor global si fuera necesario */
-.container-energy {
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 20px;
-}
-.bg-gris-claro {
-    background-color: #f8f9fa; /* Un gris muy suave */
+.swiper-button-next[class*="sbn-"]:hover,
+.swiper-button-prev[class*="sbp-"]:hover {
+    background: var(--azul-main);
+    color: white !important;
 }
 
-/* --- Estilo Pro para Botón Ver Más --- */
+/* Paginación para destacados (bolitas abajo) */
+.swiper-pagination-destacados {
+    bottom: 10px !important;
+}
+
+.swiper-pagination-destacados .swiper-pagination-bullet-active {
+    background: var(--azul-main) !important;
+}
+
+/* --- Botón Ver Más --- */
 .btn-ver-mas {
     display: inline-block;
     padding: 12px 40px;
@@ -231,76 +166,27 @@
     font-size: 0.9rem;
     letter-spacing: 1px;
     transition: all 0.3s ease;
-    cursor: pointer;
 }
 
 .btn-ver-mas:hover {
     background-color: var(--azul-main);
     color: #ffffff !important;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(74, 122, 181, 0.3);
 }
 
-/* Ajuste para que el contenedor lo centre siempre */
-.text-center {
-    margin-top: 40px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-/* ================================================================
-   AJUSTES EXCLUSIVOS PARA EL GRID DEL INDEX
-   (No afecta a productos.html)
-   ================================================================ */
+/* --- Utilidades --- */
+.text-center { text-align: center; display: flex; justify-content: center; width: 100%; }
+.mt-4 { margin-top: 2rem; }
+.py-5 { padding: 3rem 0; }
+.container-energy { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* 1. Forzamos que los contenedores del Index tengan columnas iguales */
-.destacados-categoria .productos-grid {
-    display: grid !important;
-    /* Esto obliga a tener 4 columnas del mismo ancho exacto */
-    grid-template-columns: repeat(4, 1fr) !important; 
-    gap: 25px;
-    width: 100%;
-}
-
-/* 2. Aseguramos que la card se estire para llenar su columna asignada */
-.destacados-categoria .product-card-simple {
-    width: 100% !important;
-    min-width: 100% !important;
-    display: flex;
-    flex-direction: column;
-}
-
-/* 3. Ajuste para tu Samsung S22 Ultra (Index solamente) */
+/* --- Responsividad Swiper --- */
 @media (max-width: 768px) {
-    .destacados-categoria .productos-grid {
-        /* En móvil forzamos 2 columnas iguales */
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 15px;
+    .hero-slider { height: 300px; }
+    .hero-container { padding-top: 100px; }
+    
+    /* En móvil ocultamos flechas para usar touch swipe */
+    .swiper-button-next, .swiper-button-prev {
+        display: none !important;
     }
-}
-
-/* 4. Ajuste para pantallas muy pequeñas (Index solamente) */
-@media (max-width: 480px) {
-    .destacados-categoria .productos-grid {
-        grid-template-columns: 1fr !important;
-    }
-}
-/* Ajuste para los sliders de destacados */
-.swiper-destacados-container {
-    padding: 20px 0;
-    position: relative;
-}
-
-.swiper-slide {
-    height: auto; /* Permite que las cards mantengan su diseño flex */
-    display: flex;
-    justify-content: center;
-}
-
-/* Flechas más pequeñas para destacados */
-.swiper-button-next[class*="sbn-"],
-.swiper-button-prev[class*="sbp-"] {
-    transform: scale(0.6);
-    color: var(--azul-main) !important;
 }
