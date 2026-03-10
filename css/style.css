@@ -31,7 +31,6 @@
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* --- Estilo Base de Swiper (Hero y Destacados) --- */
 .swiper-slide {
     background-size: cover;
     background-position: center center;
@@ -39,7 +38,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: auto; /* Importante para que las cards no se corten */
 }
 
 /* --- Flechas Generales del Hero --- */
@@ -98,58 +96,63 @@
 }
 
 /* ================================================================
-   NUEVOS AJUSTES PARA SLIDER DE PRODUCTOS DESTACADOS
+   GRID DE 6 PRODUCTOS EN 1 SOLA FILA
    ================================================================ */
 
-/* Contenedor que envuelve el Swiper en el Index */
-.swiper-container-destacados {
+.productos-grid {
+    display: grid !important;
+    /* 6 columnas en escritorio */
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 15px;
     width: 100%;
-    max-width: 1240px;
+    max-width: 1300px; /* Un poco más ancho para que quepan los 6 */
     margin: 0 auto;
-    position: relative;
-    padding: 20px 10px 50px 10px;
-    overflow: hidden; /* Evita scroll horizontal de la página */
 }
 
-/* Eliminamos el comportamiento de GRID para permitir el deslizamiento */
-.destacados-categoria .productos-grid {
-    display: block !important; /* Swiper maneja el layout internamente */
+.product-card-simple {
     width: 100%;
-}
-
-/* Ajuste de las Cards dentro del Slider */
-.destacados-categoria .product-card-simple {
-    width: 100%;
-    margin: 0;
+    background: var(--blanco);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
-.destacados-categoria .product-card-simple:hover {
+.product-card-simple:hover {
     transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
-/* Flechas específicas para los sliders de productos (más sutiles) */
-.swiper-button-next[class*="sbn-"],
-.swiper-button-prev[class*="sbp-"] {
-    background: white;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    color: var(--azul-main) !important;
-    transform: scale(0.8);
+/* Ajuste de imagen para 6 columnas */
+.product-img-frame {
+    width: 100%;
+    height: 160px; /* Altura compacta */
+    overflow: hidden;
+    background: #f8f9fa;
 }
 
-.swiper-button-next[class*="sbn-"]:hover,
-.swiper-button-prev[class*="sbp-"]:hover {
-    background: var(--azul-main);
-    color: white !important;
+.product-img-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
 }
 
-/* Paginación para destacados (bolitas abajo) */
-.swiper-pagination-destacados {
-    bottom: 10px !important;
+.product-info-simple {
+    padding: 10px;
+    text-align: left;
 }
 
-.swiper-pagination-destacados .swiper-pagination-bullet-active {
-    background: var(--azul-main) !important;
+.product-name-simple {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gris-oscuro);
+    margin: 5px 0;
+    height: 2.4em;
+    overflow: hidden;
+    line-height: 1.2;
 }
 
 /* --- Botón Ver Más --- */
@@ -178,15 +181,31 @@
 .text-center { text-align: center; display: flex; justify-content: center; width: 100%; }
 .mt-4 { margin-top: 2rem; }
 .py-5 { padding: 3rem 0; }
-.container-energy { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.container-energy { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
 
-/* --- Responsividad Swiper --- */
+/* --- Responsividad --- */
+@media (max-width: 1200px) {
+    .productos-grid {
+        grid-template-columns: repeat(3, 1fr) !important; /* Baja a 3 columnas */
+    }
+}
+
 @media (max-width: 768px) {
     .hero-slider { height: 300px; }
     .hero-container { padding-top: 100px; }
     
-    /* En móvil ocultamos flechas para usar touch swipe */
+    .productos-grid {
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 columnas para el S22 Ultra */
+        gap: 10px;
+    }
+
     .swiper-button-next, .swiper-button-prev {
         display: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .productos-grid {
+        grid-template-columns: 1fr !important; /* 1 columna en teléfonos muy pequeños */
     }
 }
