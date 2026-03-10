@@ -20,12 +20,20 @@ async function cargarDetalle() {
         // Guardamos los datos necesarios en la variable global
         productoActual = prod;
 
-        // --- 1. LLENADO DE TEXTOS (Priorizando el SKU para quitar el "Cargando") ---
+        // --- 1. LLENADO DE TEXTOS ---
         
-        // SKU
+        // SKU con Diseño de Ficha Técnica
         const skuElement = document.getElementById('det-sku');
         if (skuElement) {
-            skuElement.textContent = prod.sku ? `SKU: ${prod.sku}` : 'SKU: S/N';
+            // Aplicamos la clase para el diseño y separamos visualmente
+            skuElement.className = "sku-detail-container"; 
+            const valorSKU = prod.sku ? prod.sku : 'S/N';
+            
+            // Inyectamos la estructura con etiqueta y valor
+            skuElement.innerHTML = `
+                <span class="sku-label">Código Ref:</span>
+                <span class="sku-value">${valorSKU}</span>
+            `;
         }
 
         // Nombre y Descripción
@@ -43,7 +51,7 @@ async function cargarDetalle() {
             }).format(prod.precio || 0);
         }
 
-        // Categoría (Breadcrumb) - Envuelta en try para que no rompa el resto si falla
+        // Categoría (Breadcrumb)
         const breadElement = document.getElementById('bread-categoria');
         if (breadElement) {
             try {
@@ -88,7 +96,10 @@ async function cargarDetalle() {
     } catch (err) {
         console.error("Error cargando detalle:", err);
         const skuElement = document.getElementById('det-sku');
-        if (skuElement) skuElement.textContent = "Error al cargar datos";
+        if (skuElement) {
+            skuElement.classList.remove("sku-detail-container");
+            skuElement.textContent = "Error al cargar datos";
+        }
     }
 }
 
